@@ -79,6 +79,19 @@ back to the SVG recreation only if that file is missing.
 
 ---
 
+## Calendar and contact files
+
+"Add to calendar" and "Save our number" are plain links to two static files,
+`assets/event.ics` and `assets/construction-brand.vcf`. That is deliberate:
+a file generated in the browser and downloaded lands in *Files* on an iPhone
+and never opens Calendar or Contacts; a real URL does.
+
+**If the event's start or end time changes**, edit `DTSTART` / `DTEND` in
+`assets/event.ics` (they are UTC: 16:30 Baghdad = `133000Z`). The programme
+itself is unaffected — this file only carries the overall span.
+
+---
+
 ## Publishing on GitHub Pages
 
 ```bash

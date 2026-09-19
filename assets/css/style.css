@@ -43,6 +43,11 @@
   --head-dim:    #9DB6C2;
   --head-rule:   #33506180;
   --head-truss:  #3E8FA1;
+  --head-label:  #6FB3C4;   /* text on the navy header: 5.4:1 (the truss tint was 3.2:1) */
+
+  /* amber and teal as TEXT need darker inks than the fills they pair with */
+  --now-ink:     #945C05;   /* 5.5:1 on white, 5.1:1 on --ground */
+  --chip-ink:    #1F6D7E;   /* 5.0:1 on --accent-soft */
 
   --grid-line:   #1C35470A;
 
@@ -84,6 +89,10 @@
     --head-dim:    #8AA7B4;
     --head-rule:   #27455480;
     --head-truss:  #2F7686;
+    --head-label:  #7CBFCF;
+
+    --now-ink:     #F0A92A;
+    --chip-ink:    #55B5C7;
 
     --grid-line:   #A6BDC60A;
     --shadow: 0 1px 2px #0006, 0 10px 28px -14px #000A;
@@ -114,6 +123,10 @@
   --head-dim:    #8AA7B4;
   --head-rule:   #27455480;
   --head-truss:  #2F7686;
+  --head-label:  #7CBFCF;
+
+  --now-ink:     #F0A92A;
+  --chip-ink:    #55B5C7;
 
   --grid-line:   #A6BDC60A;
   --shadow: 0 1px 2px #0006, 0 10px 28px -14px #000A;
@@ -246,7 +259,7 @@ h1, h2, h3 { text-wrap: balance; margin: 0; }
   font-family: var(--display);
   letter-spacing: .09em;
 }
-.brandmark__name b { font-size: 11px; font-weight: 600; color: var(--head-truss); }
+.brandmark__name b { font-size: 12px; font-weight: 600; color: var(--head-label); }
 .brandmark__name i { font-size: 15px; font-weight: 800; font-style: normal; color: #fff; }
 
 .switches { display: flex; gap: 8px; flex: none; }
@@ -288,7 +301,7 @@ h1, h2, h3 { text-wrap: balance; margin: 0; }
   font-size: 11.5px;
   letter-spacing: .18em;
   text-transform: uppercase;
-  color: var(--head-truss);
+  color: var(--head-label);
   margin: 26px 0 8px;
 }
 
@@ -335,10 +348,10 @@ html[dir="rtl"] .display {
 
 .tb dt {
   font-family: var(--mono);
-  font-size: 10.5px;
+  font-size: 11px;
   letter-spacing: .15em;
   text-transform: uppercase;
-  color: var(--head-truss);
+  color: var(--head-label);
   margin: 0 0 3px;
 }
 .tb dd {
@@ -381,7 +394,7 @@ html[dir="rtl"] .display {
   box-shadow: 0 0 0 0 transparent;
 }
 .status.is-live .pulse { background: var(--now); animation: pulse 2.2s ease-out infinite; }
-.status.is-live .status__label { color: var(--now); }
+.status.is-live .status__label { color: var(--now-ink); }
 .status.is-done .pulse { background: var(--accent); }
 
 @keyframes pulse {
@@ -583,13 +596,13 @@ html[dir="rtl"] .sechead h2 { font-family: var(--body); text-transform: none; le
 .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 9px 0 0; padding: 0; list-style: none; }
 .chip {
   font-family: var(--mono);
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 500;
   letter-spacing: .03em;
   padding: 4px 9px;
   border-radius: var(--r-sm);
   background: var(--accent-soft);
-  color: var(--accent);
+  color: var(--chip-ink);
   border: 1px solid transparent;
 }
 
@@ -614,7 +627,9 @@ html[dir="rtl"] .sechead h2 { font-family: var(--body); text-transform: none; le
 .item.is-done .item__clock,
 .item.is-done .item__title { color: var(--text-3); }
 .item.is-done .item__note { color: var(--text-3); }
-.item.is-done .chip { opacity: .55; }
+/* finished sessions go grey, not faint — a late arrival still needs to read
+   "Kalekim 1411" on the 17:45 row at 19:30 */
+.item.is-done .chip { color: var(--text-2); background: var(--surface-2); }
 
 .item.is-now { position: relative; }
 .item.is-now .item__node::before {
@@ -638,7 +653,7 @@ html[dir="rtl"] .sechead h2 { font-family: var(--body); text-transform: none; le
   margin-block: 4px 6px;
   box-shadow: var(--shadow);
 }
-.item.is-now .item__clock { color: var(--now); }
+.item.is-now .item__clock { color: var(--now-ink); }
 .item.is-now .item__title { font-size: 18px; font-weight: 700; }
 
 .nowtag {
@@ -929,6 +944,17 @@ html[dir="rtl"] .fb__doneTitle { font-family: var(--body); }
   .fb__back a:hover { background: var(--accent-soft); }
 }
 
+/* WhatsApp hand-off controls inside the done box */
+.fb__done .btn--wide { margin-block-start: 14px; }
+.fb__linkbtn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; padding: 8px 18px; margin-block-start: 4px;
+  font-family: var(--body); font-size: 14px; font-weight: 600;
+  color: var(--accent); background: none; border: 0;
+  border-radius: var(--r-md); cursor: pointer;
+}
+.fb__linkbtn:active { background: var(--accent-soft); }
+
 #cbFbSink { display: none; }
 
 
@@ -949,8 +975,8 @@ html[dir="rtl"] .fb__doneTitle { font-family: var(--body); }
   color: #fff;
 }
 .foot__mark {
-  font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase;
-  color: var(--head-truss); margin: 8px 0 0;
+  font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--head-label); margin: 8px 0 0;
   padding-inline: var(--gutter);
 }
 
@@ -982,7 +1008,7 @@ html[dir="rtl"] .row__k {
 /* the labels get slightly larger, since Arabic script sits smaller on the
    line than Latin caps at the same pixel size */
 html[dir="rtl"] .eyebrow      { font-size: 13px; font-weight: 600; }
-html[dir="rtl"] .tb dt        { font-size: 11px; font-weight: 500; }
+html[dir="rtl"] .tb dt        { font-size: 12px; font-weight: 500; }
 html[dir="rtl"] .status__label{ font-size: 12.5px; font-weight: 600; }
 html[dir="rtl"] .kindtag      { font-size: 11px; font-weight: 500; }
 html[dir="rtl"] .nowtag       { font-size: 11.5px; font-weight: 700; }

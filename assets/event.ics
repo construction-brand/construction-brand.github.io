@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Construction Brand//Project Owners Evening//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:cb-ev-01@construction-brand.github.io
+DTSTAMP:20260919T150000Z
+DTSTART:20260921T133000Z
+DTEND:20260921T183000Z
+SUMMARY:Project Owners Evening — Construction Brand
+LOCATION:Grand Millennium\, Sulaimani
+DESCRIPTION:A technical evening with Construction Brand — the newest building systems\, demonstrated live.\nhttps://construction-brand.github.io/
+URL:https://construction-brand.github.io/
+END:VEVENT
+END:VCALENDAR

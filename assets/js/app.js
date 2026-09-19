@@ -275,9 +275,9 @@
       "https://instagram.com/" + C.instagram));
     box.appendChild(contactRow(ICONS.pin, L.address, t(C.address), E.venue.maps));
 
-    var saveBtn = contactRow(ICONS.save, "vCard", L.saveContact, "#");
-    saveBtn.addEventListener("click", function (ev) { ev.preventDefault(); downloadVcf(); });
-    box.appendChild(saveBtn);
+    /* a real .vcf file, same tab: iPhone shows the contact card with
+       "Create New Contact", Android offers to import it */
+    box.appendChild(contactRow(ICONS.save, "vCard", L.saveContact, "assets/construction-brand.vcf"));
   }
 
   /* ======================================================================
@@ -334,6 +334,8 @@
   function showDone(title, body) {
     $("fbThanksTitle").textContent = title;
     $("fbThanksBody").textContent  = body;
+    $("fbWaLink").hidden = true;          // only the WhatsApp hand-off shows these
+    $("fbWaBack").hidden = true;
     $("fbDone").hidden = false;
   }
 
@@ -535,7 +537,7 @@
 
   /* No Google Form configured? Hand the answers to WhatsApp instead, so the
      evening is never left with no way to collect them. */
-  function sendToWhatsApp(payload) {
+  function whatsAppUrl(payload) {
     var L = UI[lang];
     var lines = [
       "★ " + payload.rating + "/5 — " + L.fbRating,
@@ -546,7 +548,7 @@
       payload.phone ? L.fbPhone + ": " + payload.phone : ""
     ].filter(Boolean);
     var num = String(FB.whatsappFallback || "").replace(/[^0-9]/g, "");
-    window.open("https://wa.me/" + num + "?text=" + encodeURIComponent(lines.join("\n")), "_blank");
+    return "https://wa.me/" + num + "?text=" + encodeURIComponent(lines.join("\n"));
   }
 
   /* Outbox. Every answer is written here BEFORE we try to send it and removed
@@ -626,10 +628,24 @@
     }
 
     /* No usable Google Form (missing, or an entry ID still a placeholder):
-       hand off to WhatsApp rather than pretend the answers went somewhere. */
+       hand off to WhatsApp. That only counts as DELIVERED once the guest
+       presses Send inside WhatsApp, so no thank-you and no cb.fbSent latch
+       here. Show a hand-off with a real link (Instagram's and WhatsApp's own
+       in-app browsers ignore window.open) and a way back to the form. */
     if (!googleConfigured()) {
-      sendToWhatsApp(payload);
-      settle();
+      var wa = whatsAppUrl(payload);
+      try { window.open(wa, "_blank", "noopener"); } catch (e) { /* ignore */ }
+      btn.disabled = false;
+      btn.textContent = L.fbSend;
+      $("fbForm").hidden = true;
+      showDone(L.fbWaTitle, L.fbWaBody);
+      var link = $("fbWaLink");
+      link.href = wa;
+      link.textContent = L.fbWaBtn;
+      link.hidden = false;
+      var back = $("fbWaBack");
+      back.textContent = L.fbWaBack;
+      back.hidden = false;
       return;
     }
 
@@ -755,56 +771,9 @@
     }
   }
 
-  /* ======================================================================
-     DOWNLOADS
-     ==================================================================== */
-
-  function save(filename, mime, text) {
-    var blob = new Blob([text], { type: mime + ";charset=utf-8" });
-    var url  = URL.createObjectURL(blob);
-    var a    = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
-  }
-
-  function icsStamp(d) {
-    return d.getUTCFullYear() + pad(d.getUTCMonth() + 1) + pad(d.getUTCDate()) + "T" +
-           pad(d.getUTCHours()) + pad(d.getUTCMinutes()) + pad(d.getUTCSeconds()) + "Z";
-  }
-  function esc(s) { return String(s).replace(/([,;\\])/g, "\\$1").replace(/\n/g, "\\n"); }
-
-  function downloadIcs() {
-    var lines = [
-      "BEGIN:VCALENDAR", "VERSION:2.0", "CALSCALE:GREGORIAN",
-      "PRODID:-//Construction Brand//Event//EN",
-      "BEGIN:VEVENT",
-      "UID:" + E.ref.toLowerCase() + "@construction.brand",
-      "DTSTAMP:" + icsStamp(new Date()),
-      "DTSTART:" + icsStamp(evStart),
-      "DTEND:"   + icsStamp(evEnd),
-      "SUMMARY:" + esc(t(E.title) + " — Construction Brand"),
-      "LOCATION:" + esc(t(E.venue.name) + ", " + t(E.venue.city)),
-      "DESCRIPTION:" + esc(t(E.tagline) + "\n" + E.url),
-      "URL:" + E.url,
-      "END:VEVENT", "END:VCALENDAR"
-    ];
-    save("construction-brand-event.ics", "text/calendar", lines.join("\r\n"));
-  }
-
-  function downloadVcf() {
-    var C = E.contact;
-    var lines = ["BEGIN:VCARD", "VERSION:3.0", "N:;Construction Brand;;;", "FN:Construction Brand",
-                 "ORG:Construction Brand"];
-    C.phones.forEach(function (p) { lines.push("TEL;TYPE=CELL:" + p.dial); });
-    lines.push("ADR;TYPE=WORK:;;" + esc(C.address.en) + ";;;;Iraq");
-    lines.push("URL:https://instagram.com/" + C.instagram);
-    lines.push("END:VCARD");
-    save("construction-brand.vcf", "text/vcard", lines.join("\r\n"));
-  }
+  /* Calendar and contact files are static: assets/event.ics and
+     assets/construction-brand.vcf, linked directly. A blob download parks
+     them in Files on iPhone; a real URL opens Calendar / Contacts. */
 
   /* ======================================================================
      THEME + LANGUAGE
@@ -897,7 +866,12 @@
     applyTheme();
   });
 
-  $("calBtn").addEventListener("click", downloadIcs);
+  /* the WhatsApp hand-off keeps the answers: "back" just re-shows the form */
+  $("fbWaBack").addEventListener("click", function () {
+    $("fbDone").hidden = true;
+    $("fbForm").hidden = false;
+    $("fbForm").scrollIntoView({ block: "start", behavior: "smooth" });
+  });
 
   /* keep working when the hotel wi-fi does not */
   if ("serviceWorker" in navigator &&

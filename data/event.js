@@ -221,7 +221,11 @@ window.UI = {
     fbBackToProgramme: "بینینی بەرنامەی ئێوارە",
     fbToFeedback: "ناردنی ڕا",
     fbClosedTitle: "سوپاس بۆ بەشداریتان",
-    fbClosedBody: "ئێوارەی خاوەن پرۆژەکان تەواو بوو. بۆ هەر پرسیارێک پەیوەندیمان پێوە بکەن."
+    fbClosedBody: "ئێوارەی خاوەن پرۆژەکان تەواو بوو. بۆ هەر پرسیارێک پەیوەندیمان پێوە بکەن.",
+    fbWaTitle: "نزیکەی تەواوە",
+    fbWaBody: "واتساپ دەبێت کرابێتەوە — لەوێ دوگمەی ناردن دابگرە. ئەگەر نەکرایەوە، ئەم دوگمەیە دابگرە:",
+    fbWaBtn: "کردنەوەی واتساپ",
+    fbWaBack: "گەڕانەوە بۆ فۆرمەکە"
   },
   en: {
     dir: "ltr", htmlLang: "en", other: "کوردی", otherShort: "KU",
@@ -261,6 +265,10 @@ window.UI = {
     fbBackToProgramme: "View the evening programme",
     fbToFeedback: "Give feedback",
     fbClosedTitle: "Thank you for joining us",
-    fbClosedBody: "The Project Owners Evening has finished. Get in touch any time."
+    fbClosedBody: "The Project Owners Evening has finished. Get in touch any time.",
+    fbWaTitle: "Almost done",
+    fbWaBody: "WhatsApp should have opened — press Send there. If it did not open, tap this:",
+    fbWaBtn: "Open WhatsApp",
+    fbWaBack: "Back to the form"
   }
 };

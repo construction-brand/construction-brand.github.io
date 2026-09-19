@@ -8,25 +8,31 @@
    network eventually returns still refreshes the cache in the background, so
    an edit to data/event.js is picked up on the next open. */
 
-var CACHE = "cb-event-v7";
+var CACHE = "cb-event-v8";
 var NET_WAIT = 3000;
 var SHELL = [
   "./",
   "./index.html",
-  "./data/event.js?v=20260919d",
-  "./assets/css/style.css?v=20260919d",
-  "./assets/js/app.js?v=20260919d",
+  "./data/event.js?v=20260919e",
+  "./assets/css/style.css?v=20260919e",
+  "./assets/js/app.js?v=20260919e",
+  "./assets/img/logo.png",
   "./assets/img/logo.svg",
   "./assets/img/favicon.svg",
+  "./assets/event.ics",
+  "./assets/construction-brand.vcf",
   "./manifest.webmanifest"
 ];
 
 self.addEventListener("install", function (e) {
+  /* No catch here, on purpose. If any shell file fails to download the
+     install must FAIL, so the previous worker and its complete cache stay in
+     service and the browser retries next time. Swallowing the error would
+     install an empty cache and then delete the good one on activate. */
   e.waitUntil(
     caches.open(CACHE)
       .then(function (c) { return c.addAll(SHELL); })
       .then(function () { return self.skipWaiting(); })
-      .catch(function () { /* a missing optional file must not block install */ })
   );
 });
 
@@ -64,7 +70,13 @@ self.addEventListener("fetch", function (e) {
 
     if (!cached) {
       return network.catch(function () {
-        return isNav ? caches.match("./index.html") : Response.error();
+        /* a versioned asset whose exact ?v= is not cached yet (the request
+           came from freshly fetched HTML): the copy from the last deploy is
+           far better than a page with no script at all */
+        return caches.match(req, { ignoreSearch: true }).then(function (near) {
+          if (near) { return near; }
+          return isNav ? caches.match("./index.html") : Response.error();
+        });
       });
     }
 
