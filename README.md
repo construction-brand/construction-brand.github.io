@@ -69,6 +69,8 @@ python tools/prepare_logo.py
 | `assets/img/logo-full.png` | the full lockup with the wordmark — table tent |
 | `assets/img/icon-512.png` | mark on a navy tile — add-to-home-screen icon |
 | `assets/img/og.png` | 1200×630 share card — what WhatsApp / Telegram show when the link is pasted |
+| `assets/img/wordmark.png` | CONSTRUCTION BRAND on its own (the hook stays as the O) |
+| `assets/img/wordmark-light.png` | the same recoloured white / light teal — runs along the bottom of the QR frame |
 
 The crane hook in the artwork doubles as the "O" of CONSTRUCTION, so the mark
 is cut where the body of the C/B ends and only the hoist cable continues.

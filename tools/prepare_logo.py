@@ -91,21 +91,52 @@ def pad_square(img, margin=0.06):
     return canvas
 
 
-def split_mark(lockup):
-    """Cut the mark off the top of the lockup. Scan downward for the first row
-    where almost nothing is drawn - that is the hoist cable alone, just below
-    the body of the C and B."""
+def find_cut(lockup):
+    """Row where the mark ends. Scan downward for the first row where almost
+    nothing is drawn - that is the hoist cable alone, just below the body of
+    the C and B. None if the artwork has no such row."""
     a = np.asarray(lockup)[..., 3]
     h, w = a.shape
     occ = (a > 8).sum(axis=1)                 # opaque pixels per row
     start, end = int(h * 0.40), int(h * 0.80)
     thin = occ[start:end] < w * 0.02
     if not thin.any():
+        return None
+    return start + int(np.argmax(thin))
+
+
+def trimmed(img):
+    x0, y0, x1, y1 = bbox_of(img)
+    return img.crop((x0, y0, x1, y1))
+
+
+def split_mark(lockup):
+    cut = find_cut(lockup)
+    if cut is None:
         return lockup                          # unknown artwork: use as is
-    cut = start + int(np.argmax(thin))         # first cable-only row
-    mark = lockup.crop((0, 0, w, cut))
-    x0, y0, x1, y1 = bbox_of(mark)
-    return mark.crop((x0, y0, x1, y1))
+    return trimmed(lockup.crop((0, 0, lockup.width, cut)))
+
+
+def split_wordmark(lockup):
+    """Everything below the mark: CONSTRUCTION (with the hook as its O) and
+    BRAND. None if the artwork could not be split."""
+    cut = find_cut(lockup)
+    if cut is None:
+        return None
+    return trimmed(lockup.crop((0, cut, lockup.width, lockup.height)))
+
+
+def recolor_light(img):
+    """Navy -> white and teal -> light teal, so the wordmark reads on the navy
+    QR frame. Each pixel goes to whichever brand colour it is nearer to; the
+    alpha channel (and so every anti-aliased edge) is kept as is."""
+    arr = np.asarray(img).astype(np.int16)
+    rgb, alpha = arr[..., :3], arr[..., 3].astype(np.uint8)
+    d_navy = np.abs(rgb - np.array(NAVY)).sum(axis=2)
+    d_teal = np.abs(rgb - np.array(TEAL)).sum(axis=2)
+    light_teal = np.array((124, 200, 214))
+    out = np.where((d_navy <= d_teal)[..., None], np.array(WHITE), light_teal).astype(np.uint8)
+    return Image.fromarray(np.dstack([out, alpha]), "RGBA")
 
 
 # --------------------------------------------------------------------------- #
@@ -179,21 +210,30 @@ def main():
     lockup = art.crop((x0, y0, x1, y1))
     mark = split_mark(lockup)
 
+    wordmark = split_wordmark(lockup)
+
     p_mark = os.path.join(IMG, "logo.png")
     p_full = os.path.join(IMG, "logo-full.png")
     p_icon = os.path.join(IMG, "icon-512.png")
     p_og = os.path.join(IMG, "og.png")
+    p_wm = os.path.join(IMG, "wordmark.png")
+    p_wml = os.path.join(IMG, "wordmark-light.png")
 
     pad_square(mark).save(p_mark, "PNG", optimize=True)
     lockup.save(p_full, "PNG", optimize=True)
     make_icon(mark).save(p_icon, "PNG", optimize=True)
     make_og(lockup).save(p_og, "PNG", optimize=True)
+    outputs = [p_mark, p_full, p_icon, p_og]
+    if wordmark is not None:
+        wordmark.save(p_wm, "PNG", optimize=True)
+        recolor_light(wordmark).save(p_wml, "PNG", optimize=True)
+        outputs += [p_wm, p_wml]
 
     print("source      : %s  (%dx%d)" % (os.path.relpath(args.src, ROOT), *art.size))
     print("lockup bbox : %dx%d" % lockup.size)
     print("mark crop   : %dx%d  (cut at %.0f%% of lockup height)"
           % (mark.size[0], mark.size[1], 100.0 * mark.size[1] / lockup.size[1]))
-    for p in (p_mark, p_full, p_icon, p_og):
+    for p in outputs:
         im = Image.open(p)
         print("wrote       : %-26s %dx%d" % (os.path.relpath(p, ROOT), *im.size))
 

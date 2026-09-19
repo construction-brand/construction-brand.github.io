@@ -49,6 +49,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "qr")
 LOGO_PNG = os.path.join(ROOT, "assets", "img", "logo.png")          # mark only
 LOGO_FULL = os.path.join(ROOT, "assets", "img", "logo-full.png")    # with wordmark
+WORDMARK_LIGHT = os.path.join(ROOT, "assets", "img", "wordmark-light.png")  # for navy
 
 NAVY = (28, 53, 71)
 NAVY_DEEP = (14, 32, 42)
@@ -148,13 +149,18 @@ def load_mark(size):
 
 def badge(diameter):
     """The mark on a white disc - exactly how the brand uses it on Instagram,
-    and the only way a navy-and-teal logo stays legible on a navy frame."""
+    and the only way a navy-and-teal logo stays legible on a navy frame. A
+    thin light-teal ring lifts the disc off the navy so it reads as a badge
+    even at table-tent size."""
     d4 = diameter * SS
     disc = Image.new("RGBA", (d4, d4), (0, 0, 0, 0))
-    ImageDraw.Draw(disc).ellipse([0, 0, d4 - 1, d4 - 1], fill=WHITE)
+    dd = ImageDraw.Draw(disc)
+    ring = max(2, int(d4 * 0.035))
+    dd.ellipse([0, 0, d4 - 1, d4 - 1], fill=(124, 200, 214, 255))          # ring
+    dd.ellipse([ring, ring, d4 - 1 - ring, d4 - 1 - ring], fill=WHITE + (255,))
     disc = disc.resize((diameter, diameter), Image.LANCZOS)
 
-    inner = int(diameter * 0.74)
+    inner = int(diameter * 0.80)
     mark = load_mark(inner)
     disc.paste(mark, ((diameter - inner) // 2, (diameter - inner) // 2), mark)
     return disc
@@ -189,12 +195,19 @@ def plain_png(qr, px):
 
 
 def with_centre_mark(qr_img):
-    """Error correction H tolerates ~30% loss, so a centred mark is safe."""
+    """The full lockup - the mark with CONSTRUCTION BRAND right under it - on
+    a rounded white plate in the middle of the code. Error correction H
+    tolerates ~30% loss; the plate is held near 8% of the code's area and
+    every output is decoded back at several scales before it is kept."""
     px = qr_img.width
-    side = int(px * 0.19)
-    mark = load_mark(side)
-
-    pad = int(side * 0.17)
+    if os.path.exists(LOGO_FULL):
+        mark = Image.open(LOGO_FULL).convert("RGBA")
+        mark.thumbnail((int(px * 0.21), int(px * 0.27)), Image.LANCZOS)   # portrait lockup
+        pad = int(mark.width * 0.13)
+    else:
+        side = int(px * 0.19)
+        mark = load_mark(side)
+        pad = int(side * 0.17)
     pw, ph = mark.width + pad * 2, mark.height + pad * 2
     # rounded plate, to sit with the rounded modules rather than fight them
     plate = Image.new("RGBA", (pw, ph), (0, 0, 0, 0))
@@ -228,7 +241,7 @@ def framed(qr_img, style="corners"):
     discs. Every mark sits OUTSIDE the QR and its quiet zone, so none of this
     can affect scanning."""
     q = qr_img.width
-    band = int(q * 0.22)                 # navy frame thickness
+    band = int(q * 0.26)                 # navy frame thickness - room for real badges
     S = q + band * 2
     R = int(S * 0.055)                   # card corner radius
 
@@ -254,7 +267,7 @@ def framed(qr_img, style="corners"):
     card.paste(qr_img.convert("RGBA"), (band, band))
 
     # -- the marks --
-    size = int(band * 0.78)
+    size = int(band * 0.84)
     disc = badge(size)
     off = (band - size) // 2
 
@@ -266,12 +279,18 @@ def framed(qr_img, style="corners"):
     else:
         spots = [(off, off), (S - size - off, off),
                  (off, S - size - off), (S - size - off, S - size - off)]
-        # truss runs between the corner discs, top and bottom
-        gap = int(band * 0.30)
+        gap = int(band * 0.28)
         x0, x1 = off + size + gap, S - off - size - gap
-        th = int(band * 0.17)
-        truss(d, x0, x1, band // 2, th, TEAL, 200)
-        truss(d, x0, x1, S - band // 2, th, TEAL, 200)
+        # truss between the top discs ...
+        truss(d, x0, x1, band // 2, int(band * 0.16), TEAL, 200)
+        # ... and the wordmark between the bottom ones, so the brand is read
+        # in words as well as seen in the mark
+        if os.path.exists(WORDMARK_LIGHT):
+            wm = Image.open(WORDMARK_LIGHT).convert("RGBA")
+            wm.thumbnail((x1 - x0, int(band * 0.66)), Image.LANCZOS)
+            card.paste(wm, ((S - wm.width) // 2, S - band // 2 - wm.height // 2), wm)
+        else:
+            truss(d, x0, x1, S - band // 2, int(band * 0.16), TEAL, 200)
 
     for xy in spots:
         card.paste(disc, xy, disc)
@@ -367,32 +386,34 @@ def verify(paths, url):
         return True
 
     det = cv2.QRCodeDetector()
+    scales = (0.15, 0.20, 0.25, 0.30, 0.40, 0.50)   # print-like sizes
     ok = True
-    print("\nScan check (decoded back from the generated image):")
+    print("\nScan check (decoded back from the generated image, at full size")
+    print("and at %s of it; full size must pass, and at most one small scale may miss):"
+          % ", ".join("%d%%" % int(s * 100) for s in scales))
     for p in paths:
         img = cv2.imread(p)
-        # also try a small print-like size, to catch codes that only work huge
-        results = []
-        for scale in (1.0, 0.25):
-            h, w = img.shape[:2]
-            s = img if scale == 1.0 else cv2.resize(
-                img, (int(w * scale), int(h * scale)), interpolation=cv2.INTER_AREA)
-            try:
-                data, _, _ = det.detectAndDecode(s)
-            except cv2.error:
-                data = ""
-            results.append(data)
+        h, w = img.shape[:2]
 
-        got = next((r for r in results if r), "")
+        def read(scale):
+            s = img if scale == 1.0 else cv2.resize(
+                img, (max(1, int(w * scale)), max(1, int(h * scale))), interpolation=cv2.INTER_AREA)
+            try:
+                return det.detectAndDecode(s)[0]
+            except cv2.error:
+                return ""
+
+        full = read(1.0)
+        small = [read(s) == url for s in scales]
+        pattern = "".join("o" if hit else "-" for hit in small)
         name = os.path.basename(p)
-        if got == url:
-            print("  OK    %-40s both sizes" % name if all(r == url for r in results)
-                  else "  OK    %-40s (small size needed a retry)" % name)
-        elif got:
-            print("  WRONG %-40s decoded: %s" % (name, got))
+        if full == url and small.count(False) <= 1:
+            print("  OK    %-40s full:yes  small:%s" % (name, pattern))
+        elif full and full != url:
+            print("  WRONG %-40s decoded: %s" % (name, full))
             ok = False
         else:
-            print("  FAIL  %-40s could not be decoded" % name)
+            print("  FAIL  %-40s full:%s  small:%s" % (name, "yes" if full == url else "no", pattern))
             ok = False
     return ok
 
