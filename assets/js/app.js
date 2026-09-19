@@ -471,8 +471,16 @@
      were never recorded. Real Google entry IDs never begin with a zero. */
   var GOOGLE_FIELDS = ["rating", "sessions", "interest", "comment", "name", "phone"];
 
+  /* Accept either the bare form ID or any pasted Google Forms URL — a full
+     link is what people naturally copy, and it must not silently fail. */
+  function googleFormId() {
+    var raw = String(FB.googleFormId || "").trim();
+    var m = /\/forms\/d\/e\/([A-Za-z0-9_-]+)/.exec(raw);
+    return m ? m[1] : raw;
+  }
+
   function googleConfigured() {
-    if (!FB.googleFormId || !/^[A-Za-z0-9_-]{20,}$/.test(FB.googleFormId)) { return false; }
+    if (!/^[A-Za-z0-9_-]{20,}$/.test(googleFormId())) { return false; }
     var en = FB.entries || {};
     for (var i = 0; i < GOOGLE_FIELDS.length; i++) {
       if (!/^entry\.[1-9]\d{4,}$/.test(en[GOOGLE_FIELDS[i]] || "")) { return false; }
@@ -486,7 +494,7 @@
      timeout => NOT delivered. The difference is what stops the page lying. */
   function sendToGoogle(payload, done) {
     var form = document.createElement("form");
-    form.action = "https://docs.google.com/forms/d/e/" + FB.googleFormId + "/formResponse";
+    form.action = "https://docs.google.com/forms/d/e/" + googleFormId() + "/formResponse";
     form.method = "POST";
     form.target = "cbFbSink";
     form.style.display = "none";
