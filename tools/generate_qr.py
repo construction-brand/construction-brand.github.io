@@ -36,14 +36,24 @@ try:
 except ImportError:
     sys.exit("Missing dependency. Run:  python -m pip install qrcode pillow")
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
+
+from qrcode.image.styledpil import StyledPilImage
+try:
+    from qrcode.image.styles.moduledrawers.pil import RoundedModuleDrawer
+except ImportError:                                   # older qrcode releases
+    from qrcode.image.styles.moduledrawers import RoundedModuleDrawer
+from qrcode.image.styles.colormasks import VerticalGradiantColorMask
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "qr")
-LOGO_PNG = os.path.join(ROOT, "assets", "img", "logo.png")
+LOGO_PNG = os.path.join(ROOT, "assets", "img", "logo.png")          # mark only
+LOGO_FULL = os.path.join(ROOT, "assets", "img", "logo-full.png")    # with wordmark
 
 NAVY = (28, 53, 71)
+NAVY_DEEP = (14, 32, 42)
 TEAL = (46, 138, 155)
+TEAL_DEEP = (31, 95, 110)      # bottom of the module gradient: still 9:1 on white
 WHITE = (255, 255, 255)
 PAPER = (244, 247, 248)
 GREY = (126, 149, 159)
@@ -154,17 +164,28 @@ def badge(diameter):
 # QR builders
 # --------------------------------------------------------------------------- #
 
-def build(url):
+def build(url, px=2400):
     qr = qrcode.QRCode(version=None, error_correction=ERROR_CORRECT_H,
                        box_size=10, border=4)
     qr.add_data(url)
     qr.make(fit=True)
+    # render at native size close to the target so the rounded modules are
+    # drawn crisp instead of being upscaled
+    qr.box_size = max(4, px // (qr.modules_count + 8))
     return qr
 
 
 def plain_png(qr, px):
-    img = qr.make_image(fill_color=NAVY, back_color=WHITE).convert("RGB")
-    return img.resize((px, px), Image.NEAREST)
+    """Rounded modules with a navy -> deep-teal gradient. Both ends of the
+    gradient stay far above the contrast a scanner needs; the finder squares
+    keep their geometry, only their corners soften."""
+    img = qr.make_image(
+        image_factory=StyledPilImage,
+        module_drawer=RoundedModuleDrawer(),
+        color_mask=VerticalGradiantColorMask(back_color=WHITE, top_color=NAVY,
+                                             bottom_color=TEAL_DEEP),
+    ).convert("RGB")
+    return img.resize((px, px), Image.LANCZOS)
 
 
 def with_centre_mark(qr_img):
@@ -174,30 +195,65 @@ def with_centre_mark(qr_img):
     mark = load_mark(side)
 
     pad = int(side * 0.17)
-    plate = Image.new("RGB", (mark.width + pad * 2, mark.height + pad * 2), WHITE)
+    pw, ph = mark.width + pad * 2, mark.height + pad * 2
+    # rounded plate, to sit with the rounded modules rather than fight them
+    plate = Image.new("RGBA", (pw, ph), (0, 0, 0, 0))
+    ImageDraw.Draw(plate).rounded_rectangle([0, 0, pw - 1, ph - 1],
+                                            radius=int(min(pw, ph) * 0.22), fill=WHITE + (255,))
     plate.paste(mark, (pad, pad), mark)
 
     out = qr_img.copy()
-    out.paste(plate, ((px - plate.width) // 2, (px - plate.height) // 2))
+    out.paste(plate, ((px - pw) // 2, (px - ph) // 2), plate)
     return out
 
 
+def truss(d, x0, x1, y, th, color, alpha=255):
+    """The warren truss from the crane boom - the same motif that divides the
+    site header. Drawn between two x positions, centred on y."""
+    top, bot = y - th // 2, y + th // 2
+    lw = max(2, th // 7)
+    col = color + (alpha,)
+    d.line([(x0, top), (x1, top)], fill=col, width=lw)
+    d.line([(x0, bot), (x1, bot)], fill=col, width=lw)
+    step = th * 2.4
+    x = x0
+    while x + step <= x1 + 1:
+        d.line([(x, bot), (x + step / 2, top), (x + step, bot)], fill=col, width=lw)
+        x += step
+
+
 def framed(qr_img, style="corners"):
-    """Brand frame around the code. Every mark sits OUTSIDE the QR and its
-    quiet zone, so none of this can affect scanning."""
+    """Brand frame around the code: a navy card with rounded corners, the same
+    teal glow as the site header, the truss motif, and the real mark in white
+    discs. Every mark sits OUTSIDE the QR and its quiet zone, so none of this
+    can affect scanning."""
     q = qr_img.width
     band = int(q * 0.22)                 # navy frame thickness
     S = q + band * 2
+    R = int(S * 0.055)                   # card corner radius
 
-    card = Image.new("RGB", (S, S), NAVY)
+    # -- navy card with a soft teal glow, clipped to the rounded shape --
+    base = Image.new("RGBA", (S, S), NAVY + (255,))
+    glow = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    gr = int(S * 0.6)
+    ImageDraw.Draw(glow).ellipse([S - gr * 1.1, -gr * 0.5, S + gr * 0.3, gr * 0.9],
+                                 fill=TEAL + (85,))
+    glow = glow.filter(ImageFilter.GaussianBlur(S * 0.07))
+    base.alpha_composite(glow)
+
+    mask = Image.new("L", (S, S), 0)
+    ImageDraw.Draw(mask).rounded_rectangle([0, 0, S - 1, S - 1], radius=R, fill=255)
+    card = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    card.paste(base, (0, 0), mask)
     d = ImageDraw.Draw(card)
 
-    # white panel behind the code, slightly larger than the code itself
-    pad = int(band * 0.22)
+    # -- white panel behind the code, slightly larger than the code itself --
+    pad = int(band * 0.20)
     d.rounded_rectangle([band - pad, band - pad, S - band + pad, S - band + pad],
-                        radius=int(band * 0.30), fill=WHITE)
-    card.paste(qr_img, (band, band))
+                        radius=int(band * 0.28), fill=WHITE + (255,))
+    card.paste(qr_img.convert("RGBA"), (band, band))
 
+    # -- the marks --
     size = int(band * 0.78)
     disc = badge(size)
     off = (band - size) // 2
@@ -210,6 +266,12 @@ def framed(qr_img, style="corners"):
     else:
         spots = [(off, off), (S - size - off, off),
                  (off, S - size - off), (S - size - off, S - size - off)]
+        # truss runs between the corner discs, top and bottom
+        gap = int(band * 0.30)
+        x0, x1 = off + size + gap, S - off - size - gap
+        th = int(band * 0.17)
+        truss(d, x0, x1, band // 2, th, TEAL, 200)
+        truss(d, x0, x1, S - band // 2, th, TEAL, 200)
 
     for xy in spots:
         card.paste(disc, xy, disc)
@@ -248,42 +310,42 @@ def write_svg(qr, path):
 
 
 def table_tent(framed_img, url, path):
-    """A5 portrait at 300 dpi - the card that sits on each table."""
+    """A5 portrait at 300 dpi - the card that sits on each table. White page,
+    the full lockup at the top where there is room for the wordmark, then
+    the framed code."""
     W, H = 1748, 2480
     card = Image.new("RGB", (W, H), WHITE)
     d = ImageDraw.Draw(card)
 
-    band = 430
-    d.rectangle([0, 0, W, band], fill=NAVY)
+    f_head = font(84, True)
+    f_sub, f_url, f_small = font(44), font(34, True), font(32)
 
-    ty, th, step = band, 46, 130
-    d.rectangle([0, ty, W, ty + 7], fill=TEAL)
-    d.rectangle([0, ty + th - 7, W, ty + th], fill=TEAL)
-    x = 0
-    while x < W:
-        d.line([(x, ty + th), (x + step // 2, ty), (x + step, ty + th)], fill=TEAL, width=6)
-        x += step
+    y = 110
+    if os.path.exists(LOGO_FULL):
+        lock = Image.open(LOGO_FULL).convert("RGBA")
+        lock.thumbnail((int(W * 0.42), 520), Image.LANCZOS)
+        card.paste(lock, ((W - lock.width) // 2, y), lock)
+        y += lock.height + 70
+    else:
+        centre(d, y, "CONSTRUCTION BRAND", font(38, True), TEAL, W)
+        y += 90
 
-    f_eyebrow, f_head = font(38, True), font(92, True)
-    f_sub, f_url, f_small = font(46), font(34, True), font(32)
+    centre(d, y, "PROJECT OWNERS EVENING", f_head, NAVY, W)
+    y += 130
 
-    centre(d, 96, "CONSTRUCTION BRAND", f_eyebrow, TEAL, W)
-    centre(d, 172, "PROJECT OWNERS", f_head, WHITE, W)
-    centre(d, 276, "EVENING", f_head, WHITE, W)
-
-    side = 1120
+    side = 1080
     q = framed_img.resize((side, side), Image.LANCZOS)
-    qx, qy = (W - side) // 2, band + th + 130
-    card.paste(q, (qx, qy))
+    qx = (W - side) // 2
+    card.paste(q, (qx, y), q)
+    y += side + 96
 
-    cy = qy + side + 110
-    centre(d, cy, "SCAN FOR TONIGHT'S PROGRAMME", f_sub, NAVY, W)
+    centre(d, y, "SCAN FOR TONIGHT'S PROGRAMME", f_sub, NAVY, W)
     short = url.replace("https://", "").replace("http://", "").rstrip("/")
-    centre(d, cy + 88, short, f_url, TEAL, W)
+    centre(d, y + 84, short, f_url, TEAL, W)
 
-    d.line([(W * 0.22, cy + 186), (W * 0.78, cy + 186)], fill=PAPER, width=5)
-    centre(d, cy + 220, "Grand Millennium Sulaimani", f_small, GREY, W)
-    centre(d, cy + 270, "0770 307 5050  -  0770 308 5050", f_small, GREY, W)
+    d.line([(W * 0.22, y + 176), (W * 0.78, y + 176)], fill=PAPER, width=5)
+    centre(d, y + 208, "Grand Millennium Sulaimani  ·  Monday 21 September, 16:30", f_small, GREY, W)
+    centre(d, y + 256, "0770 307 5050  -  0770 308 5050", f_small, GREY, W)
 
     card.save(path, "PNG", optimize=True)
 
@@ -351,7 +413,7 @@ def main():
         print("!! Set the real one before printing anything.\n")
 
     os.makedirs(OUT, exist_ok=True)
-    qr = build(url)
+    qr = build(url, args.px)
 
     base = plain_png(qr, args.px)
     centred = with_centre_mark(base)

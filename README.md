@@ -54,13 +54,28 @@ page considers "now" — no other edits needed.
 
 ---
 
-## Using the real logo
+## The logo
 
-The header currently uses `assets/img/logo.svg`, a recreation of the mark.
+The official artwork lives at `logo@2x.png` in the project root. One command
+derives everything the site and the QR generator need from it:
 
-To use the official artwork, save it as **`assets/img/logo.png`** — the page
-picks it up automatically, no code change. A square, mark-only crop with a
-transparent background works best, since it sits in a small round badge.
+```bash
+python tools/prepare_logo.py
+```
+
+| Output | Used for |
+|---|---|
+| `assets/img/logo.png` | the **mark only** (C + B + crane), square, transparent — header badge, QR corners, QR centre |
+| `assets/img/logo-full.png` | the full lockup with the wordmark — table tent |
+| `assets/img/icon-512.png` | mark on a navy tile — add-to-home-screen icon |
+| `assets/img/og.png` | 1200×630 share card — what WhatsApp / Telegram show when the link is pasted |
+
+The crane hook in the artwork doubles as the "O" of CONSTRUCTION, so the mark
+is cut where the body of the C/B ends and only the hoist cable continues.
+
+If the artwork ever changes: replace `logo@2x.png`, run `prepare_logo.py`, then
+`generate_qr.py`. The page itself needs no edit — it loads `logo.png` and falls
+back to the SVG recreation only if that file is missing.
 
 ---
 

@@ -7,20 +7,33 @@
 <meta name="description" content="Construction Brand — the running order for the Project Owners Evening at Grand Millennium Sulaimani.">
 <meta name="theme-color" content="#1C3547">
 
-<!-- Social preview -->
+<!-- Social preview — absolute URLs, because WhatsApp/Telegram scrapers do not
+     resolve relative paths, and a raster PNG because they ignore SVG -->
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://construction-brand.github.io/">
 <meta property="og:title" content="Construction Brand — Project Owners Evening">
-<meta property="og:description" content="Grand Millennium Sulaimani. Tonight's full running order.">
-<meta property="og:image" content="assets/img/logo.svg">
+<meta property="og:description" content="Grand Millennium Sulaimani, Monday 21 September. Tonight's full running order.">
+<meta property="og:image" content="https://construction-brand.github.io/assets/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="assets/img/logo.svg">
+<link rel="apple-touch-icon" href="assets/img/icon-512.png">
 <link rel="manifest" href="manifest.webmanifest">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/css/style.css?v=20260919d">
+
+<!-- Web fonts must never block first paint. A cross-origin stylesheet in
+     <head> holds the whole page white until fonts.googleapis.com answers —
+     on a saturated ballroom AP that can be tens of seconds, and every script
+     below waits with it. Loading it as media="print" makes it non-blocking;
+     onload flips it live. The fallback stacks in style.css render at once. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" media="print" onload="this.onload=null;this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap"></noscript>
 </head>
 <body>
 
