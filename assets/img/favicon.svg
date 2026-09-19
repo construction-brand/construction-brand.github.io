@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Construction Brand">
+  <rect width="64" height="64" rx="13" fill="#1C3547"/>
+  <g fill="none" stroke-linecap="butt">
+    <path d="M 40.5 21.5 A 15.5 15.5 0 1 0 40.5 46.5" stroke="#2E8A9B" stroke-width="7"/>
+    <g stroke="#1C3547" stroke-width="12">
+      <path d="M 35 20 V 49"/>
+      <path d="M 35 20 H 41 A 7.4 7.4 0 0 1 41 34.5 H 35"/>
+      <path d="M 35 34.5 H 43 A 7.6 7.6 0 0 1 43 49 H 35"/>
+    </g>
+    <g stroke="#FFFFFF" stroke-width="6.5">
+      <path d="M 35 20 V 49"/>
+      <path d="M 35 20 H 41 A 7.4 7.4 0 0 1 41 34.5 H 35"/>
+      <path d="M 35 34.5 H 43 A 7.6 7.6 0 0 1 43 49 H 35"/>
+    </g>
+    <path d="M 21 13 H 55" stroke="#2E8A9B" stroke-width="4"/>
+  </g>
+</svg>

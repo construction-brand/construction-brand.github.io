@@ -1,0 +1,12 @@
+# Local scratch
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python bits from the QR generator
+__pycache__/
+*.pyc
+
+# Temporary test harnesses
+_*.html

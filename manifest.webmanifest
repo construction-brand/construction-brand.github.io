@@ -1,0 +1,14 @@
+{
+  "name": "Construction Brand — Project Owners Evening",
+  "short_name": "CB Programme",
+  "description": "The running order for the Construction Brand Project Owners Evening at Grand Millennium Sulaimani.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#1C3547",
+  "theme_color": "#1C3547",
+  "icons": [
+    { "src": "assets/img/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "assets/img/logo.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

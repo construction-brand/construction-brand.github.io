@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Project Owners Evening</title>
+<meta name="description" content="Construction Brand — the running order for the Project Owners Evening at Grand Millennium Sulaimani.">
+<meta name="theme-color" content="#1C3547">
+
+<!-- Social preview -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Construction Brand — Project Owners Evening">
+<meta property="og:description" content="Grand Millennium Sulaimani. Tonight's full running order.">
+<meta property="og:image" content="assets/img/logo.svg">
+
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/logo.svg">
+<link rel="manifest" href="manifest.webmanifest">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<a class="skip" href="#programme">Skip to programme</a>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     TITLE BLOCK — modelled on the title block of a construction drawing
+     ══════════════════════════════════════════════════════════════ -->
+<header class="titleblock">
+  <div class="wrap">
+
+    <div class="titleblock__bar">
+      <div class="brandmark">
+        <span class="brandmark__badge">
+          <img src="assets/img/logo.png" alt="Construction Brand"
+               onerror="this.onerror=null;this.src='assets/img/logo.svg';">
+        </span>
+        <span class="brandmark__name">
+          <b>CONSTRUCTION</b>
+          <i>BRAND</i>
+        </span>
+      </div>
+
+      <div class="switches">
+        <button type="button" id="langBtn" class="switch" data-role="lang">
+          <span id="langBtnText">EN</span>
+        </button>
+        <button type="button" id="themeBtn" class="switch switch--icon" aria-label="Switch appearance">
+          <svg viewBox="0 0 24 24" aria-hidden="true" width="17" height="17">
+            <path class="ico-sun" d="M12 5v-2M12 21v-2M5 12H3M21 12h-2M6.3 6.3 4.9 4.9M19.1 19.1l-1.4-1.4M17.7 6.3l1.4-1.4M4.9 19.1l1.4-1.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <circle class="ico-sun" cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/>
+            <path class="ico-moon" d="M20 14.5A8.2 8.2 0 0 1 9.5 4 8.3 8.3 0 1 0 20 14.5Z" fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <p class="eyebrow" data-i18n="eyebrow">بەرنامەی ئێوارە</p>
+    <h1 class="display" id="evTitle">کۆبوونەوەی خاوەن پرۆژەکان</h1>
+    <p class="tagline" id="evTagline"></p>
+
+    <!-- drawing title block: four ruled cells -->
+    <dl class="tb">
+      <div class="tb__cell">
+        <dt data-i18n="tbLocation">شوێن</dt>
+        <dd id="tbLocation">—</dd>
+      </div>
+      <div class="tb__cell">
+        <dt data-i18n="tbDate">ڕێکەوت</dt>
+        <dd id="tbDate">—</dd>
+      </div>
+      <div class="tb__cell">
+        <dt data-i18n="tbDoors">دەرگا دەکرێتەوە</dt>
+        <dd id="tbDoors" class="mono">—</dd>
+      </div>
+      <div class="tb__cell">
+        <dt data-i18n="tbRef">ژمارە</dt>
+        <dd id="tbRef" class="mono">—</dd>
+      </div>
+    </dl>
+  </div>
+
+  <!-- warren truss, lifted from the crane boom in the logo -->
+  <div class="truss" aria-hidden="true">
+    <svg width="100%" height="14" viewBox="0 0 120 14" preserveAspectRatio="none">
+      <defs>
+        <pattern id="trussPat" width="20" height="14" patternUnits="userSpaceOnUse">
+          <path d="M0 13 L10 1 L20 13" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        </pattern>
+      </defs>
+      <rect x="0" y="0" width="120" height="14" fill="url(#trussPat)"/>
+      <rect x="0" y="0" width="120" height="1.6" fill="currentColor"/>
+      <rect x="0" y="12.4" width="120" height="1.6" fill="currentColor"/>
+    </svg>
+  </div>
+</header>
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     VIEW A — THE PROGRAMME
+     Shown until 15 minutes before the end. See data/event.js > feedback.
+     ══════════════════════════════════════════════════════════════ -->
+<div id="viewSchedule">
+
+<!-- LIVE STATUS — countdown before, datum readout during -->
+<section class="status" id="status" aria-live="polite">
+  <div class="wrap">
+    <div class="status__head">
+      <span class="pulse" aria-hidden="true"></span>
+      <span class="status__label" id="statusLabel">ماوە بۆ دەستپێکردن</span>
+    </div>
+    <p class="status__value" id="statusValue">—</p>
+
+    <div class="meter" role="img" aria-label="Evening progress" id="meter">
+      <span class="meter__fill" id="meterFill"></span>
+    </div>
+    <p class="meter__caption mono" id="meterCaption">—</p>
+
+    <div class="actions">
+      <!-- appears once the feedback window opens, so the programme is never
+           a one-way door out of the form -->
+      <button type="button" class="btn btn--primary" id="fbGo" hidden>
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M20.5 11.7a8 8 0 0 1-11.9 7L4 20l1.4-4.4A8 8 0 1 1 20.5 11.7Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+        <span data-i18n="fbToFeedback">ناردنی ڕا</span>
+      </button>
+      <button type="button" class="btn" id="calBtn">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 3v3M17 3v3M3.5 9.5h17M5 6h14a1.5 1.5 0 0 1 1.5 1.5V19A1.5 1.5 0 0 1 19 20.5H5A1.5 1.5 0 0 1 3.5 19V7.5A1.5 1.5 0 0 1 5 6Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <span data-i18n="addCal">زیادکردن بۆ ڕۆژژمێر</span>
+      </button>
+      <a class="btn" id="mapBtn" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="10" r="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+        <span data-i18n="directions">ڕێنمایی شوێن</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PROGRAMME
+     ══════════════════════════════════════════════════════════════ -->
+<main class="wrap" id="programme">
+  <div class="sechead">
+    <h2 data-i18n="programme">بەرنامە</h2>
+    <span class="sechead__meta mono" id="totalDur"></span>
+  </div>
+
+  <ol class="rail" id="rail"></ol>
+</main>
+
+
+<!-- PARTNERS -->
+<section class="wrap block">
+  <div class="sechead">
+    <h2 data-i18n="partners">براندەکانی ئەم ئێوارەیە</h2>
+  </div>
+  <ul class="partners" id="partners"></ul>
+</section>
+
+</div><!-- /#viewSchedule -->
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     VIEW B — FEEDBACK
+     Same URL, same QR code. Appears by itself in the closing minutes.
+     ══════════════════════════════════════════════════════════════ -->
+<section id="viewFeedback" hidden>
+  <div class="wrap">
+
+    <p class="fb__eyebrow" id="fbEyebrow"></p>
+    <h2 class="fb__title" id="fbTitle"></h2>
+    <p class="fb__lead" id="fbLead"></p>
+
+    <form id="fbForm" novalidate>
+
+      <fieldset class="fb__group">
+        <legend class="fb__legend" id="fbRatingLabel"></legend>
+        <div class="rating" id="fbRating"></div>
+      </fieldset>
+
+      <fieldset class="fb__group">
+        <legend class="fb__legend" id="fbSessionsLabel"></legend>
+        <p class="fb__hint" id="fbSessionsHint"></p>
+        <div class="picks" id="fbSessions"></div>
+      </fieldset>
+
+      <fieldset class="fb__group">
+        <legend class="fb__legend" id="fbInterestLabel"></legend>
+        <div class="picks" id="fbInterest"></div>
+      </fieldset>
+
+      <div class="fb__group">
+        <label class="fb__legend" for="fbComment" id="fbCommentLabel"></label>
+        <textarea id="fbComment" name="comment" rows="3"></textarea>
+      </div>
+
+      <div class="fb__row">
+        <div class="fb__field">
+          <label class="fb__legend" for="fbName" id="fbNameLabel"></label>
+          <input type="text" id="fbName" name="name" autocomplete="name">
+        </div>
+        <div class="fb__field">
+          <label class="fb__legend" for="fbPhone" id="fbPhoneLabel"></label>
+          <input type="tel" id="fbPhone" name="phone" inputmode="tel" autocomplete="tel">
+        </div>
+      </div>
+
+      <p class="fb__error" id="fbError" role="alert" hidden></p>
+      <button type="submit" class="btn btn--primary btn--wide" id="fbSend"></button>
+    </form>
+
+    <div class="fb__done" id="fbDone" hidden>
+      <span class="fb__tick" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="26" height="26"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <h3 class="fb__doneTitle" id="fbThanksTitle"></h3>
+      <p class="fb__doneBody" id="fbThanksBody"></p>
+    </div>
+
+    <p class="fb__back"><a href="?view=schedule" id="fbBack"></a></p>
+  </div>
+
+  <!-- Google Forms accepts a plain form POST. The response lands here and is
+       discarded; cross-origin rules stop us reading it, which is expected. -->
+  <iframe name="cbFbSink" id="cbFbSink" title="form target" hidden></iframe>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     CONTACT — shown under both views
+     ══════════════════════════════════════════════════════════════ -->
+<section class="wrap block">
+  <div class="sechead">
+    <h2 data-i18n="contactTitle">پەیوەندی</h2>
+  </div>
+  <div class="contact" id="contact"></div>
+</section>
+
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="truss foot__truss" aria-hidden="true">
+      <svg width="100%" height="14" viewBox="0 0 120 14" preserveAspectRatio="none">
+        <rect x="0" y="0" width="120" height="14" fill="url(#trussPat)"/>
+        <rect x="0" y="0" width="120" height="1.6" fill="currentColor"/>
+        <rect x="0" y="12.4" width="120" height="1.6" fill="currentColor"/>
+      </svg>
+    </div>
+    <p class="foot__line" id="footLine">بەخێربێن بۆ ئێوارەی خاوەن پرۆژەکان</p>
+    <p class="foot__mark mono">CONSTRUCTION BRAND · <bdi id="footRef">CB-EV-01</bdi></p>
+  </div>
+</footer>
+
+<script src="data/event.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 210" role="img" aria-label="Construction Brand">
+  <title>Construction Brand</title>
+
+  <!-- Recreation of the Construction Brand mark.
+       To use the official artwork instead, drop the real file in as
+       assets/img/logo.png — the page picks it up automatically. -->
+
+  <g fill="none" stroke-linecap="butt" stroke-linejoin="miter">
+
+    <!-- teal C -->
+    <path d="M 126.4 66.9 A 60 60 0 1 0 126.4 165.1"
+          stroke="#2E8A9B" stroke-width="25"/>
+
+    <!-- white separation between the C and the B -->
+    <g stroke="#FFFFFF" stroke-width="37">
+      <path d="M 104 62 V 184"/>
+      <path d="M 104 62 H 128 A 30 30 0 0 1 128 122 H 104"/>
+      <path d="M 104 122 H 136 A 31 31 0 0 1 136 184 H 104"/>
+    </g>
+
+    <!-- navy B -->
+    <g stroke="#1C3547" stroke-width="25">
+      <path d="M 104 62 V 184"/>
+      <path d="M 104 62 H 128 A 30 30 0 0 1 128 122 H 104"/>
+      <path d="M 104 122 H 136 A 31 31 0 0 1 136 184 H 104"/>
+    </g>
+
+    <!-- crane boom: warren truss, top chord + bottom chord + web -->
+    <g stroke="#2E8A9B">
+      <path d="M 62 24 H 204" stroke-width="7"/>
+      <path d="M 62 46 H 204" stroke-width="7"/>
+      <path d="M 66 46 L 84 24 L 102 46 L 120 24 L 138 46 L 156 24 L 174 46 L 192 24"
+            stroke-width="5.5"/>
+      <!-- hoist cables + hook -->
+      <path d="M 181 46 V 176 M 189 46 V 176" stroke-width="3"/>
+      <path d="M 185 176 a 9 9 0 1 0 9 9" stroke-width="5.5" stroke-linecap="round"/>
+    </g>
+  </g>
+</svg>
