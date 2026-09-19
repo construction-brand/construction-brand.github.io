@@ -12,16 +12,14 @@
 window.EVENT = {
 
   /* -- When ---------------------------------------------------------------- */
-  /* ⚠ LIVE TEST CONFIG (Sat 19 Sep) — REVERT BEFORE THE EVENT:
-       date -> "2026-09-21", dateLabel -> Monday 21 Sep, opensBeforeEndMins -> 15 */
-  date: "2026-09-19",       // YYYY-MM-DD  ← ڕێکەوتی ڕووداو
+  date: "2026-09-21",       // YYYY-MM-DD  ← ڕێکەوتی ڕووداو
   tz:   "+03:00",           // Baghdad / Erbil time. Leave as is.
   ref:  "CB-EV-01",         // reference code shown in the title block
 
   // If you prefer the Kurdish month name, swap ئەیلول for خەرمانان.
   dateLabel: {
-    ku: "شەممە، ١٩ی ئەیلولی ٢٠٢٦",
-    en: "Saturday, 19 September 2026"
+    ku: "دووشەممە، ٢١ی ئەیلولی ٢٠٢٦",
+    en: "Monday, 21 September 2026"
   },
 
   /* -- What ---------------------------------------------------------------- */
@@ -145,7 +143,7 @@ window.EVENT = {
        <url>?view=schedule   force the programme
      ----------------------------------------------------------------------- */
   feedback: {
-    opensBeforeEndMins: 440,   // ⚠ TEST: 21:30 − 440 min = 14:10 today. Real value: 15
+    opensBeforeEndMins: 15,
     closesAfterDays: 7,
 
     /* WHERE THE ANSWERS GO.
