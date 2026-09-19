@@ -601,6 +601,9 @@
     }
     err.hidden = true;
 
+    /* drop the phone keyboard so the thank-you is on screen, not under it */
+    if (document.activeElement && document.activeElement.blur) { document.activeElement.blur(); }
+
     var btn = $("fbSend");
     btn.disabled = true;
     btn.textContent = L.fbSending;
@@ -741,10 +744,12 @@
       }
     });
 
-    /* bring the current item into view, once, on arrival */
+    /* bring the current item into view, once, on arrival — but never snatch
+       the page away from a thumb that has already started scrolling */
     if (!scrolledOnce && current && viewNow === "schedule") {
       scrolledOnce = true;
       setTimeout(function () {
+        if (window.scrollY > 40) { return; }
         current.node.scrollIntoView({ block: "center", behavior: "smooth" });
       }, 900);
     }

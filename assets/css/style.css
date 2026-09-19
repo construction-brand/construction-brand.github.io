@@ -124,10 +124,13 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+/* html carries the navy so iOS rubber-band overscroll at top and bottom shows
+   the same colour as the header and footer, not a pale flash. */
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; background: var(--head-bg); }
 
 body {
   margin: 0;
+  -webkit-tap-highlight-color: transparent;
   font-family: var(--body);
   font-size: 16px;
   line-height: 1.6;
@@ -151,7 +154,19 @@ img { max-width: 100%; display: block; }
   width: 100%;
   max-width: var(--maxw);
   margin-inline: auto;
-  padding-inline: var(--gutter);
+  /* never narrower than the gutter, never under a notch in landscape */
+  padding-inline: max(var(--gutter), env(safe-area-inset-left, 0px))
+                  max(var(--gutter), env(safe-area-inset-right, 0px));
+}
+
+/* Everything a thumb lands on: no 300ms delay, no double-tap zoom, no
+   accidental text selection on a long press. */
+a, button, label, .row, .switch, .btn, .pick, .rating__opt {
+  touch-action: manipulation;
+}
+button, label, .switch, .btn, .pick, .rating__opt {
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
@@ -197,7 +212,9 @@ h1, h2, h3 { text-wrap: balance; margin: 0; }
 }
 
 .titleblock > .wrap {
-  padding-block: 18px 26px;
+  /* top inset matters once the page is added to the home screen: in
+     standalone mode there is no browser bar between us and the notch */
+  padding-block: calc(18px + env(safe-area-inset-top, 0px)) 26px;
   position: relative;
   z-index: 1;
 }
@@ -236,20 +253,24 @@ h1, h2, h3 { text-wrap: balance; margin: 0; }
 
 .switch {
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   letter-spacing: .06em;
   color: var(--head-text);
   background: #ffffff14;
   border: 1px solid #ffffff2e;
   border-radius: 999px;
-  padding: 7px 14px;
-  min-height: 34px;
+  padding: 8px 16px;
+  min-height: 44px;                 /* thumb-sized */
+  min-width: 44px;
   cursor: pointer;
   transition: background .18s ease, border-color .18s ease;
 }
-.switch:hover { background: #ffffff26; border-color: #ffffff4d; }
-.switch--icon { padding: 7px 10px; display: grid; place-items: center; }
+.switch:active { background: #ffffff33; }
+.switch--icon { padding: 8px 12px; display: grid; place-items: center; }
+@media (hover: hover) {
+  .switch:hover { background: #ffffff26; border-color: #ffffff4d; }
+}
 
 /* sun in light mode, moon in dark */
 .ico-moon { display: none; }
@@ -314,7 +335,7 @@ html[dir="rtl"] .display {
 
 .tb dt {
   font-family: var(--mono);
-  font-size: 9.5px;
+  font-size: 10.5px;
   letter-spacing: .15em;
   text-transform: uppercase;
   color: var(--head-truss);
@@ -399,22 +420,24 @@ html[dir="rtl"] .status__value { font-family: var(--body); letter-spacing: 0; li
 html[dir="rtl"] .meter__fill { background: linear-gradient(to left, var(--accent), var(--accent-bright)); }
 
 .meter__caption {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-3);
   margin: 7px 0 0;
   letter-spacing: .04em;
 }
 
 .actions { display: flex; gap: 9px; flex-wrap: wrap; margin-block-start: 16px; }
+/* buttons share the row evenly and wrap to full width on the narrowest phones */
+.actions .btn { flex: 1 1 140px; justify-content: center; }
 
 .btn {
   display: inline-flex; align-items: center; gap: 7px;
   font-family: var(--body);
-  font-size: 13.5px;
+  font-size: 14px;
   font-weight: 600;
   text-decoration: none;
   padding: 10px 15px;
-  min-height: 42px;
+  min-height: 48px;                 /* comfortably above the 44px thumb floor */
   border-radius: var(--r-md);
   border: 1px solid var(--rule-strong);
   background: var(--surface);
@@ -422,8 +445,7 @@ html[dir="rtl"] .meter__fill { background: linear-gradient(to left, var(--accent
   cursor: pointer;
   transition: background .18s ease, border-color .18s ease, transform .12s ease;
 }
-.btn:hover { background: var(--surface-2); border-color: var(--accent); }
-.btn:active { transform: translateY(1px); }
+.btn:active { transform: translateY(1px); background: var(--surface-2); }
 .btn svg { flex: none; }
 
 .btn--primary {
@@ -431,7 +453,14 @@ html[dir="rtl"] .meter__fill { background: linear-gradient(to left, var(--accent
   border-color: var(--accent);
   color: var(--on-accent);
 }
-.btn--primary:hover { background: var(--accent-bright); border-color: var(--accent-bright); }
+.btn--primary:active { background: var(--accent-bright); }
+
+/* hover only where a pointer can hover — on touch a :hover style would stick
+   to whatever was last tapped */
+@media (hover: hover) {
+  .btn:hover { background: var(--surface-2); border-color: var(--accent); }
+  .btn--primary:hover { background: var(--accent-bright); border-color: var(--accent-bright); }
+}
 
 
 /* ---- 5. SECTION HEADINGS ------------------------------------------------ */
@@ -465,8 +494,10 @@ html[dir="rtl"] .sechead h2 { font-family: var(--body); text-transform: none; le
 
 .item {
   display: grid;
-  grid-template-columns: 4.6rem 18px minmax(0, 1fr);
-  column-gap: 12px;
+  /* 4rem holds "16:30" and "30 خولەک" with room; every px saved here goes
+     to the Kurdish title column, which is the tightest thing on a phone */
+  grid-template-columns: 4rem 18px minmax(0, 1fr);
+  column-gap: 10px;
   padding-block: 2px;
   animation: rise .5s cubic-bezier(.2, .7, .3, 1) both;
 }
@@ -493,7 +524,7 @@ html[dir="rtl"] .sechead h2 { font-family: var(--body); text-transform: none; le
 }
 .item__dur {
   font-family: var(--mono);
-  font-size: 10.5px;
+  font-size: 11.5px;
   color: var(--text-3);
   display: block;
   margin-block-start: 3px;
@@ -543,7 +574,7 @@ html[dir="rtl"] .sechead h2 { font-family: var(--body); text-transform: none; le
   color: var(--text);
 }
 .item__note {
-  font-size: 13.5px;
+  font-size: 14px;
   line-height: 1.6;
   color: var(--text-2);
   margin: 4px 0 0;
@@ -552,10 +583,10 @@ html[dir="rtl"] .sechead h2 { font-family: var(--body); text-transform: none; le
 .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 9px 0 0; padding: 0; list-style: none; }
 .chip {
   font-family: var(--mono);
-  font-size: 10.5px;
+  font-size: 11.5px;
   font-weight: 500;
   letter-spacing: .03em;
-  padding: 3px 8px;
+  padding: 4px 9px;
   border-radius: var(--r-sm);
   background: var(--accent-soft);
   color: var(--accent);
@@ -565,7 +596,7 @@ html[dir="rtl"] .sechead h2 { font-family: var(--body); text-transform: none; le
 .kindtag {
   display: inline-flex; align-items: center; gap: 5px;
   font-family: var(--mono);
-  font-size: 9.5px;
+  font-size: 10.5px;
   letter-spacing: .14em;
   text-transform: uppercase;
   color: var(--text-3);
@@ -669,12 +700,15 @@ html[dir="rtl"] .sechead h2 { font-family: var(--body); text-transform: none; le
   color: var(--text);
   transition: border-color .18s ease, background .18s ease;
 }
-.row:hover { border-color: var(--accent); background: var(--surface-2); }
+.row:active { background: var(--surface-2); }
+@media (hover: hover) {
+  .row:hover { border-color: var(--accent); background: var(--surface-2); }
+}
 .row__ico { flex: none; color: var(--accent); display: grid; place-items: center; }
 .row__txt { min-width: 0; }
 .row__k {
   font-family: var(--mono);
-  font-size: 9.5px; letter-spacing: .15em; text-transform: uppercase;
+  font-size: 10.5px; letter-spacing: .15em; text-transform: uppercase;
   color: var(--text-3); display: block;
 }
 .row__v { font-size: 14.5px; font-weight: 600; display: block; line-height: 1.4; overflow-wrap: anywhere; }
@@ -756,7 +790,10 @@ html[dir="rtl"] .fb__title {
   overflow-wrap: anywhere;
 }
 html[dir="rtl"] .rating__word { font-size: 12px; }
-.rating__opt:hover { border-color: var(--accent); }
+.rating__opt:active { background: var(--surface-2); }
+@media (hover: hover) {
+  .rating__opt:hover { border-color: var(--accent); }
+}
 
 /* `.is-on` is set by JS and `:has()` by the browser. Either one alone is
    enough, so the selected state still shows on engines without :has(). */
@@ -776,12 +813,13 @@ html[dir="rtl"] .rating__word { font-size: 12px; }
 
 .pick {
   position: relative;
-  display: inline-flex; align-items: center; gap: 7px;
-  padding: 9px 13px;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 15px;
+  min-height: 46px;                 /* a chip is a button on a phone */
   border: 1px solid var(--rule-strong);
   border-radius: 999px;
   background: var(--surface);
-  font-size: 13.5px; line-height: 1.35;
+  font-size: 14px; line-height: 1.35;
   color: var(--text);
   cursor: pointer;
   transition: border-color .15s ease, background .15s ease;
@@ -798,7 +836,10 @@ html[dir="rtl"] .rating__word { font-size: 12px; }
   background: var(--surface);
   transition: background .15s ease, border-color .15s ease;
 }
-.pick:hover { border-color: var(--accent); }
+.pick:active { background: var(--surface-2); }
+@media (hover: hover) {
+  .pick:hover { border-color: var(--accent); }
+}
 .pick.is-on,
 .pick:has(input:checked) { background: var(--accent-soft); border-color: var(--accent); }
 .pick.is-on::before,
@@ -819,13 +860,16 @@ html[dir="rtl"] .rating__word { font-size: 12px; }
 #viewFeedback input[type="tel"] {
   width: 100%;
   font-family: var(--body);
-  font-size: 15px;
+  font-size: 16px;                  /* below 16px iOS Safari zooms in on focus and stays zoomed */
   color: var(--text);
   background: var(--surface);
   border: 1px solid var(--rule-strong);
   border-radius: var(--r-md);
-  padding: 11px 13px;
+  padding: 12px 14px;
+  min-height: 48px;
   resize: vertical;
+  -webkit-appearance: none;
+  appearance: none;                 /* no iOS inner shadow / rounded native look */
 }
 #viewFeedback textarea:focus,
 #viewFeedback input:focus { border-color: var(--accent); }
@@ -872,14 +916,18 @@ html[dir="rtl"] .rating__word { font-size: 12px; }
 html[dir="rtl"] .fb__doneTitle { font-family: var(--body); }
 .fb__doneBody { color: var(--text-2); font-size: 14.5px; margin: 0; max-width: 34ch; }
 
-.fb__back { margin: 22px 0 0; text-align: center; }
+.fb__back { margin: 16px 0 0; text-align: center; }
 .fb__back a {
-  font-size: 13.5px; font-weight: 600;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; padding: 8px 18px;   /* a real target, not a 24px sliver */
+  font-size: 14px; font-weight: 600;
   color: var(--accent); text-decoration: none;
-  border-block-end: 1px solid transparent;
-  padding-block-end: 2px;
+  border-radius: var(--r-md);
 }
-.fb__back a:hover { border-block-end-color: var(--accent); }
+.fb__back a:active { background: var(--accent-soft); }
+@media (hover: hover) {
+  .fb__back a:hover { background: var(--accent-soft); }
+}
 
 #cbFbSink { display: none; }
 
@@ -892,7 +940,8 @@ html[dir="rtl"] .fb__doneTitle { font-family: var(--body); }
   color: var(--head-text);
   position: relative;
 }
-.foot > .wrap { padding-block: 0 30px; padding-inline: 0; }
+/* bottom inset keeps the last line clear of the iPhone home indicator */
+.foot > .wrap { padding-block: 0 calc(30px + env(safe-area-inset-bottom, 0px)); padding-inline: 0; }
 .foot__truss { margin-block-end: 24px; }
 .foot__line {
   font-size: 15px; font-weight: 600; margin: 0;
@@ -946,6 +995,17 @@ html[dir="rtl"] .item__dur    { font-size: 12px; }
 /* times, durations and codes stay Latin — keep them reading left-to-right
    even inside a right-to-left line */
 .item__clock, .chip, .row__v.mono, .foot__mark { unicode-bidi: isolate; }
+
+
+/* ---- 10b. NARROW PHONES -------------------------------------------------
+   360px Androids and the 320px iPhone SE. Reclaim gutter for content; the
+   guidance floor of 16px is kept. */
+@media (max-width: 400px) {
+  :root { --gutter: 16px; }
+  .tb__cell { padding: 10px 11px; }
+  .status > .wrap { padding-block: 16px 18px; }
+  .item.is-now .item__body { padding: 12px 12px 14px; }
+}
 
 
 /* ---- 11. MOTION / PRINT ------------------------------------------------- */
