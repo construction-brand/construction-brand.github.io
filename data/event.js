@@ -175,7 +175,7 @@ window.EVENT = {
   },
 
   /* -- The URL this page is published at (used by the QR generator) ---------- */
-  url: "https://example.github.io/construction-brand-event/"
+  url: "https://construction-brand.github.io/"
 };
 
 
