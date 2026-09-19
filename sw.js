@@ -5,13 +5,13 @@
    data/event.js is always picked up as soon as there is a connection,
    and the page still opens when there is none. */
 
-var CACHE = "cb-event-v2";
+var CACHE = "cb-event-v3";
 var SHELL = [
   "./",
   "./index.html",
-  "./data/event.js",
-  "./assets/css/style.css",
-  "./assets/js/app.js",
+  "./data/event.js?v=20260919a",
+  "./assets/css/style.css?v=20260919a",
+  "./assets/js/app.js?v=20260919a",
   "./assets/img/logo.svg",
   "./assets/img/favicon.svg",
   "./manifest.webmanifest"
