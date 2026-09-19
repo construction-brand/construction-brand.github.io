@@ -163,8 +163,8 @@ window.EVENT = {
       phone:     "entry.000000006"
     },
 
-    /* used only when googleFormId is empty */
-    whatsappFallback: "+9647703075050",
+    /* used only when googleFormId is empty — feedback lands on THIS number */
+    whatsappFallback: "+9647722149070",
 
     /* what we ask guests they want next — this is the lead capture */
     interests: [
