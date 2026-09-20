@@ -561,16 +561,20 @@
 
   /* No Google Form configured? Hand the answers to WhatsApp instead, so the
      evening is never left with no way to collect them. */
+  /* Fixed ASCII labels, not the translated question text: this message is read
+     by staff, and tools/whatsapp_to_csv.py turns a chat export of these into a
+     spreadsheet. Long Kurdish questions as labels made it unreadable and
+     unparseable. */
   function whatsAppUrl(payload) {
-    var L = UI[lang];
     var lines = [
-      "★ " + payload.rating + "/5 — " + L.fbRating,
-      payload.sessions.length ? L.fbSessions + ": " + payload.sessions.join(", ") : "",
-      payload.interest.length ? L.fbInterest + ": " + payload.interest.join(", ") : "",
-      payload.comment ? L.fbComment + ": " + payload.comment : "",
-      payload.name  ? L.fbName + ": " + payload.name : "",
-      payload.phone ? L.fbPhone + ": " + payload.phone : ""
-    ].filter(Boolean);
+      "CB FEEDBACK",
+      "Rating: " + payload.rating + "/5",
+      "Sessions: " + (payload.sessions.join(" | ") || "-"),
+      "Interest: " + (payload.interest.join(" | ") || "-"),
+      "Comment: " + (payload.comment.replace(/\s*\n\s*/g, " ") || "-"),
+      "Name: " + (payload.name || "-"),
+      "Phone: " + (payload.phone || "-")
+    ];
     var num = String(FB.whatsappFallback || "").replace(/[^0-9]/g, "");
     return "https://wa.me/" + num + "?text=" + encodeURIComponent(lines.join("\n"));
   }

@@ -315,6 +315,21 @@ Leave `googleFormId` empty and the form falls back to opening **WhatsApp** with
 the answers pre-typed, so the evening is never left with no way to collect them.
 The guest has to press send, so it is a fallback, not the plan.
 
+### If the feedback went to WhatsApp
+
+You still get a spreadsheet. In WhatsApp: open the chat → **⋮ → More → Export
+chat → Without media**, then:
+
+```bash
+python tools/whatsapp_to_csv.py --chat "WhatsApp Chat with ....txt" --summary
+```
+
+It writes `feedback.csv` — one row per guest with rating, sessions, interests,
+comment, name and phone — and `--summary` prints the average rating, which
+sessions were picked most, and what people want next. It reads both the iOS
+and Android export formats, keeps comments that ran over several lines, and
+ignores ordinary chat messages.
+
 ---
 
 ## Before the event — checklist
