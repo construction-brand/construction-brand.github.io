@@ -25,7 +25,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/css/style.css?v=20260920e">
+<link rel="stylesheet" href="assets/css/style.css?v=20260920f">
 
 <!-- Web fonts must never block first paint. A cross-origin stylesheet in
      <head> holds the whole page white until fonts.googleapis.com answers —
@@ -71,29 +71,26 @@
       </div>
     </div>
 
-    <p class="eyebrow" data-i18n="eyebrow">بەرنامەی ئێوارە</p>
-    <h1 class="display" id="evTitle">کۆبوونەوەی خاوەن پرۆژەکان</h1>
-    <p class="tagline" id="evTagline"></p>
+    <!-- Hero: a greeting, the event name, and one compact line of facts. -->
+    <h1 class="hero__h1">
+      <span class="hero__hi" id="heroHi">بەخێربێن</span>
+      <span class="hero__ev" id="evTitle">کۆبوونەوەی خاوەن پرۆژەکان</span>
+    </h1>
 
-    <!-- drawing title block: four ruled cells -->
-    <dl class="tb">
-      <div class="tb__cell">
-        <dt data-i18n="tbLocation">شوێن</dt>
-        <dd id="tbLocation">—</dd>
-      </div>
-      <div class="tb__cell">
-        <dt data-i18n="tbDate">ڕێکەوت</dt>
-        <dd id="tbDate">—</dd>
-      </div>
-      <div class="tb__cell">
-        <dt data-i18n="tbDoors">دەرگا دەکرێتەوە</dt>
-        <dd id="tbDoors" class="mono">—</dd>
-      </div>
-      <div class="tb__cell">
-        <dt data-i18n="tbRef">ژمارە</dt>
-        <dd id="tbRef" class="mono">—</dd>
-      </div>
-    </dl>
+    <ul class="hero__meta">
+      <li>
+        <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="10" r="2.4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+        <span id="mVenue">—</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M7 3v3M17 3v3M3.5 9.5h17M5 6h14a1.5 1.5 0 0 1 1.5 1.5V19A1.5 1.5 0 0 1 19 20.5H5A1.5 1.5 0 0 1 3.5 19V7.5A1.5 1.5 0 0 1 5 6Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span id="mDate">—</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5.3l3.3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <bdi id="mTime" class="mono">—</bdi>
+      </li>
+    </ul>
   </div>
 
   <!-- warren truss, lifted from the crane boom in the logo -->
@@ -139,17 +136,6 @@
         <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M20.5 11.7a8 8 0 0 1-11.9 7L4 20l1.4-4.4A8 8 0 1 1 20.5 11.7Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
         <span data-i18n="fbToFeedback">ناردنی ڕا</span>
       </button>
-      <!-- a plain link to a real .ics: iPhone opens it in Calendar with
-           "Add All", Android hands it to the calendar app. A blob download
-           would only land it in Files. -->
-      <a class="btn" id="calBtn" href="assets/event.ics">
-        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 3v3M17 3v3M3.5 9.5h17M5 6h14a1.5 1.5 0 0 1 1.5 1.5V19A1.5 1.5 0 0 1 19 20.5H5A1.5 1.5 0 0 1 3.5 19V7.5A1.5 1.5 0 0 1 5 6Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
-        <span data-i18n="addCal">زیادکردن بۆ ڕۆژژمێر</span>
-      </a>
-      <a class="btn" id="mapBtn" href="#" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="10" r="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
-        <span data-i18n="directions">ڕێنمایی شوێن</span>
-      </a>
     </div>
   </div>
 </section>
@@ -306,7 +292,7 @@
 <!-- ?v= is a cache-buster: GitHub Pages caches for 10 minutes, and a change
      to the schedule must reach every phone on the next load, not the one
      after. Bump it whenever data/event.js or app.js changes. -->
-<script src="data/event.js?v=20260920d"></script>
-<script src="assets/js/app.js?v=20260920e"></script>
+<script src="data/event.js?v=20260920f"></script>
+<script src="assets/js/app.js?v=20260920f"></script>
 </body>
 </html>

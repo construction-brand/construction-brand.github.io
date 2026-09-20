@@ -328,41 +328,45 @@ html[dir="rtl"] .display {
   margin: 12px 0 0;
 }
 
-/* the four ruled cells */
-.tb {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin: 24px 0 0;
-  border: 1px solid var(--head-rule);
-  border-radius: var(--r-sm);
-  overflow: hidden;
+/* Hero: a greeting, the event name, one compact line of facts. */
+.hero__h1 { display: block; margin: 24px 0 0; animation: rise .55s cubic-bezier(.2,.7,.3,1) both; }
+
+.hero__hi {
+  display: block;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(36px, 11vw, 56px);
+  line-height: 1;
+  letter-spacing: -.03em;
+  color: #fff;
 }
-.tb__cell {
-  padding: 11px 13px;
-  border-inline-end: 1px solid var(--head-rule);
-  border-block-end: 1px solid var(--head-rule);
+html[dir="rtl"] .hero__hi {
+  font-family: var(--body); font-weight: 700; letter-spacing: 0; line-height: 1.2;
+}
+
+.hero__ev {
+  display: block;
+  font-size: 15.5px; font-weight: 600; line-height: 1.5;
+  color: var(--head-label);
+  margin-block-start: 9px;
+  max-width: 34ch;
+}
+
+.hero__meta {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  list-style: none; margin: 18px 0 0; padding: 0;
+  animation: rise .55s .08s cubic-bezier(.2,.7,.3,1) both;
+}
+.hero__meta li {
+  display: inline-flex; align-items: center; gap: 7px;
+  min-height: 34px; padding: 6px 13px;
+  border: 1px solid #ffffff24; border-radius: 999px;
+  background: #ffffff0d;
+  font-size: 13px; line-height: 1.35; color: #DCE7EC;
   min-width: 0;
 }
-.tb__cell:nth-child(2n) { border-inline-end: 0; }
-.tb__cell:nth-last-child(-n+2) { border-block-end: 0; }
-
-.tb dt {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .15em;
-  text-transform: uppercase;
-  color: var(--head-label);
-  margin: 0 0 3px;
-}
-.tb dd {
-  margin: 0;
-  font-size: 13.5px;
-  font-weight: 600;
-  color: #fff;
-  line-height: 1.35;
-  overflow-wrap: anywhere;
-}
-.tb dd.mono { font-size: 14px; letter-spacing: .02em; }
+.hero__meta svg { flex: none; color: var(--head-label); }
+.hero__meta .mono { font-size: 13.5px; letter-spacing: .02em; unicode-bidi: isolate; }
 
 .truss { color: var(--head-truss); line-height: 0; background: var(--head-bg); }
 .truss svg { display: block; }
@@ -439,9 +443,9 @@ html[dir="rtl"] .meter__fill { background: linear-gradient(to left, var(--accent
   letter-spacing: .04em;
 }
 
-.actions { display: flex; gap: 9px; flex-wrap: wrap; margin-block-start: 16px; }
-/* buttons share the row evenly and wrap to full width on the narrowest phones */
-.actions .btn { flex: 1 1 140px; justify-content: center; }
+/* margin lives on the button, not the row, so an empty row takes no space */
+.actions { display: flex; gap: 9px; flex-wrap: wrap; }
+.actions .btn { flex: 1 1 140px; justify-content: center; margin-block-start: 16px; }
 
 .btn {
   display: inline-flex; align-items: center; gap: 7px;
@@ -749,15 +753,19 @@ html[dir="rtl"] .agenda__meta { font-family: var(--body); letter-spacing: normal
 
 .agenda__table th {
   font-family: var(--mono);
-  font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase;
+  font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase;
   color: var(--head-label);
   text-align: start;
   padding-block: 6px 10px;
+  overflow-wrap: normal;      /* never break "DURATION" mid-word */
+  white-space: nowrap;
 }
 html[dir="rtl"] .agenda__table th { font-family: var(--body); letter-spacing: normal; text-transform: none; font-size: 12.5px; font-weight: 500; }
 
-.c-time { width: 5.6rem; }
-.c-dur  { width: 3.6rem; }
+/* wide enough for the inline range "17:45–17:50" and for the word DURATION,
+   so neither can spill into the item column */
+.c-time { width: 7.6rem; }
+.c-dur  { width: 6rem; }
 
 .arow__clock {
   font-family: var(--mono);
@@ -828,15 +836,18 @@ html[dir="rtl"] .arow.is-now td:first-child { box-shadow: inset -3px 0 0 var(--n
 .arow.is-now .c-time::after  { inset-inline-end: 10px; background: #ffffff22; }
 .arow.is-now .c-time::before { width: calc((100% - 20px) * var(--p, 0)); background: var(--now); z-index: 1; transition: width 1s linear; }
 
-/* narrow phones: the end time takes its own line, muted and without the
-   dash, so the item column keeps room for a full Kurdish sentence */
-@media (max-width: 420px) {
-  .c-time { width: 4.2rem; }
-  .c-dur  { width: 3.2rem; }
+/* Phones: the end time takes its own line, muted and without the dash, and
+   the column headers go — on a phone the three columns read themselves, and
+   the space is worth more to a Kurdish sentence than to a label. */
+@media (max-width: 560px) {
+  .agenda__table thead { display: none; }
+  .c-time { width: 4.3rem; }
+  .c-dur  { width: 3.4rem; }
   .t2 { display: block; color: var(--head-dim); font-weight: 500; }
   .t2::before { content: none; }
   .agenda { padding-inline: 10px; }
   .agenda__table th, .agenda__table td { padding-inline: 7px; }
+  .agenda__table tbody tr:first-child td { border-block-start: 0; }
   .arow__durN { font-size: 14px; }
 }
 
@@ -1151,7 +1162,6 @@ html[dir="rtl"] .fb__doneTitle { font-family: var(--body); }
    ----------------------------------------------------------------------- */
 
 html[dir="rtl"] .eyebrow,
-html[dir="rtl"] .tb dt,
 html[dir="rtl"] .status__label,
 html[dir="rtl"] .meter__caption,
 html[dir="rtl"] .sechead__meta,
@@ -1168,7 +1178,6 @@ html[dir="rtl"] .row__k {
 /* the labels get slightly larger, since Arabic script sits smaller on the
    line than Latin caps at the same pixel size */
 html[dir="rtl"] .eyebrow      { font-size: 13px; font-weight: 600; }
-html[dir="rtl"] .tb dt        { font-size: 12px; font-weight: 500; }
 html[dir="rtl"] .status__label{ font-size: 12.5px; font-weight: 600; }
 html[dir="rtl"] .kindtag      { font-size: 11px; font-weight: 500; }
 html[dir="rtl"] .nowtag       { font-size: 11.5px; font-weight: 700; }
@@ -1188,7 +1197,6 @@ html[dir="rtl"] .item__dur    { font-size: 12px; }
    guidance floor of 16px is kept. */
 @media (max-width: 400px) {
   :root { --gutter: 16px; }
-  .tb__cell { padding: 10px 11px; }
   .status > .wrap { padding-block: 16px 18px; }
   .item.is-now .item__body { padding: 12px 12px 14px; }
 }
@@ -1209,6 +1217,6 @@ html[dir="rtl"] .item__dur    { font-size: 12px; }
   body { background: #fff; color: #000; }
   .status .actions, .switches, .skip, .meter { display: none; }
   .titleblock, .foot { background: #fff; color: #000; }
-  .tb dd, .foot__line { color: #000; }
+  .hero__meta li, .foot__line { color: #000; border-color: #bbb; }
   .item { break-inside: avoid; }
 }

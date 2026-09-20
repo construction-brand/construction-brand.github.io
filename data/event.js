@@ -167,6 +167,7 @@ window.UI = {
   ku: {
     dir: "rtl", htmlLang: "ckb", other: "English", otherShort: "EN",
     eyebrow: "بەرنامەی ئێوارە",
+    welcome: "بەخێربێن",
     tbLocation: "شوێن", tbDate: "ڕێکەوت", tbDoors: "دەرگا دەکرێتەوە", tbRef: "ژمارە",
     untilDoors: "ماوە بۆ دەستپێکردن",
     liveNow: "ئێستا", upNext: "دواتر", finished: "بەرنامە تەواو بوو",
@@ -212,6 +213,7 @@ window.UI = {
   en: {
     dir: "ltr", htmlLang: "en", other: "کوردی", otherShort: "KU",
     eyebrow: "Evening Programme",
+    welcome: "Welcome",
     tbLocation: "Location", tbDate: "Date", tbDoors: "Doors", tbRef: "Ref",
     untilDoors: "Doors open in",
     liveNow: "Happening now", upNext: "Up next", finished: "Programme complete",

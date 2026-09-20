@@ -147,16 +147,14 @@
     $("langBtn").setAttribute("aria-label", L.other);
     $("themeBtn").setAttribute("aria-label", L.themeLabel);
 
-    $("evTitle").textContent   = t(E.title);
-    $("evTagline").textContent = t(E.tagline);
+    $("heroHi").textContent = L.welcome;
+    $("evTitle").textContent = t(E.title);
 
-    $("tbLocation").textContent = t(E.venue.name) + " · " + t(E.venue.city);
-    $("tbDate").textContent     = t(E.dateLabel);
-    $("tbDoors").textContent    = E.schedule[0].t;
-    $("tbRef").textContent      = E.ref;
-    $("footRef").textContent    = E.ref;
-    $("footLine").textContent   = L.footer;
-    $("mapBtn").href            = E.venue.maps;
+    $("mVenue").textContent   = t(E.venue.name) + " · " + t(E.venue.city);
+    $("mDate").textContent    = t(E.dateLabel);
+    $("mTime").textContent    = E.schedule[0].t;
+    $("footRef").textContent  = E.ref;
+    $("footLine").textContent = L.footer;
     meterBox.setAttribute("aria-label", L.progress);
 
     var total = Math.round((evEnd - evStart) / 60000);
@@ -820,9 +818,9 @@
     }
   }
 
-  /* Calendar and contact files are static: assets/event.ics and
-     assets/construction-brand.vcf, linked directly. A blob download parks
-     them in Files on iPhone; a real URL opens Calendar / Contacts. */
+  /* The contact card is a static file, assets/construction-brand.vcf, linked
+     directly: a blob download parks it in Files on an iPhone, a real URL
+     opens Contacts. */
 
   /* ======================================================================
      THEME + LANGUAGE

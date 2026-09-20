@@ -133,16 +133,12 @@ repository is public, and nobody's number belongs in it.
 
 ---
 
-## Calendar and contact files
+## The contact card
 
-"Add to calendar" and "Save our number" are plain links to two static files,
-`assets/event.ics` and `assets/construction-brand.vcf`. That is deliberate:
-a file generated in the browser and downloaded lands in *Files* on an iPhone
-and never opens Calendar or Contacts; a real URL does.
-
-**If the event's start or end time changes**, edit `DTSTART` / `DTEND` in
-`assets/event.ics` (they are UTC: 17:45 Baghdad = `144500Z`). The programme
-itself is unaffected — this file only carries the overall span.
+"Save our number" is a plain link to a static file,
+`assets/construction-brand.vcf`. That is deliberate: a file generated in the
+browser and downloaded lands in *Files* on an iPhone and never opens Contacts;
+a real URL does.
 
 ---
 
