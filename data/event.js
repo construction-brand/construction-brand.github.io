@@ -1,7 +1,7 @@
 /* ============================================================================
    CONSTRUCTION BRAND — EVENT DATA
    ----------------------------------------------------------------------------
-   هەموو شتێک لەم فایلەدا دەگۆڕدرێت. پێویست ناکات فایلی تر دەستکاری بکەیت.
+   هەموو شتێک لەم فایلەدا دەگۆڕدرێت. پێویست ناکات هیچ فایلێکی تر دەستکاری بکەیت.
    This is the ONLY file you need to edit. Change the date, times and text
    here and the whole page updates itself.
 
@@ -12,12 +12,12 @@
 window.EVENT = {
 
   /* -- When ---------------------------------------------------------------- */
-  date: "2026-09-21",       // YYYY-MM-DD  ← ڕێکەوتی ڕووداو
+  date: "2026-09-21",       // YYYY-MM-DD  ← ڕێکەوتی بۆنە
   tz:   "+03:00",           // Baghdad / Erbil time. Leave as is.
 
   /* -- What ---------------------------------------------------------------- */
   title: {
-    ku: "کۆبوونەوەی خاوەن پرۆژەکان",
+    ku: "دیداری خاوەن پڕۆژەکان",
     en: "Project Owners Evening"
   },
   /* -- Where --------------------------------------------------------------- */
@@ -40,24 +40,24 @@ window.EVENT = {
   schedule: [
     {
       t: "17:45", mins: 5,
-      title: { ku: "بەخێرهاتن", en: "Welcome" }
+      title: { ku: "پێشوازی و بەخێرهاتن", en: "Welcome" }
     },
     {
       t: "17:50", mins: 5, kind: "key",
-      title: { ku: "وتەی بەڕێز Eng. Selim Gul", en: "Address by Eng. Selim Gul" },
-      note:  { ku: "خاوەنی کۆمپانیای مۆمێنتەم", en: "Owner of the Momentum company" }
+      title: { ku: "وتەی بەڕێز ئەندازیار سەلیم گول", en: "Address by Eng. Selim Gul" },
+      note:  { ku: "دامەزرێنەر و خاوەنی کۆمپانیای مۆمێنتەم", en: "Owner of the Momentum company" }
     },
     {
       t: "17:55", mins: 35,
       title: { ku: "ناساندنی بەرهەمەکانی کۆمپانیای مۆمێنتەم", en: "Introducing Momentum's products" },
-      note:  { ku: "لەلایەن بەڕێز ئەندازیار زوبێر محمد — نوێنەری کۆمپانیای مۆمێنتەم",
+      note:  { ku: "لەلایەن بەڕێز ئەندازیار زوبێر محەمەد — نوێنەری کۆمپانیای مۆمێنتەم",
                en: "By Eng. Zubair Mohammed, Momentum's representative" }
     },
     {
       t: "18:30", mins: 20,
-      title: { ku: "شێوازی بەکارهێنانی مۆمێنتەم و هەڵسەنگاندنی ئیشکردن",
+      title: { ku: "شێوازی بەکارهێنانی بەرهەمەکانی مۆمێنتەم و هەڵسەنگاندنی کارایی",
                en: "How Momentum products are applied, and how they perform" },
-      note:  { ku: "لەلایەن ئەندازیار بەهمەن ڕەئوف شوان — بەرپرسیاری کۆنستراکشن براند",
+      note:  { ku: "لەلایەن بەڕێز ئەندازیار بەهمەن ڕەئووف شوان — نوێنەری کۆنستراکشن براند",
                en: "By Eng. Bahman Raouf Shwan, Construction Brand" }
     },
     {
@@ -66,8 +66,8 @@ window.EVENT = {
     },
     {
       t: "19:00", mins: 60, kind: "dinner",
-      title: { ku: "نان خواردن + مۆسیقای زیندوو", en: "Dinner + live music" },
-      note:  { ku: "بەخێربێن — ئێوارەتان خۆش", en: "Please join us. Enjoy your evening" }
+      title: { ku: "ئێوارەخوان و مۆسیقای ڕاستەوخۆ", en: "Dinner + live music" },
+      note:  { ku: "بەخێرهاتنی گەرمتان دەکەین — ئێوارەیەکی خۆش بۆ هەمووان", en: "Please join us. Enjoy your evening" }
     }
   ],
 
@@ -80,7 +80,7 @@ window.EVENT = {
     whatsapp:  "+9647703075050",
     instagram: "construction.brand",
     address: {
-      ku: "بازنەی مەلیک محمود — تەنیشت پردی کۆبانی، سلێمانی",
+      ku: "شەقامی بازنەیی مەلیک مەحموود — تەنیشت پردی کۆبانێ، سلێمانی",
       en: "Malik Mahmoud roundabout — next to Kobani bridge, Sulaimani"
     }
   },
@@ -129,11 +129,11 @@ window.EVENT = {
 
     /* what we ask guests they want next — this is the lead capture */
     interests: [
-      { id: "dealership", ku: "وەکالەتی براندەکان",            en: "Dealership" },
-      { id: "visit",      ku: "سەردانی تەکنیکی بۆ پرۆژەکەم",   en: "Technical visit to my project" },
-      { id: "prices",     ku: "لیستی نرخ",                      en: "Price list" },
-      { id: "samples",    ku: "نموونەی بەرهەم",                 en: "Product samples" },
-      { id: "training",   ku: "ڕاهێنان بۆ تیمەکەم",             en: "Training for my team" }
+      { id: "dealership", ku: "وەرگرتنی بریکارنامە (وەکالەت)",          en: "Dealership" },
+      { id: "visit",      ku: "سەردانی مەیدانی و تەکنیکی بۆ پڕۆژەکەم",   en: "Technical visit to my project" },
+      { id: "prices",     ku: "لیستی نرخەکان",                          en: "Price list" },
+      { id: "samples",    ku: "نموونەی بەرهەمەکان (سەمپڵ)",             en: "Product samples" },
+      { id: "training",   ku: "ڕاهێنانی تەکنیکی بۆ تیمی کارەکەم",       en: "Training for my team" }
     ]
   },
 
@@ -150,42 +150,42 @@ window.UI = {
     dir: "rtl", htmlLang: "ckb", other: "English", otherShort: "EN",
     welcome: "بەخێربێن",
     untilDoors: "ماوە بۆ دەستپێکردن",
-    liveNow: "ئێستا", upNext: "دواتر", finished: "بەرنامە تەواو بوو",
-    thanks: "سوپاس بۆ بەشداریتان",
-    progress: "بەرەوپێشچوونی ئێوارە",
-    programme: "بەرنامە", totalDur: "کۆی کات",
-    colTime: "کات", colItem: "بڕگە", colDur: "ماوە",
-    contactTitle: "پەیوەندی", saveContact: "پاشەکەوتکردنی ژمارە",
+    liveNow: "ئێستا لە بەڕێوەچووندایە", upNext: "بڕگەی دواتر", finished: "بەرنامەکە کۆتایی هات",
+    thanks: "سوپاس بۆ ئامادەبوونتان",
+    progress: "بەرەوپێشچوونی بەرنامە",
+    programme: "بەرنامەی کار", totalDur: "کۆی گشتی کات",
+    colTime: "کاتژمێر", colItem: "بڕگە", colDur: "ماوە",
+    contactTitle: "پەیوەندیکردن", saveContact: "تۆمارکردنی ژمارەی پەیوەندی",
     whatsapp: "واتساپ", instagram: "ئینستاگرام", address: "ناونیشان",
     mins: "خولەک", hrs: "کاتژمێر", days: "ڕۆژ",
-    done: "تەواو", themeLabel: "گۆڕینی ڕووناکی",
+    done: "تەواو بوو", themeLabel: "گۆڕینی دۆخی ڕووناکی",
 
-    fbEyebrow: "ڕای ئێوە",
-    fbTitle: "ئێوارەکە چۆن بوو؟",
-    fbLead: "دوو خولەک لە کاتتان — یارمەتیمان دەدات ئێوارەی داهاتوو باشتر بێت.",
-    fbRating: "بە گشتی چەند ڕازی بوویت؟",
-    fbRatingScale: ["زۆر خراپ", "خراپ", "باش", "زۆر باش", "نایاب"],
-    fbSessions: "کام بەشانە زۆرترین سوودیان پێگەیاندی؟",
-    fbSessionsHint: "چەند دانەیەک هەڵبژێرە",
-    fbInterest: "دەتەوێت چی بۆ بکەین؟",
-    fbComment: "تێبینییەکی تر",
-    fbCommentPlaceholder: "هەرچی بە باشی زانیت بینووسە…",
+    fbEyebrow: "ڕاوبۆچوونی ئێوە",
+    fbTitle: "ئێوارەکە چۆن بوو بە لای ئێوەوە؟",
+    fbLead: "تەنها دوو خولەک لە کاتتان — یارمەتیدەرمان دەبێت بۆ پێشکەشکردنی بۆنەی باشتر لە داهاتوودا.",
+    fbRating: "بە گشتی، تا چەند لە بەرنامەی ئەمڕۆ ڕازی بوون؟",
+    fbRatingScale: ["زۆر لاواز", "لاواز", "مامناوەند", "زۆر باش", "نایاب"],
+    fbSessions: "کام لە بڕگەکان زۆرترین سوودیان پێگەیاندن؟",
+    fbSessionsHint: "دەتوانن یەک یان چەند بڕگەیەک هەڵبژێرن",
+    fbInterest: "ئارەزووی کام لەم خزمەتگوزارییانە دەکەن بۆ داهاتوو؟",
+    fbComment: "سەرنج و تێبینیی زیاتر",
+    fbCommentPlaceholder: "هەر سەرنج، تێبینی، یان پێشنیارێکتان هەیە لێرەدا بینووسن…",
     fbName: "ناو", fbPhone: "ژمارەی مۆبایل",
     fbOptional: "ئارەزوومەندانە",
-    fbSend: "ناردنی ڕا",
-    fbSending: "دەنێردرێت…",
-    fbNeedRating: "تکایە پلەیەک هەڵبژێرە.",
-    fbThanksTitle: "سوپاس بۆ ڕاکەت",
-    fbThanksBody: "وەریگرت. بەم زووانە پەیوەندیت پێوە دەکەین.",
-    fbQueued: "ئینتەرنێت نییە — ڕاکەت پاشەکەوت کرا و خۆکارانە دەنێردرێت.",
-    fbBackToProgramme: "بینینی بەرنامەی ئێوارە",
-    fbToFeedback: "ناردنی ڕا",
-    fbClosedTitle: "سوپاس بۆ بەشداریتان",
-    fbClosedBody: "ئێوارەی خاوەن پرۆژەکان تەواو بوو. بۆ هەر پرسیارێک پەیوەندیمان پێوە بکەن.",
-    fbWaTitle: "نزیکەی تەواوە",
-    fbWaBody: "واتساپ دەبێت کرابێتەوە — لەوێ دوگمەی ناردن دابگرە. ئەگەر نەکرایەوە، ئەم دوگمەیە دابگرە:",
+    fbSend: "ناردنی ڕاوبۆچوون",
+    fbSending: "لە ناردندایە…",
+    fbNeedRating: "تکایە سەرەتا هەڵسەنگاندنێک هەڵبژێرن.",
+    fbThanksTitle: "سوپاس بۆ ڕا و پێشنیارەکانتان",
+    fbThanksBody: "ڕاوبۆچوونەکەتان بە سەرکەوتوویی گەیشت. لە زووترین کاتدا پەیوەندیتان پێوە دەکەین.",
+    fbQueued: "هێڵی ئینتەرنێت نییە — زانیارییەکانت تۆمار کران و خۆکارانە دەنێردرێن لە کاتی بەردەستبووندا.",
+    fbBackToProgramme: "گەڕانەوە بۆ بەرنامەی ئێوارە",
+    fbToFeedback: "دەربڕینی ڕاوبۆچوون",
+    fbClosedTitle: "سوپاس بۆ ئامادەبوون و بەشداریتان",
+    fbClosedBody: "بەرنامەی دیداری خاوەن پڕۆژەکان کۆتایی هات. هەمیشە دەتوانن بۆ هەر پرسیارێک پەیوەندیمان پێوە بکەن.",
+    fbWaTitle: "هەنگاوی کۆتایی",
+    fbWaBody: "ئەپی واتساپ دەکرێتەوە — تکایە لەوێ دوگمەی ناردن (Send) دابگرن. ئەگەر خۆکارانە نەکرایەوە، ئەم دوگمەیەی خوارەوە دابگرن:",
     fbWaBtn: "کردنەوەی واتساپ",
-    fbWaBack: "گەڕانەوە بۆ فۆرمەکە"
+    fbWaBack: "گەڕانەوە بۆ فۆڕمی ڕاپرسی"
   },
   en: {
     dir: "ltr", htmlLang: "en", other: "کوردی", otherShort: "KU",
