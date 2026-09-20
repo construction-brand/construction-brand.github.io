@@ -181,7 +181,7 @@ def make_og(lockup):
     d.text((x, 196), "Project Owners", font=font(74, True), fill=WHITE)
     d.text((x, 282), "Evening", font=font(74, True), fill=WHITE)
     d.text((x, 400), "Grand Millennium Sulaimani", font=font(34), fill=(157, 182, 194))
-    d.text((x, 446), "Monday 21 September 2026  ·  16:30", font=font(34), fill=(157, 182, 194))
+    d.text((x, 446), "Monday 21 September 2026  ·  17:45", font=font(34), fill=(157, 182, 194))
 
     # truss along the bottom, off the logo
     ty, th, step = H - 40, 22, 60

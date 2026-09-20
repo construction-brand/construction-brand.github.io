@@ -15,7 +15,7 @@ Drop it on GitHub Pages and it runs.
 |---|---|
 | **کوردی / English** | Full Sorani + English, proper RTL. Kurdish is the default; the choice is remembered. |
 | **Live running order** | Highlights whatever is happening right now, dims what has finished, marks what is next. Updates every second. |
-| **Countdown** | Before doors open, the header counts down to 16:30. |
+| **Countdown** | Before the evening starts, the header counts down to 17:45. |
 | **Progress meter** | Shows how far through the evening you are. |
 | **Add to calendar** | Generates a real `.ics` file in the browser. |
 | **Directions** | One tap to the venue in Google Maps. |
@@ -141,7 +141,7 @@ a file generated in the browser and downloaded lands in *Files* on an iPhone
 and never opens Calendar or Contacts; a real URL does.
 
 **If the event's start or end time changes**, edit `DTSTART` / `DTEND` in
-`assets/event.ics` (they are UTC: 16:30 Baghdad = `133000Z`). The programme
+`assets/event.ics` (they are UTC: 17:45 Baghdad = `144500Z`). The programme
 itself is unaffected — this file only carries the overall span.
 
 ---
@@ -235,8 +235,8 @@ the clock.
 
 | When a guest scans | What they get |
 |---|---|
-| Any time before **21:15** | The programme |
-| **21:15 → 21:30** (last 15 min) and for 7 days after | The feedback form |
+| Any time before **19:45** | The programme |
+| **19:45 → 20:00** (last 15 min of dinner) and for 7 days after | The feedback form |
 | More than 7 days after | A short thank-you and your contact details |
 
 Both boundaries are set in `data/event.js`:
@@ -256,7 +256,7 @@ feedback: {
 - **Works with no internet.** The service worker has the page cached, and the
   clock runs on the phone. The switch does not need the network at all.
 - **Catches open tabs.** The clock is checked every second, so a page someone
-  left open at 17:00 turns into the feedback form by itself at 21:15.
+  left open at 18:00 turns into the feedback form by itself at 19:45.
 - **Answers survive a language switch.** Selections are stored by stable key,
   not by the visible Kurdish/English text.
 - **Nothing is lost, and nothing is faked.** Every answer is written to an
@@ -270,7 +270,7 @@ feedback: {
   in-page toggle that does not change the URL, and a "Give feedback" button
   appears on the programme once the window is open.
 - **Clocks are printed in Baghdad time**, never the phone's, so a handset on
-  the wrong timezone still shows `16:30 – 21:30`.
+  the wrong timezone still shows `17:45 – 20:00`.
 
 ### The manual override
 
@@ -320,7 +320,7 @@ The guest has to press send, so it is a fallback, not the plan.
 ## Before the event — checklist
 
 - [ ] Confirm the final running order and put it in `data/event.js`
-- [ ] Confirm the date, and that doors really open at 16:30
+- [ ] Confirm the speaker names' spelling and that the evening really starts at 17:45
 - [ ] Drop the official logo in at `assets/img/logo.png`
 - [ ] Create the Google Form and paste the form ID + six entry IDs
 - [ ] **Send a test response and confirm it lands in the sheet**

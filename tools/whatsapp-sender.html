@@ -162,12 +162,12 @@ Sara Ali	+964 771 234 5678
     "سڵاو {name} 👋\n" +
     "بەخێربێیت بۆ ئێوارەی خاوەن پرۆژەکان — Construction Brand\n" +
     "📍 هۆتێلی گراند میلینیۆم، سلێمانی\n" +
-    "🗓 دووشەممە ٢١ی ئەیلول — دەرگا دەکرێتەوە ٤:٣٠ی ئێوارە\n" +
+    "🗓 دووشەممە ٢١ی ئەیلول — دەستپێکردن ٥:٤٥ی ئێوارە\n" +
     "بەرنامەی ئێوارە لێرەیە:\n" +
     "https://construction-brand.github.io/\n\n" +
     "Hello {name}, welcome to the Project Owners Evening by Construction Brand.\n" +
     "📍 Grand Millennium Sulaimani\n" +
-    "🗓 Monday 21 September — doors open 16:30\n" +
+    "🗓 Monday 21 September — starts 17:45\n" +
     "Tonight's programme: https://construction-brand.github.io/";
 
   function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
@@ -207,7 +207,11 @@ Sara Ali	+964 771 234 5678
   var people = [], filter = "pending";
   try { people = JSON.parse(get(KEY_LIST) || "[]"); } catch (e) { people = []; }
   $("raw").value = get(KEY_RAW) || "";
-  $("msg").value = get(KEY_MSG) || DEFAULT_MSG;
+  var savedMsg = get(KEY_MSG);
+  /* a template saved on this phone before the running order was confirmed
+     still says 4:30 - replace it rather than send the wrong time */
+  if (savedMsg && /٤:٣٠|16:30/.test(savedMsg)) { savedMsg = null; set(KEY_MSG, DEFAULT_MSG); }
+  $("msg").value = savedMsg || DEFAULT_MSG;
   try { var r = JSON.parse(get(KEY_RANGE) || "{}"); if (r.from) { $("from").value = r.from; } if (r.to) { $("to").value = r.to; } } catch (e) {}
 
   function firstName(p) { return (p.name || "").split(/\s+/)[0] || ""; }

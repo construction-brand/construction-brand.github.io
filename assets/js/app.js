@@ -36,8 +36,8 @@
   function at(hhmm) { return new Date(E.date + "T" + hhmm + ":00" + E.tz); }
 
   /* Clocks are printed in the EVENT's timezone, never the phone's. A handset
-     left on the wrong zone must not render the evening as "16:30 – 20:30"
-     next to a 21:30 printed on the invitation. */
+     left on the wrong zone must not render the evening an hour away from
+     what is printed on the invitation. */
   var TZ_MIN = (function () {
     var m = /^([+-])(\d{2}):(\d{2})$/.exec(E.tz || "+00:00");
     if (!m) { return 0; }
@@ -100,7 +100,7 @@
       node.appendChild(p);
     });
   }
-  /* "16:30 – 21:30", always read left-to-right whatever the page direction */
+  /* "17:45 – 20:00", always read left-to-right whatever the page direction */
   function fullSpan() { return bdi(E.schedule[0].t + " – " + clockOf(evEnd), "ltr"); }
 
   /* ---- element refs ----------------------------------------------------- */
@@ -678,7 +678,7 @@
     var now = new Date();
 
     /* Re-checked every second, so a page left open on a table swaps itself
-       over to the feedback form at 21:15 with nobody touching it. */
+       over to the feedback form at the right minute with nobody touching it. */
     applyView(resolveView(now));
 
     /* Once the window is open there is always a way back INTO the form, so

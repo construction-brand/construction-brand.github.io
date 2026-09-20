@@ -46,63 +46,39 @@ window.EVENT = {
      kind  = "" | "break" | "demo" | "key"   (controls the icon + tint)
      tags  = product codes shown as chips (optional)
      ----------------------------------------------------------------------- */
+  /* The confirmed running order (from the client's sheet, 20 Sep). Dinner has
+     no end time on the sheet; 60 min is assumed so the evening has an end,
+     which is what the feedback switch counts back from. */
   schedule: [
     {
-      t: "16:30", mins: 30, kind: "break",
-      title: { ku: "تۆمارکردن و پێشوازی بە قاوە", en: "Registration & welcome coffee" },
-      note:  { ku: "وەرگرتنی نیشانەی ناو و پاکێجی زانیاری", en: "Collect your badge and information pack" }
+      t: "17:45", mins: 5,
+      title: { ku: "بەخێرهاتن", en: "Welcome" }
     },
     {
-      t: "17:00", mins: 20, kind: "key",
-      title: { ku: "کردنەوەی ئێوارە", en: "Opening & welcome" },
-      note:  { ku: "وتەی بەڕێوەبەرایەتی Construction Brand", en: "Opening words from Construction Brand management" }
+      t: "17:50", mins: 5, kind: "key",
+      title: { ku: "وتەی بەڕێز Eng. Selim Gul", en: "Address by Eng. Selim Gul" },
+      note:  { ku: "خاوەنی کۆمپانیای مۆمێنتەم", en: "Owner of the Momentum company" }
     },
     {
-      t: "17:20", mins: 25,
-      title: { ku: "Construction Brand کێیە؟", en: "Who we are" },
-      note:  { ku: "تۆڕی دابەشکردن و خزمەتگوزاری لە هەرێمی کوردستان", en: "Our distribution and service network across Kurdistan" }
+      t: "17:55", mins: 35,
+      title: { ku: "ناساندنی بەرهەمەکانی کۆمپانیای مۆمێنتەم", en: "Introducing Momentum's products" },
+      note:  { ku: "لەلایەن بەڕێز ئەندازیار زوبێد محمد — نوێنەری کۆمپانیای مۆمێنتەم",
+               en: "By Eng. Zubaid Mohammed, Momentum's representative" }
     },
     {
-      t: "17:45", mins: 25,
-      title: { ku: "Kalekim — سیستەمی دژە ئاو و کاشی", en: "Kalekim — waterproofing & tile systems" },
-      note:  { ku: "چارەسەر بۆ ڕووکارە گەورەکان و ژێرزەمین", en: "Solutions for large surfaces and below-grade structures" },
-      tags:  ["Kalekim 1411", "4507 B-TONE"]
+      t: "18:30", mins: 20,
+      title: { ku: "شێوازی بەکارهێنانی مۆمێنتەم و هەڵسەنگاندنی ئیشکردن",
+               en: "How Momentum products are applied, and how they perform" },
+      note:  { ku: "لەلایەن ئەندازیار بەهمەن ڕەئوف شوان — بەرپرسیاری کۆنستراکشن براند",
+               en: "By Eng. Bahman Raouf Shwan, Construction Brand" }
     },
     {
-      t: "18:10", mins: 20, kind: "break",
-      title: { ku: "پشوو و ناسیاری", en: "Break & networking" },
-      note:  { ku: "چا، قاوە و شیرینی", en: "Tea, coffee and refreshments" }
+      t: "18:50", mins: 10,
+      title: { ku: "پرسیار و وەڵام", en: "Q&A" }
     },
     {
-      t: "18:30", mins: 25,
-      title: { ku: "Momentum — سیستەمی ئیزۆلەی گەرمی", en: "Momentum — thermal insulation systems" },
-      note:  { ku: "کەمکردنەوەی خەرجی وزە لە پرۆژە گەورەکاندا", en: "Cutting energy cost on large-scale projects" },
-      tags:  ["Momentum FN-50"]
-    },
-    {
-      t: "18:55", mins: 25,
-      title: { ku: "Kale — بۆیەی ڕووکار و ناوەوە", en: "Kale — façade & interior paint" },
-      note:  { ku: "ڕەنگ و پاراستنی درێژخایەن بۆ ڕووکاری بینا", en: "Colour and long-term protection for building façades" },
-      tags:  ["Silikonatex", "Performa"]
-    },
-    {
-      t: "19:20", mins: 25, kind: "demo",
-      title: { ku: "پیشاندانی ڕاستەوخۆی بەرهەم", en: "Live product demonstration" },
-      note:  { ku: "مێزی تاقیکردنەوە — بەردەستە بۆ هەموو میوانێک", en: "Hands-on test table, open to every guest" }
-    },
-    {
-      t: "19:45", mins: 25,
-      title: { ku: "پرسیار و وەڵام", en: "Q&A with project owners" },
-      note:  { ku: "لەگەڵ تیمی تەکنیکی و بەڕێوەبەرایەتی", en: "With our technical and management team" }
-    },
-    {
-      t: "20:10", mins: 20, kind: "key",
-      title: { ku: "هاوبەشی و وەکالەت", en: "Partnership & dealership" },
-      note:  { ku: "داواکاری وەکیل لە شارەکانی هەرێمی کوردستان", en: "Dealership openings across the Kurdistan Region" }
-    },
-    {
-      t: "20:30", mins: 60, kind: "break",
-      title: { ku: "نانی ئێوارە و ناسیاری", en: "Dinner & networking" },
+      t: "19:00", mins: 60, kind: "break",
+      title: { ku: "نان خواردن + مۆسیقای زیندوو", en: "Dinner + live music" },
       note:  { ku: "بەخێربێن — ئێوارەتان خۆش", en: "Please join us. Enjoy your evening" }
     }
   ],
@@ -133,8 +109,8 @@ window.EVENT = {
      form at the end. Nothing is reprinted — the page decides which view to
      show from the clock.
 
-       opensBeforeEndMins: 15   ->  feedback appears 15 min before 21:30,
-                                    i.e. from 21:15 on the night
+       opensBeforeEndMins: 15   ->  feedback appears 15 min before the last
+                                    item ends (dinner to 20:00 -> from 19:45)
        closesAfterDays:    7    ->  anyone scanning within a week still gets
                                     the form; after that, a thank-you page
 

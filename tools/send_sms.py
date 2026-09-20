@@ -45,7 +45,7 @@ MSG_FILE = os.path.join(ROOT, "tools", "sms-message.txt")
 # already carries the brand name; repeating it cost a whole segment.
 DEFAULT_MSG = (
     "سڵاو {name}، بەخێربێیت بۆ ئێوارەی خاوەن پرۆژەکان. "
-    "گراند میلینیۆم، دووشەممە ٤:٣٠. بەرنامە: https://construction-brand.github.io/"
+    "گراند میلینیۆم، دووشەممە ٥:٤٥. بەرنامە: https://construction-brand.github.io/"
 )
 
 GSM7 = set("@£$¥èéùìòÇ\nØø\rÅåΔ_ΦΓΛΩΠΨΣΘΞ\x1bÆæßÉ !\"#¤%&'()*+,-./0123456789:;<=>?"

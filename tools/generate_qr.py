@@ -363,7 +363,7 @@ def table_tent(framed_img, url, path):
     centre(d, y + 84, short, f_url, TEAL, W)
 
     d.line([(W * 0.22, y + 176), (W * 0.78, y + 176)], fill=PAPER, width=5)
-    centre(d, y + 208, "Grand Millennium Sulaimani  ·  Monday 21 September, 16:30", f_small, GREY, W)
+    centre(d, y + 208, "Grand Millennium Sulaimani  ·  Monday 21 September, 17:45", f_small, GREY, W)
     centre(d, y + 256, "0770 307 5050  -  0770 308 5050", f_small, GREY, W)
 
     card.save(path, "PNG", optimize=True)
