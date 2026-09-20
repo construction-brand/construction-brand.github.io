@@ -150,8 +150,8 @@
     $("langBtn").setAttribute("aria-label", L.other);
     $("themeBtn").setAttribute("aria-label", L.themeLabel);
 
-    $("heroHi").textContent = L.welcome;
-    $("evTitle").textContent = t(E.title);
+    $("heroHi").textContent  = L.welcome;
+    $("heroSub").textContent = L.heroSub;
 
     $("mVenue").textContent   = t(E.venue.name) + " · " + t(E.venue.city);
     $("mDate").textContent    = t(E.dateLabel);
@@ -243,33 +243,6 @@
       it.state = stateSlot;
       it.tags  = tags;
       it.hasKind = !!KIND;
-    });
-  }
-
-  function renderPartners() {
-    var ul = $("partners");
-    ul.textContent = "";
-    E.partners.forEach(function (p) {
-      var li = el("li", "partner");
-      var head = el("span", "partner__head");
-      if (p.logo) {
-        var img = document.createElement("img");
-        img.className = "partner__logo";
-        img.alt = p.name;
-        img.src = p.logo;
-        if (p.fallback) {
-          img.onerror = function () { img.onerror = null; img.src = p.fallback; };
-        }
-        head.appendChild(img);
-      }
-      var nm = el("span", "partner__name");
-      var b = document.createElement("bdi");
-      b.textContent = p.name;
-      nm.appendChild(b);
-      head.appendChild(nm);
-      li.appendChild(head);
-      li.appendChild(el("span", "partner__note", t(p.note)));
-      ul.appendChild(li);
     });
   }
 
@@ -869,7 +842,6 @@
   applyTheme();
   renderChrome();
   renderProgramme();
-  renderPartners();
   renderContact();
   renderFeedback();
   tick();
@@ -881,7 +853,6 @@
     set("cb.lang", lang);
     renderChrome();
     renderProgramme();
-    renderPartners();
     renderContact();
     renderFeedback();
     viewNow = null;                      // force the view text to re-render

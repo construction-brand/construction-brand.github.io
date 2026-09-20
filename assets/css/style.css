@@ -852,27 +852,7 @@ html[dir="rtl"] .arow.is-now td:first-child { box-shadow: inset -3px 0 0 var(--n
 }
 
 
-/* ---- 7. PARTNERS -------------------------------------------------------- */
-
-.partners { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: var(--r-md); overflow: hidden; }
-.partner {
-  background: var(--surface);
-  padding: 13px 15px;
-  display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap;
-}
-.partner__head { display: inline-flex; align-items: center; gap: 12px; min-width: 0; }
-.partner__logo { height: 30px; width: auto; max-width: 140px; object-fit: contain; flex: none; }
-.partner__name {
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: 16px;
-  letter-spacing: .01em;
-  color: var(--text);
-}
-.partner__note { font-size: 13px; color: var(--text-2); }
-
-
-/* ---- 8. CONTACT --------------------------------------------------------- */
+/* ---- 7. CONTACT --------------------------------------------------------- */
 
 .contact { display: grid; gap: 9px; }
 

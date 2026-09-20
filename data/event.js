@@ -27,11 +27,6 @@ window.EVENT = {
     ku: "کۆبوونەوەی خاوەن پرۆژەکان",
     en: "Project Owners Evening"
   },
-  tagline: {
-    ku: "ئێوارەیەکی تەکنیکی لەگەڵ Construction Brand — سیستەمە نوێیەکانی بیناسازی، ڕاستەوخۆ لە بەرچاوت.",
-    en: "A technical evening with Construction Brand — the newest building systems, demonstrated live."
-  },
-
   /* -- Where --------------------------------------------------------------- */
   venue: {
     name:  { ku: "هۆتێلی گراند میلینیۆم", en: "Grand Millennium" },
@@ -81,18 +76,6 @@ window.EVENT = {
       title: { ku: "نان خواردن + مۆسیقای زیندوو", en: "Dinner + live music" },
       note:  { ku: "بەخێربێن — ئێوارەتان خۆش", en: "Please join us. Enjoy your evening" }
     }
-  ],
-
-  /* -- Brands on show ---------------------------------------------------------
-     `logo` is picked up automatically once the file exists; `fallback` is the
-     SVG stand-in shown until then. */
-  partners: [
-    { name: "Construction Brand", logo: "assets/img/logo.png", fallback: "assets/img/logo.svg",
-      note: { ku: "دابەشکەری فەرمی — سلێمانی", en: "Official distributor — Sulaimani" } },
-    { name: "Momentum", logo: "assets/img/momentum.png", fallback: "assets/img/momentum.svg",
-      note: { ku: "کیمیاوی و کەرەستەی بیناسازی", en: "Chemical & construction materials" } },
-    { name: "Pany", logo: "assets/img/pany.png", fallback: "assets/img/pany.svg",
-      note: { ku: "چارەسەری بیناسازی", en: "Construction Solutions" } }
   ],
 
   /* -- Contact -------------------------------------------------------------- */
@@ -172,17 +155,14 @@ window.EVENT = {
 window.UI = {
   ku: {
     dir: "rtl", htmlLang: "ckb", other: "English", otherShort: "EN",
-    eyebrow: "بەرنامەی ئێوارە",
     welcome: "بەخێربێن",
-    tbLocation: "شوێن", tbDate: "ڕێکەوت", tbDoors: "دەرگا دەکرێتەوە", tbRef: "ژمارە",
+    heroSub: "ئەمە بەرنامەی ئەمشەوەیە",
     untilDoors: "ماوە بۆ دەستپێکردن",
     liveNow: "ئێستا", upNext: "دواتر", finished: "بەرنامە تەواو بوو",
     thanks: "سوپاس بۆ بەشداریتان",
     progress: "بەرەوپێشچوونی ئێوارە",
     programme: "بەرنامە", totalDur: "کۆی کات",
     colTime: "کات", colItem: "بڕگە", colDur: "ماوە",
-    addCal: "زیادکردن بۆ ڕۆژژمێر", directions: "ڕێنمایی شوێن",
-    partners: "براندەکانی ئەم ئێوارەیە",
     contactTitle: "پەیوەندی", saveContact: "پاشەکەوتکردنی ژمارە",
     whatsapp: "واتساپ", instagram: "ئینستاگرام", address: "ناونیشان",
     mins: "خولەک", hrs: "کاتژمێر", days: "ڕۆژ",
@@ -218,17 +198,14 @@ window.UI = {
   },
   en: {
     dir: "ltr", htmlLang: "en", other: "کوردی", otherShort: "KU",
-    eyebrow: "Evening Programme",
     welcome: "Welcome",
-    tbLocation: "Location", tbDate: "Date", tbDoors: "Doors", tbRef: "Ref",
+    heroSub: "This is tonight's programme",
     untilDoors: "Doors open in",
     liveNow: "Happening now", upNext: "Up next", finished: "Programme complete",
     thanks: "Thank you for joining us",
     progress: "Evening progress",
     programme: "Agenda", totalDur: "Total",
     colTime: "Time", colItem: "Item", colDur: "Duration",
-    addCal: "Add to calendar", directions: "Directions",
-    partners: "Brands on show tonight",
     contactTitle: "Contact", saveContact: "Save our number",
     whatsapp: "WhatsApp", instagram: "Instagram", address: "Address",
     mins: "min", hrs: "hr", days: "d",
