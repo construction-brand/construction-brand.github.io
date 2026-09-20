@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Invite Sender</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%231C3547'/%3E%3Cpath d='M20 44 40 24M40 24h-9m9 0v9' fill='none' stroke='%232E8A9B' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --navy: #1C3547; --navy-deep: #13262F; --teal: #2E8A9B; --teal-ink: #1F6D7E;
+    --ground: #F4F7F8; --surface: #fff; --rule: #D6E0E4; --rule-strong: #B9C8CE;
+    --text: #14262F; --text-2: #4C6875; --text-3: #5E7783;
+    --ok: #1F7A4D; --ok-soft: #E3F3EA; --warn: #945C05; --warn-soft: #FBEFD8;
+    --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--navy); }
+  body {
+    margin: 0; font: 16px/1.55 "Segoe UI", system-ui, Tahoma, sans-serif; color: var(--text);
+    background: var(--ground); -webkit-tap-highlight-color: transparent;
+  }
+  .wrap { max-width: 720px; margin-inline: auto; padding: 0 16px 60px; }
+
+  header { background: var(--navy); color: #fff; }
+  header .wrap { padding-block: 18px 22px; }
+  header h1 { margin: 0; font-size: 22px; letter-spacing: -.01em; }
+  header p { margin: 6px 0 0; color: #9DB6C2; font-size: 14px; max-width: 56ch; }
+  .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: #6FB3C4; margin: 0 0 6px; }
+
+  section { margin-top: 26px; }
+  h2 { font-size: 15px; letter-spacing: .04em; text-transform: uppercase; margin: 0 0 10px; padding-bottom: 8px; border-bottom: 2px solid var(--text); display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  h2 small { font-family: var(--mono); font-size: 11px; color: var(--text-3); letter-spacing: .08em; text-transform: none; }
+
+  textarea, input[type=number], input[type=text] {
+    width: 100%; font: inherit; font-size: 16px; color: var(--text); background: var(--surface);
+    border: 1px solid var(--rule-strong); border-radius: 8px; padding: 11px 13px; -webkit-appearance: none;
+  }
+  textarea { min-height: 120px; resize: vertical; }
+  textarea.mono { font-family: var(--mono); font-size: 14px; }
+  label { display: block; font-size: 13.5px; font-weight: 600; margin: 12px 0 6px; }
+  .hint { font-size: 13px; color: var(--text-3); margin: 6px 0 0; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 10px 18px;
+    border-radius: 8px; border: 1px solid var(--rule-strong); background: var(--surface); color: var(--text);
+    font: inherit; font-weight: 600; font-size: 15px; text-decoration: none; cursor: pointer; touch-action: manipulation; user-select: none;
+  }
+  .btn:active { background: var(--ground); }
+  .btn--primary { background: var(--teal); border-color: var(--teal); color: #fff; }
+  .btn--primary:active { background: var(--teal-ink); }
+  .btn--big { width: 100%; min-height: 64px; font-size: 18px; margin-top: 14px; }
+  .btn[disabled] { opacity: .5; pointer-events: none; }
+  .row-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .row-actions .btn { flex: 1 1 150px; }
+
+  .stat { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+  .stat div { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px; }
+  .stat b { display: block; font-size: 22px; font-family: var(--mono); }
+  .stat span { font-size: 12px; color: var(--text-3); text-transform: uppercase; letter-spacing: .08em; }
+  .meter { height: 8px; background: #E4EBEE; border-radius: 999px; overflow: hidden; margin-top: 12px; }
+  .meter i { display: block; height: 100%; width: 0; background: var(--teal); transition: width .4s; }
+
+  .preview { background: #E7F5DC; border: 1px solid #C9E4B6; border-radius: 12px; padding: 12px 14px; white-space: pre-wrap; font-size: 15px; margin-top: 10px; }
+  .range { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+  .tabs { display: flex; gap: 6px; margin: 14px 0 10px; }
+  .tab { flex: 1; min-height: 40px; border: 1px solid var(--rule-strong); background: var(--surface); border-radius: 999px; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .tab[aria-selected=true] { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+  ul.list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  li.p { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 10px; align-items: center; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 10px 12px; }
+  li.p.sent { background: var(--ok-soft); border-color: #BFE3CD; }
+  li.p .name { font-weight: 600; overflow-wrap: anywhere; }
+  li.p .num { font-family: var(--mono); font-size: 13px; color: var(--text-2); }
+  li.p .num bdi { unicode-bidi: isolate; }
+  li.p .when { font-size: 12px; color: var(--ok); }
+  li.p .go { min-height: 44px; padding: 8px 14px; }
+  li.p .undo { background: none; border: 0; color: var(--text-3); font: inherit; font-size: 12px; text-decoration: underline; cursor: pointer; padding: 6px 0 0; }
+
+  .bad { background: var(--warn-soft); border: 1px solid #F0D9A8; color: var(--warn); border-radius: 8px; padding: 10px 12px; font-size: 13.5px; margin-top: 10px; white-space: pre-wrap; font-family: var(--mono); }
+  .note { background: var(--surface); border-inline-start: 3px solid var(--teal); padding: 10px 14px; font-size: 14px; color: var(--text-2); margin-top: 14px; border-radius: 0 8px 8px 0; }
+  .note b { color: var(--text); }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="eyebrow">Construction Brand · staff tool</p>
+    <h1>Invite Sender</h1>
+    <p>Sends a personalised WhatsApp message to each invitee from <b>your own</b> WhatsApp. One tap opens the chat with the message typed; you press Send. Nothing here is uploaded anywhere — the list lives only in this browser.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section>
+    <h2>1 · The list <small id="parsedCount"></small></h2>
+    <label for="raw">Paste names and numbers, one person per line</label>
+    <textarea id="raw" class="mono" placeholder="Ahmed Karim, 0770 123 4567
+Sara Ali	+964 771 234 5678
+07721234567"></textarea>
+    <p class="hint">Any format works: <code>name, number</code> · <code>number</code> alone · tab-separated from Excel. Iraqi numbers are converted to +964. Duplicates are removed.</p>
+    <div class="row-actions">
+      <button type="button" class="btn btn--primary" id="loadBtn">Load list</button>
+      <button type="button" class="btn" id="clearBtn">Clear everything</button>
+    </div>
+    <div class="bad" id="badLines" hidden></div>
+  </section>
+
+  <section>
+    <h2>2 · The message</h2>
+    <label for="msg">Template — <code>{name}</code> becomes the person's name</label>
+    <textarea id="msg" dir="auto"></textarea>
+    <p class="hint">Keep the person's name and some real text in it. A bare link sent to many strangers is what gets a WhatsApp account flagged.</p>
+    <label>Preview</label>
+    <div class="preview" id="preview" dir="auto">—</div>
+  </section>
+
+  <section>
+    <h2>3 · Send <small id="rangeLabel"></small></h2>
+    <div class="range">
+      <div><label for="from">From row</label><input type="number" id="from" min="1" value="1"></div>
+      <div><label for="to">To row</label><input type="number" id="to" min="1" value="9999"></div>
+    </div>
+    <p class="hint">Splitting the list between staff? Give each phone a different row range.</p>
+
+    <div class="stat">
+      <div><b id="sTotal">0</b><span>in range</span></div>
+      <div><b id="sSent">0</b><span>sent</span></div>
+      <div><b id="sLeft">0</b><span>left</span></div>
+    </div>
+    <div class="meter"><i id="meterFill"></i></div>
+
+    <a class="btn btn--primary btn--big" id="nextBtn" href="#" target="_blank" rel="noopener">Send next</a>
+    <p class="hint" id="nextWho"></p>
+
+    <div class="note"><b>Pace it.</b> WhatsApp does not publish limits, but many identical messages to people who have not saved your number can trigger a temporary block. Use the WhatsApp <b>Business</b> account, keep the name in the message, and stay around <b>one a minute</b> — a hundred people is well under two hours, or split the list across three phones.</div>
+
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" data-f="pending">Pending</button>
+      <button class="tab" role="tab" aria-selected="false" data-f="sent">Sent</button>
+      <button class="tab" role="tab" aria-selected="false" data-f="all">All</button>
+    </div>
+    <ul class="list" id="list"></ul>
+
+    <div class="row-actions">
+      <button type="button" class="btn" id="exportBtn">Export status (CSV)</button>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var KEY_LIST = "cb.wa.list", KEY_MSG = "cb.wa.msg", KEY_RAW = "cb.wa.raw", KEY_RANGE = "cb.wa.range";
+
+  var DEFAULT_MSG =
+    "سڵاو {name} 👋\n" +
+    "بەخێربێیت بۆ ئێوارەی خاوەن پرۆژەکان — Construction Brand\n" +
+    "📍 هۆتێلی گراند میلینیۆم، سلێمانی\n" +
+    "🗓 دووشەممە ٢١ی ئەیلول — دەرگا دەکرێتەوە ٤:٣٠ی ئێوارە\n" +
+    "بەرنامەی ئێوارە لێرەیە:\n" +
+    "https://construction-brand.github.io/\n\n" +
+    "Hello {name}, welcome to the Project Owners Evening by Construction Brand.\n" +
+    "📍 Grand Millennium Sulaimani\n" +
+    "🗓 Monday 21 September — doors open 16:30\n" +
+    "Tonight's programme: https://construction-brand.github.io/";
+
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+  /* ---- Iraqi mobile normalisation -------------------------------------
+     07XX XXX XXXX · +964 7XX … · 00964 … · 964 … · 7XX XXX XXXX
+     All become 9647XXXXXXXXX (13 digits) for wa.me. */
+  function normalize(raw) {
+    var d = String(raw).replace(/[^\d+]/g, "");
+    if (d.charAt(0) === "+") { d = d.slice(1); }
+    if (d.indexOf("00") === 0) { d = d.slice(2); }
+    if (d.indexOf("964") === 0) { /* already international */ }
+    else if (d.charAt(0) === "0") { d = "964" + d.slice(1); }
+    else if (/^7\d{9}$/.test(d)) { d = "964" + d; }
+    return /^9647\d{9}$/.test(d) ? d : null;
+  }
+  function pretty(n) { return "+" + n.slice(0, 3) + " " + n.slice(3, 6) + " " + n.slice(6, 9) + " " + n.slice(9); }
+
+  function parse(text) {
+    var people = [], bad = [], seen = {};
+    text.split(/\r?\n/).forEach(function (line, i) {
+      var s = line.trim();
+      if (!s) { return; }
+      var m = s.match(/(\+?\d[\d\s\-().]{7,}\d)/);
+      var num = m ? normalize(m[1]) : null;
+      if (!num) { bad.push("line " + (i + 1) + ": " + s); return; }
+      if (seen[num]) { return; }
+      seen[num] = true;
+      var name = s.replace(m[1], "").replace(/^[\s,;\t|:-]+|[\s,;\t|:-]+$/g, "").replace(/\s{2,}/g, " ").trim();
+      people.push({ name: name, num: num, sent: null });
+    });
+    return { people: people, bad: bad };
+  }
+
+  /* ---- state ---------------------------------------------------------- */
+  var people = [], filter = "pending";
+  try { people = JSON.parse(get(KEY_LIST) || "[]"); } catch (e) { people = []; }
+  $("raw").value = get(KEY_RAW) || "";
+  $("msg").value = get(KEY_MSG) || DEFAULT_MSG;
+  try { var r = JSON.parse(get(KEY_RANGE) || "{}"); if (r.from) { $("from").value = r.from; } if (r.to) { $("to").value = r.to; } } catch (e) {}
+
+  function firstName(p) { return (p.name || "").split(/\s+/)[0] || ""; }
+  function message(p) {
+    var name = firstName(p);
+    var out = $("msg").value.replace(/\{name\}/g, name);
+    /* no name on that line: tidy the doubled space it leaves behind */
+    if (!name) { out = out.replace(/[ \t]{2,}/g, " ").replace(/ +(?=[\n,،])/g, ""); }
+    return out;
+  }
+  function waUrl(p) { return "https://wa.me/" + p.num + "?text=" + encodeURIComponent(message(p)); }
+
+  function range() {
+    var from = Math.max(1, parseInt($("from").value, 10) || 1);
+    var to = Math.max(from, parseInt($("to").value, 10) || 9999);
+    return { from: from, to: to };
+  }
+  function inRange(i) { var r = range(); return i + 1 >= r.from && i + 1 <= r.to; }
+
+  function save() { set(KEY_LIST, JSON.stringify(people)); }
+
+  /* ---- render --------------------------------------------------------- */
+  function render() {
+    var r = range();
+    set(KEY_RANGE, JSON.stringify(r));
+    $("rangeLabel").textContent = people.length ? "rows " + r.from + "–" + Math.min(r.to, people.length) + " of " + people.length : "";
+
+    var scoped = people.map(function (p, i) { return { p: p, i: i }; }).filter(function (x) { return inRange(x.i); });
+    var sent = scoped.filter(function (x) { return x.p.sent; }).length;
+    $("sTotal").textContent = scoped.length;
+    $("sSent").textContent = sent;
+    $("sLeft").textContent = scoped.length - sent;
+    $("meterFill").style.width = scoped.length ? (100 * sent / scoped.length).toFixed(1) + "%" : "0%";
+
+    var next = scoped.filter(function (x) { return !x.p.sent; })[0];
+    var nb = $("nextBtn");
+    if (next) {
+      nb.href = waUrl(next.p);
+      nb.textContent = "Send next → " + (next.p.name || pretty(next.p.num));
+      nb.removeAttribute("disabled");
+      nb.dataset.i = next.i;
+      $("nextWho").textContent = "Opens WhatsApp for " + pretty(next.p.num) + ". Press Send there, then come back and tap again.";
+    } else {
+      nb.href = "#"; nb.textContent = scoped.length ? "All sent in this range ✓" : "Load a list first";
+      nb.setAttribute("disabled", ""); delete nb.dataset.i;
+      $("nextWho").textContent = "";
+    }
+
+    $("preview").textContent = people.length ? message(people[0]) : $("msg").value.replace(/\{name\}/g, "Ahmed");
+
+    var ul = $("list"); ul.textContent = "";
+    scoped.forEach(function (x) {
+      var p = x.p;
+      if (filter === "pending" && p.sent) { return; }
+      if (filter === "sent" && !p.sent) { return; }
+      var li = document.createElement("li"); li.className = "p" + (p.sent ? " sent" : "");
+      var left = document.createElement("div");
+      var nm = document.createElement("div"); nm.className = "name"; nm.textContent = (x.i + 1) + ". " + (p.name || "—");
+      var num = document.createElement("div"); num.className = "num"; var b = document.createElement("bdi"); b.textContent = pretty(p.num); num.appendChild(b);
+      left.appendChild(nm); left.appendChild(num);
+      if (p.sent) {
+        var w = document.createElement("div"); w.className = "when"; w.textContent = "sent " + new Date(p.sent).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        var u = document.createElement("button"); u.type = "button"; u.className = "undo"; u.textContent = "undo";
+        u.addEventListener("click", function () { p.sent = null; save(); render(); });
+        left.appendChild(w); left.appendChild(u);
+      }
+      var go = document.createElement("a"); go.className = "btn go" + (p.sent ? "" : " btn--primary"); go.href = waUrl(p); go.target = "_blank"; go.rel = "noopener";
+      go.textContent = p.sent ? "Again" : "Send";
+      go.addEventListener("click", function () { mark(x.i); });
+      li.appendChild(left); li.appendChild(go);
+      ul.appendChild(li);
+    });
+  }
+
+  function mark(i) {
+    /* optimistic: the tap opened WhatsApp; "undo" covers a change of mind */
+    setTimeout(function () { people[i].sent = Date.now(); save(); render(); }, 300);
+  }
+
+  /* ---- wiring --------------------------------------------------------- */
+  $("loadBtn").addEventListener("click", function () {
+    var res = parse($("raw").value);
+    set(KEY_RAW, $("raw").value);
+    /* keep sent-status for numbers already in the list */
+    var prev = {}; people.forEach(function (p) { prev[p.num] = p.sent; });
+    res.people.forEach(function (p) { if (prev[p.num]) { p.sent = prev[p.num]; } });
+    people = res.people; save();
+    $("parsedCount").textContent = people.length + " people";
+    $("badLines").hidden = !res.bad.length;
+    $("badLines").textContent = res.bad.length ? "Could not read a valid Iraqi mobile number on:\n" + res.bad.join("\n") : "";
+    render();
+  });
+  $("clearBtn").addEventListener("click", function () {
+    if (!confirm("Remove the list and all sent marks from this browser?")) { return; }
+    people = []; save(); $("raw").value = ""; set(KEY_RAW, ""); $("parsedCount").textContent = ""; $("badLines").hidden = true; render();
+  });
+  $("msg").addEventListener("input", function () { set(KEY_MSG, $("msg").value); render(); });
+  $("from").addEventListener("input", render);
+  $("to").addEventListener("input", render);
+  $("nextBtn").addEventListener("click", function () { if (this.dataset.i != null) { mark(parseInt(this.dataset.i, 10)); } });
+  Array.prototype.forEach.call(document.querySelectorAll(".tab"), function (t) {
+    t.addEventListener("click", function () {
+      filter = t.dataset.f;
+      Array.prototype.forEach.call(document.querySelectorAll(".tab"), function (x) { x.setAttribute("aria-selected", x === t ? "true" : "false"); });
+      render();
+    });
+  });
+  $("exportBtn").addEventListener("click", function () {
+    var rows = [["row", "name", "number", "status", "sent_at"]].concat(people.map(function (p, i) {
+      return [i + 1, p.name, "+" + p.num, p.sent ? "sent" : "pending", p.sent ? new Date(p.sent).toISOString() : ""];
+    }));
+    var csv = rows.map(function (r) { return r.map(function (c) { return '"' + String(c).replace(/"/g, '""') + '"'; }).join(","); }).join("\r\n");
+    var a = document.createElement("a"); a.href = "data:text/csv;charset=utf-8,﻿" + encodeURIComponent(csv); a.download = "invite-status.csv";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  });
+
+  if (people.length) { $("parsedCount").textContent = people.length + " people"; }
+  render();
+})();
+</script>
+</body>
+</html>

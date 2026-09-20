@@ -81,6 +81,32 @@ back to the SVG recreation only if that file is missing.
 
 ---
 
+## Inviting people on WhatsApp
+
+`tools/whatsapp-sender.html` — also served at
+`https://construction-brand.github.io/tools/whatsapp-sender.html` — sends a
+personalised WhatsApp message to each invitee **from your own WhatsApp**.
+Open it on a phone with WhatsApp installed (WhatsApp Business preferably):
+
+1. Paste the list — any format: `name, number`, a bare number, or rows pasted
+   from Excel. Iraqi numbers in any style become +964. Duplicates are dropped.
+2. Check the message. `{name}` becomes the person's first name.
+3. Tap **Send next** — WhatsApp opens with the message typed for that person.
+   Press Send there, come back, tap again. Progress is remembered on the
+   phone; **undo** is next to anyone marked by mistake.
+
+Splitting the list across staff: give each phone a row range (rows 1–60,
+61–120, …).
+
+Nothing is uploaded anywhere — the list lives only in that browser. There is
+no bulk API behind this on purpose: the official WhatsApp Business API needs
+days of verification, and unofficial automation risks a ban on the account you
+need for the event. Sending many identical messages to people who have not
+saved your number can still trigger a temporary block, so keep the name in
+the message and pace it to roughly one a minute.
+
+---
+
 ## Calendar and contact files
 
 "Add to calendar" and "Save our number" are plain links to two static files,
