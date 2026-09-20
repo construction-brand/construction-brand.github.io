@@ -324,8 +324,44 @@ Sara Ali	+964 771 234 5678
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
   });
 
-  if (people.length) { $("parsedCount").textContent = people.length + " people"; }
-  render();
+  /* ---- pre-filled link: #list=<base64url utf-8>[&msg=<base64url>] -------
+     Made by tools/make_invite_link.py. The list travels in the URL FRAGMENT,
+     which browsers never send to the server, so the public site never sees
+     a number - only whoever holds the link does. Opening the link fills the
+     field and loads it; sent-marks already on this phone are kept. */
+  function unb64(s) {
+    s = s.replace(/-/g, "+").replace(/_/g, "/");
+    while (s.length % 4) { s += "="; }
+    var bin = atob(s), bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) { bytes[i] = bin.charCodeAt(i); }
+    return new TextDecoder("utf-8").decode(bytes);
+  }
+  function fromHash() {
+    var h = location.hash.replace(/^#/, "");
+    if (!h) { return false; }
+    var params = {};
+    h.split("&").forEach(function (kv) {
+      var i = kv.indexOf("=");
+      if (i > 0) { params[kv.slice(0, i)] = kv.slice(i + 1); }
+    });
+    var got = false;
+    try {
+      if (params.list) { $("raw").value = unb64(params.list); got = true; }
+      if (params.msg)  { $("msg").value = unb64(params.msg); set(KEY_MSG, $("msg").value); }
+    } catch (e) { return false; }
+    /* drop the long fragment from the address bar; the list is now stored here */
+    if (got && window.history && history.replaceState) {
+      try { history.replaceState(null, "", location.pathname + location.search); } catch (e2) {}
+    }
+    return got;
+  }
+
+  if (fromHash()) {
+    $("loadBtn").click();
+  } else {
+    if (people.length) { $("parsedCount").textContent = people.length + " people"; }
+    render();
+  }
 })();
 </script>
 </body>
