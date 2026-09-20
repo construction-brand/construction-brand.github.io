@@ -76,6 +76,14 @@
     return m ? h + " " + L.hrs + " " + m + " " + L.mins : h + " " + L.hrs;
   }
 
+  /* the agenda's duration column: one number over its unit, the same shape on
+     every row, so nothing wraps differently from its neighbour */
+  function durParts(mins) {
+    var L = UI[lang];
+    if (mins < 60 || mins % 60) { return { n: String(mins), u: L.mins }; }
+    return { n: String(mins / 60), u: L.hrs };
+  }
+
   function countdown(ms) {
     var s = Math.max(0, Math.floor(ms / 1000));
     var d = Math.floor(s / 86400); s -= d * 86400;
@@ -172,28 +180,41 @@
       var clock = el("span", "arow__clock");
       clock.setAttribute("dir", "ltr");
       clock.appendChild(el("bdi", "t1", s.t));
-      clock.appendChild(el("bdi", "t2", "–" + clockOf(it.end)));
+      clock.appendChild(el("bdi", "t2", clockOf(it.end)));   /* CSS adds the dash */
       timeCol.appendChild(clock);
 
-      /* duration */
+      /* duration: number over unit */
       var nodeCol = el("td", "c-dur");
-      nodeCol.appendChild(el("span", "arow__dur", fmtDur(s.mins)));
+      var dur = el("span", "arow__dur");
+      var dp = durParts(s.mins);
+      dur.appendChild(el("b", "arow__durN", dp.n));
+      dur.appendChild(el("span", "arow__durU", dp.u));
+      nodeCol.appendChild(dur);
 
       /* the item */
       var body = el("td", "c-item");
 
-      var stateSlot = el("div", "arow__state");
+      /* one line of pills above the title: live state (now / next) and the
+         kind of item, if any; hidden entirely when there is nothing to show */
+      var tags = el("div", "arow__tags");
+      var stateSlot = el("span", "arow__state");
       stateSlot.style.display = "none";
-      body.appendChild(stateSlot);
+      tags.appendChild(stateSlot);
 
-      if (s.kind === "break" || s.kind === "demo" || s.kind === "key") {
-        var tagText = {
-          break: { ku: "پشوو", en: "Break" },
-          demo:  { ku: "پیشاندان", en: "Demo" },
-          key:   { ku: "گرنگ", en: "Key moment" }
-        }[s.kind];
-        body.appendChild(el("span", "kindtag", t(tagText)));
+      var KIND = {
+        break:  { ku: "پشوو",       en: "Break",      icon: "cup" },
+        dinner: { ku: "نانی ئێوارە", en: "Dinner",     icon: "dinner" },
+        demo:   { ku: "پیشاندان",   en: "Demo",       icon: "play" },
+        key:    { ku: "گرنگ",       en: "Key moment", icon: "star" }
+      }[s.kind];
+      if (KIND) {
+        var pill = el("span", "kindtag");
+        pill.innerHTML = '<svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true">' + ICONS[KIND.icon] + "</svg>";
+        pill.appendChild(document.createTextNode(t(KIND)));
+        tags.appendChild(pill);
       }
+      tags.hidden = !KIND;
+      body.appendChild(tags);
 
       body.appendChild(el("h3", "arow__title", t(s.title)));
       if (s.note) { body.appendChild(el("p", "arow__note", t(s.note))); }
@@ -219,6 +240,8 @@
 
       it.node  = li;
       it.state = stateSlot;
+      it.tags  = tags;
+      it.hasKind = !!KIND;
     });
   }
 
@@ -250,6 +273,10 @@
   }
 
   var ICONS = {
+    star:   '<path d="M12 3.6l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 17l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z" fill="currentColor"/>',
+    cup:    '<path d="M4.5 8.5h11v5.5a4 4 0 0 1-4 4h-3a4 4 0 0 1-4-4V8.5Zm11 1.5h1.5a2.5 2.5 0 0 1 0 5h-1.5" fill="none" stroke="currentColor" stroke-width="1.9"/>',
+    dinner: '<path d="M6.5 3v7.5M4.5 3v4.5a2 2 0 0 0 4 0V3M6.5 10.5V21M17.5 3c-2.2 1.2-3.5 3.4-3.5 6.5V12h3.5v9" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>',
+    play:   '<path d="M8 5.5v13l10-6.5z" fill="currentColor"/>',
     phone: '<path d="M6.5 3.5h3l1.5 4-2 1.4a12 12 0 0 0 6.1 6.1l1.4-2 4 1.5v3A2.5 2.5 0 0 1 18 20 15 15 0 0 1 4 6a2.5 2.5 0 0 1 2.5-2.5Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
     chat:  '<path d="M20.5 11.7a8 8 0 0 1-11.9 7L4 20l1.4-4.4A8 8 0 1 1 20.5 11.7Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
     cam:   '<rect x="3.6" y="3.6" width="16.8" height="16.8" rx="5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor"/>',
@@ -442,7 +469,7 @@
     var sess = $("fbSessions");
     sess.textContent = "";
     E.schedule.forEach(function (s, i) {
-      if (s.kind === "break") { return; }          // nobody rates the coffee
+      if (s.kind === "break" || s.kind === "dinner") { return; }   // nobody rates the coffee
       var key = String(i);
       sess.appendChild(option("pick", "checkbox", "cb-sess-" + i, "", key,
         fbState.sessions.indexOf(key) > -1, function (label) {
@@ -763,6 +790,8 @@
           slot.setAttribute("data-s", "now");
         }
         slot.style.display = "";
+        /* how far into this item we are - drawn as a bar under its time */
+        it.node.style.setProperty("--p", Math.max(0, Math.min(1, (now - it.start) / (it.end - it.start))).toFixed(3));
       } else if (isNext) {
         if (slot.getAttribute("data-s") !== "next") {
           slot.textContent = "";
@@ -770,10 +799,14 @@
           slot.setAttribute("data-s", "next");
         }
         slot.style.display = "";
+        it.node.style.removeProperty("--p");
       } else {
         slot.style.display = "none";
         slot.removeAttribute("data-s");
+        it.node.style.removeProperty("--p");
       }
+      /* the pill row only takes space when it has something in it */
+      if (it.tags) { it.tags.hidden = slot.style.display === "none" && !it.hasKind; }
     });
 
     /* bring the current item into view, once, on arrival — but never snatch

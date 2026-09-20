@@ -689,10 +689,14 @@ html[dir="rtl"] .sechead h2 { font-family: var(--body); text-transform: none; le
    now / next / done states colour the rows. */
 
 .agenda {
-  background: var(--head-bg);
+  /* the same teal glow as the header and the QR card, so the three read as
+     one family */
+  background:
+    radial-gradient(circle at 88% 0%, #3E8FA12E, transparent 58%),
+    var(--head-bg);
   color: var(--head-text);
-  border-radius: 14px;
-  padding: 18px 14px 4px;
+  border-radius: 16px;
+  padding: 18px 14px 6px;
   margin-block-start: 26px;
   box-shadow: var(--shadow);
 }
@@ -735,12 +739,12 @@ html[dir="rtl"] .agenda__meta { font-family: var(--body); letter-spacing: normal
   table-layout: fixed;
 }
 .agenda__table th, .agenda__table td {
-  padding: 12px 9px;
+  padding: 15px 10px;
   vertical-align: top;
-  border-block-end: 1px solid #ffffff22;
+  border-block-end: 1px solid #ffffff1c;
   overflow-wrap: anywhere;
 }
-.agenda__table th + th, .agenda__table td + td { border-inline-start: 1px solid #ffffff22; }
+.agenda__table th + th, .agenda__table td + td { border-inline-start: 1px solid #ffffff14; }
 .agenda__table tbody tr:last-child td { border-block-end: 0; }
 
 .agenda__table th {
@@ -752,8 +756,8 @@ html[dir="rtl"] .agenda__meta { font-family: var(--body); letter-spacing: normal
 }
 html[dir="rtl"] .agenda__table th { font-family: var(--body); letter-spacing: normal; text-transform: none; font-size: 12.5px; font-weight: 500; }
 
-.c-time { width: 6.1rem; }
-.c-dur  { width: 4.4rem; }
+.c-time { width: 5.6rem; }
+.c-dur  { width: 3.6rem; }
 
 .arow__clock {
   font-family: var(--mono);
@@ -763,37 +767,77 @@ html[dir="rtl"] .agenda__table th { font-family: var(--body); letter-spacing: no
   unicode-bidi: isolate;
   white-space: nowrap;
 }
-.arow__dur { font-family: var(--mono); font-size: 12px; color: var(--head-dim); }
-html[dir="rtl"] .arow__dur { font-family: var(--body); font-size: 12.5px; }
+.t2::before { content: "\2013"; margin-inline: 1px; }
+
+/* number over unit — identical shape on every row */
+.arow__dur { display: block; }
+.arow__durN {
+  display: block;
+  font-family: var(--mono); font-variant-numeric: tabular-nums;
+  font-size: 15px; font-weight: 600; line-height: 1.1;
+  color: var(--head-text);
+}
+.arow__durU { display: block; font-size: 10.5px; line-height: 1.3; color: var(--head-dim); margin-block-start: 2px; }
+html[dir="rtl"] .arow__durU { font-size: 11.5px; }
 
 .arow__title { font-size: 15.5px; font-weight: 600; line-height: 1.45; margin: 0; color: #fff; }
 .arow__note  { font-size: 13px; line-height: 1.55; color: var(--head-dim); margin: 3px 0 0; }
 
-.agenda .kindtag { color: var(--head-dim); }
-.agenda .nexttag { color: var(--head-label); }
+/* -- the pill row above a title -- */
+.arow__tags { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-block-end: 7px; }
+.arow__tags[hidden] { display: none; }
+
+.agenda .kindtag,
+.agenda .nexttag,
+.agenda .nowtag {
+  display: inline-flex; align-items: center; gap: 5px;
+  min-height: 22px; padding: 2px 9px;
+  border-radius: 999px;
+  font-family: var(--body);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .01em; text-transform: none;
+  margin: 0;
+}
+.agenda .kindtag::before { content: none; }
+.agenda .kindtag { background: #ffffff14; color: #DCE7EC; }
+.agenda .kindtag svg { flex: none; opacity: .85; }
+.agenda .nexttag { border: 1px solid #6FB3C47A; color: var(--head-label); }
+.agenda .nowtag  { background: var(--now); color: var(--on-now); font-weight: 700; }
 .agenda .chip { background: #ffffff18; color: var(--head-label); }
 
 .arow { animation: rise .5s cubic-bezier(.2, .7, .3, 1) both; }
 
 /* -- states -- */
-.arow.is-done td { opacity: .55; }
+.arow.is-done td { opacity: .5; }
 .arow.is-next .arow__clock { color: var(--head-label); }
 
-.arow.is-now td { background: #ffffff12; }
+.arow.is-now td { background: #ffffff10; }
 .arow.is-now .arow__clock { color: var(--now); }
 .arow.is-now .arow__title { font-size: 17px; font-weight: 700; }
 .arow.is-now td:first-child { box-shadow: inset 3px 0 0 var(--now); }
 html[dir="rtl"] .arow.is-now td:first-child { box-shadow: inset -3px 0 0 var(--now); }
 
-/* narrow phones: the end time takes its own line so the item column keeps
-   room for a full Kurdish sentence */
-.t2 { display: inline; }
-@media (max-width: 400px) {
-  .c-time { width: 4.1rem; }
-  .c-dur  { width: 3.7rem; }
-  .t2 { display: block; }
+/* progress through the current item: a thin bar under its time, filled by
+   --p (0..1) which app.js updates every second */
+.arow.is-now .c-time { position: relative; padding-block-end: 22px; }
+.arow.is-now .c-time::after,
+.arow.is-now .c-time::before {
+  content: ""; position: absolute; inset-inline-start: 10px; bottom: 11px;
+  height: 3px; border-radius: 2px;
+}
+.arow.is-now .c-time::after  { inset-inline-end: 10px; background: #ffffff22; }
+.arow.is-now .c-time::before { width: calc((100% - 20px) * var(--p, 0)); background: var(--now); z-index: 1; transition: width 1s linear; }
+
+/* narrow phones: the end time takes its own line, muted and without the
+   dash, so the item column keeps room for a full Kurdish sentence */
+@media (max-width: 420px) {
+  .c-time { width: 4.2rem; }
+  .c-dur  { width: 3.2rem; }
+  .t2 { display: block; color: var(--head-dim); font-weight: 500; }
+  .t2::before { content: none; }
   .agenda { padding-inline: 10px; }
   .agenda__table th, .agenda__table td { padding-inline: 7px; }
+  .arow__durN { font-size: 14px; }
 }
 
 

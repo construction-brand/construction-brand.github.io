@@ -43,7 +43,7 @@ window.EVENT = {
   /* -- Programme ------------------------------------------------------------
      t     = start time, 24h "HH:MM"
      mins  = duration in minutes
-     kind  = "" | "break" | "demo" | "key"   (controls the icon + tint)
+     kind  = "" | "break" | "dinner" | "demo" | "key"   (small labelled pill)
      tags  = product codes shown as chips (optional)
      ----------------------------------------------------------------------- */
   /* The confirmed running order (from the client's sheet, 20 Sep). Dinner has
@@ -77,7 +77,7 @@ window.EVENT = {
       title: { ku: "پرسیار و وەڵام", en: "Q&A" }
     },
     {
-      t: "19:00", mins: 60, kind: "break",
+      t: "19:00", mins: 60, kind: "dinner",
       title: { ku: "نان خواردن + مۆسیقای زیندوو", en: "Dinner + live music" },
       note:  { ku: "بەخێربێن — ئێوارەتان خۆش", en: "Please join us. Enjoy your evening" }
     }
