@@ -10,3 +10,12 @@ __pycache__/
 
 # Temporary test harnesses
 _*.html
+
+# Participant data and send logs — this repository is PUBLIC, never commit
+# anyone's phone number or credentials
+tools/sms-log.csv
+tools/sms-message.txt
+tools/invitees*
+tools/*.csv
+tools/*.txt
+.env

@@ -105,6 +105,32 @@ need for the event. Sending many identical messages to people who have not
 saved your number can still trigger a temporary block, so keep the name in
 the message and pace it to roughly one a minute.
 
+### One-click bulk: SMS instead
+
+`tools/send_sms.py` sends one personalised SMS to the whole list in one
+command, through Twilio. Setup once: create a Twilio account, add credit (a
+trial can only text verified numbers), enable **Iraq** under Messaging → Geo
+permissions, then in the terminal:
+
+```powershell
+$env:TWILIO_ACCOUNT_SID = "AC..."
+$env:TWILIO_AUTH_TOKEN  = "..."
+$env:TWILIO_FROM        = "+1..."        # your Twilio number
+python -m pip install twilio
+python tools/send_sms.py --list tools/invitees.txt --dry-run       # see every message + segment count
+python tools/send_sms.py --list tools/invitees.txt --test 0772...  # one SMS, to you
+python tools/send_sms.py --list tools/invitees.txt                 # everyone
+python tools/send_sms.py --status                                  # delivered / failed, per person
+```
+
+The message is in `tools/sms-message.txt` (`{name}` = first name). Kurdish
+text is billed at **70 characters per SMS**, so keep it to a line or two.
+Test on your own number before the batch: international SMS into Iraqi
+carriers usually delivers, but it is not guaranteed.
+
+The invitee list, the message and the send log are git-ignored — this
+repository is public, and nobody's number belongs in it.
+
 ---
 
 ## Calendar and contact files
