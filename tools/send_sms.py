@@ -124,7 +124,26 @@ def load_template():
     return DEFAULT_MSG
 
 
+def load_dotenv():
+    """Read KEY=VALUE lines from .env in the project root (git-ignored) so the
+    keys never have to be typed into a chat or a terminal history. Real
+    environment variables win over the file."""
+    path = os.path.join(ROOT, ".env")
+    if not os.path.exists(path):
+        return
+    with open(path, encoding="utf-8-sig") as fh:
+        for line in fh:
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            k, v = line.split("=", 1)
+            k, v = k.strip(), v.strip().strip('"').strip("'")
+            if k and k not in os.environ:
+                os.environ[k] = v
+
+
 def client_or_die():
+    load_dotenv()
     sid, tok = os.environ.get("TWILIO_ACCOUNT_SID"), os.environ.get("TWILIO_AUTH_TOKEN")
     if not sid or not tok or not os.environ.get("TWILIO_FROM"):
         sys.exit("Set TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN and TWILIO_FROM in the environment first.")
