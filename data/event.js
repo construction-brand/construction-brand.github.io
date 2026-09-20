@@ -14,13 +14,6 @@ window.EVENT = {
   /* -- When ---------------------------------------------------------------- */
   date: "2026-09-21",       // YYYY-MM-DD  ← ڕێکەوتی ڕووداو
   tz:   "+03:00",           // Baghdad / Erbil time. Leave as is.
-  ref:  "CB-EV-01",         // reference code shown in the title block
-
-  // If you prefer the Kurdish month name, swap ئەیلول for خەرمانان.
-  dateLabel: {
-    ku: "دووشەممە، ٢١ی ئەیلولی ٢٠٢٦",
-    en: "Monday, 21 September 2026"
-  },
 
   /* -- What ---------------------------------------------------------------- */
   title: {
@@ -156,7 +149,6 @@ window.UI = {
   ku: {
     dir: "rtl", htmlLang: "ckb", other: "English", otherShort: "EN",
     welcome: "بەخێربێن",
-    heroSub: "ئەمە بەرنامەی ئەمشەوەیە",
     untilDoors: "ماوە بۆ دەستپێکردن",
     liveNow: "ئێستا", upNext: "دواتر", finished: "بەرنامە تەواو بوو",
     thanks: "سوپاس بۆ بەشداریتان",
@@ -167,7 +159,6 @@ window.UI = {
     whatsapp: "واتساپ", instagram: "ئینستاگرام", address: "ناونیشان",
     mins: "خولەک", hrs: "کاتژمێر", days: "ڕۆژ",
     done: "تەواو", themeLabel: "گۆڕینی ڕووناکی",
-    footer: "بەخێربێن بۆ ئێوارەی خاوەن پرۆژەکان",
 
     fbEyebrow: "ڕای ئێوە",
     fbTitle: "ئێوارەکە چۆن بوو؟",
@@ -199,7 +190,6 @@ window.UI = {
   en: {
     dir: "ltr", htmlLang: "en", other: "کوردی", otherShort: "KU",
     welcome: "Welcome",
-    heroSub: "This is tonight's programme",
     untilDoors: "Doors open in",
     liveNow: "Happening now", upNext: "Up next", finished: "Programme complete",
     thanks: "Thank you for joining us",
@@ -210,7 +200,6 @@ window.UI = {
     whatsapp: "WhatsApp", instagram: "Instagram", address: "Address",
     mins: "min", hrs: "hr", days: "d",
     done: "Done", themeLabel: "Switch appearance",
-    footer: "Welcome to the Project Owners Evening",
 
     fbEyebrow: "Your feedback",
     fbTitle: "How was the evening?",

@@ -150,14 +150,7 @@
     $("langBtn").setAttribute("aria-label", L.other);
     $("themeBtn").setAttribute("aria-label", L.themeLabel);
 
-    $("heroHi").textContent  = L.welcome;
-    $("heroSub").textContent = L.heroSub;
-
-    $("mVenue").textContent   = t(E.venue.name) + " · " + t(E.venue.city);
-    $("mDate").textContent    = t(E.dateLabel);
-    $("mTime").textContent    = E.schedule[0].t;
-    $("footRef").textContent  = E.ref;
-    $("footLine").textContent = L.footer;
+    $("heroHi").textContent = L.welcome;
     meterBox.setAttribute("aria-label", L.progress);
 
     var total = Math.round((evEnd - evStart) / 60000);

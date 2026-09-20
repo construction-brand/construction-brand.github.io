@@ -25,7 +25,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/css/style.css?v=20260920h">
+<link rel="stylesheet" href="assets/css/style.css?v=20260920i">
 
 <!-- Web fonts must never block first paint. A cross-origin stylesheet in
      <head> holds the whole page white until fonts.googleapis.com answers —
@@ -71,26 +71,8 @@
       </div>
     </div>
 
-    <!-- Hero: a greeting, the event name, and one compact line of facts. -->
-    <h1 class="hero__h1">
-      <span class="hero__hi" id="heroHi">بەخێربێن</span>
-      <span class="hero__ev" id="heroSub">ئەمە بەرنامەی ئەمشەوەیە</span>
-    </h1>
-
-    <ul class="hero__meta">
-      <li>
-        <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="10" r="2.4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
-        <span id="mVenue">—</span>
-      </li>
-      <li>
-        <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M7 3v3M17 3v3M3.5 9.5h17M5 6h14a1.5 1.5 0 0 1 1.5 1.5V19A1.5 1.5 0 0 1 19 20.5H5A1.5 1.5 0 0 1 3.5 19V7.5A1.5 1.5 0 0 1 5 6Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        <span id="mDate">—</span>
-      </li>
-      <li>
-        <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5.3l3.3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        <bdi id="mTime" class="mono">—</bdi>
-      </li>
-    </ul>
+    <!-- Hero: the greeting, nothing else. -->
+    <h1 class="hero__h1"><span class="hero__hi" id="heroHi">بەخێربێن</span></h1>
   </div>
 
   <!-- warren truss, lifted from the crane boom in the logo -->
@@ -286,15 +268,14 @@
       </button>
     </div>
 
-    <p class="foot__line" id="footLine">بەخێربێن بۆ ئێوارەی خاوەن پرۆژەکان</p>
-    <p class="foot__mark mono">CONSTRUCTION BRAND · <bdi id="footRef">CB-EV-01</bdi></p>
+    <p class="foot__mark mono">CONSTRUCTION BRAND</p>
   </div>
 </footer>
 
 <!-- ?v= is a cache-buster: GitHub Pages caches for 10 minutes, and a change
      to the schedule must reach every phone on the next load, not the one
      after. Bump it whenever data/event.js or app.js changes. -->
-<script src="data/event.js?v=20260920h"></script>
-<script src="assets/js/app.js?v=20260920h"></script>
+<script src="data/event.js?v=20260920i"></script>
+<script src="assets/js/app.js?v=20260920i"></script>
 </body>
 </html>
