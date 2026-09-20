@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 96" role="img" aria-label="Momentum — chemical and construction materials">
+  <title>Momentum</title>
+  <!-- Stand-in for the official Momentum artwork. Save the real file as
+       assets/img/momentum.png and this is no longer used. -->
+  <g font-family="Archivo, 'Segoe UI', Arial, sans-serif" font-weight="700" fill="#2B3F8C">
+    <text x="18" y="60" font-size="58" letter-spacing="-1">mom</text>
+    <text x="216" y="60" font-size="58" letter-spacing="-1">ntum</text>
+  </g>
+  <!-- the three bars that stand in for the e -->
+  <g fill="#F5A623">
+    <rect x="160" y="24" width="48" height="9" rx="2"/>
+    <rect x="160" y="39" width="48" height="9" rx="2"/>
+    <rect x="160" y="54" width="48" height="9" rx="2"/>
+  </g>
+  <text x="18" y="86" font-family="Archivo, 'Segoe UI', Arial, sans-serif" font-size="12.5" letter-spacing="2.2" fill="#2B3F8C">CHEMICAL &amp; CONSTRUCTION MATERIALS</text>
+</svg>

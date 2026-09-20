@@ -25,7 +25,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/css/style.css?v=20260919e">
+<link rel="stylesheet" href="assets/css/style.css?v=20260920b">
 
 <!-- Web fonts must never block first paint. A cross-origin stylesheet in
      <head> holds the whole page white until fonts.googleapis.com answers —
@@ -159,12 +159,41 @@
      PROGRAMME
      ══════════════════════════════════════════════════════════════ -->
 <main class="wrap" id="programme">
-  <div class="sechead">
-    <h2 data-i18n="programme">بەرنامە</h2>
-    <span class="sechead__meta mono" id="totalDur"></span>
-  </div>
+  <!-- Agenda card: brand logos, a big title, then a ruled three-column
+       table (time · item · duration) — the live now/next/done states are
+       applied to the rows by app.js -->
+  <section class="agenda">
+    <div class="agenda__brands">
+      <span class="agenda__brand">
+        <img src="assets/img/logo.png" alt="Construction Brand"
+             onerror="this.onerror=null;this.src='assets/img/logo.svg';">
+      </span>
+      <span class="agenda__brand">
+        <img src="assets/img/momentum.png" alt="Momentum — chemical & construction materials"
+             onerror="this.onerror=null;this.src='assets/img/momentum.svg';">
+      </span>
+      <span class="agenda__brand">
+        <img src="assets/img/pany.png" alt="Pany Construction Solutions"
+             onerror="this.onerror=null;this.src='assets/img/pany.svg';">
+      </span>
+    </div>
 
-  <ol class="rail" id="rail"></ol>
+    <h2 class="agenda__title" data-i18n="programme">بەرنامە</h2>
+    <p class="agenda__meta" id="totalDur"></p>
+
+    <div class="agenda__scroll">
+      <table class="agenda__table">
+        <thead>
+          <tr>
+            <th class="c-time" data-i18n="colTime">کات</th>
+            <th class="c-item" data-i18n="colItem">بڕگە</th>
+            <th class="c-dur"  data-i18n="colDur">ماوە</th>
+          </tr>
+        </thead>
+        <tbody id="rail"></tbody>
+      </table>
+    </div>
+  </section>
 </main>
 
 
@@ -277,7 +306,7 @@
 <!-- ?v= is a cache-buster: GitHub Pages caches for 10 minutes, and a change
      to the schedule must reach every phone on the next load, not the one
      after. Bump it whenever data/event.js or app.js changes. -->
-<script src="data/event.js?v=20260920a"></script>
-<script src="assets/js/app.js?v=20260920a"></script>
+<script src="data/event.js?v=20260920b"></script>
+<script src="assets/js/app.js?v=20260920b"></script>
 </body>
 </html>

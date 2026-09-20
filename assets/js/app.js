@@ -162,25 +162,27 @@
     items.forEach(function (it, i) {
       var s = it.raw;
 
-      var li = el("li", "item");
+      /* one table row: time range · item · duration */
+      var li = el("tr", "arow");
       li.style.animationDelay = Math.min(i * 45, 420) + "ms";
 
-      /* time */
-      var timeCol = el("div", "item__time");
-      var clock = el("span", "item__clock");
-      clock.appendChild(document.createTextNode(s.t));
+      /* time range, always left-to-right; the end time drops to its own
+         line on narrow phones (see CSS) */
+      var timeCol = el("td", "c-time");
+      var clock = el("span", "arow__clock");
       clock.setAttribute("dir", "ltr");
+      clock.appendChild(el("bdi", "t1", s.t));
+      clock.appendChild(el("bdi", "t2", "–" + clockOf(it.end)));
       timeCol.appendChild(clock);
-      timeCol.appendChild(el("span", "item__dur", fmtDur(s.mins)));
 
-      /* rail */
-      var nodeCol = el("div", "item__node");
-      nodeCol.appendChild(el("span", "item__dot"));
+      /* duration */
+      var nodeCol = el("td", "c-dur");
+      nodeCol.appendChild(el("span", "arow__dur", fmtDur(s.mins)));
 
-      /* body */
-      var body = el("div", "item__body");
+      /* the item */
+      var body = el("td", "c-item");
 
-      var stateSlot = el("div", "item__state");
+      var stateSlot = el("div", "arow__state");
       stateSlot.style.display = "none";
       body.appendChild(stateSlot);
 
@@ -193,8 +195,8 @@
         body.appendChild(el("span", "kindtag", t(tagText)));
       }
 
-      body.appendChild(el("h3", "item__title", t(s.title)));
-      if (s.note) { body.appendChild(el("p", "item__note", t(s.note))); }
+      body.appendChild(el("h3", "arow__title", t(s.title)));
+      if (s.note) { body.appendChild(el("p", "arow__note", t(s.note))); }
 
       if (s.tags && s.tags.length) {
         var chips = el("ul", "chips");
@@ -208,9 +210,11 @@
         body.appendChild(chips);
       }
 
+      /* column order follows the document direction: in Kurdish the time
+         sits on the right, as on the printed agenda */
       li.appendChild(timeCol);
-      li.appendChild(nodeCol);
       li.appendChild(body);
+      li.appendChild(nodeCol);
       rail.appendChild(li);
 
       it.node  = li;
@@ -223,11 +227,23 @@
     ul.textContent = "";
     E.partners.forEach(function (p) {
       var li = el("li", "partner");
+      var head = el("span", "partner__head");
+      if (p.logo) {
+        var img = document.createElement("img");
+        img.className = "partner__logo";
+        img.alt = p.name;
+        img.src = p.logo;
+        if (p.fallback) {
+          img.onerror = function () { img.onerror = null; img.src = p.fallback; };
+        }
+        head.appendChild(img);
+      }
       var nm = el("span", "partner__name");
       var b = document.createElement("bdi");
       b.textContent = p.name;
       nm.appendChild(b);
-      li.appendChild(nm);
+      head.appendChild(nm);
+      li.appendChild(head);
       li.appendChild(el("span", "partner__note", t(p.note)));
       ul.appendChild(li);
     });

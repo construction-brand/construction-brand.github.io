@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 130" role="img" aria-label="Pany Construction Solutions">
+  <title>Pany Construction Solutions</title>
+  <!-- Stand-in for the official Pany artwork. Save the real file as
+       assets/img/pany.png and this is no longer used. -->
+  <!-- the mark: red block, navy diagonal, notched edge, white P -->
+  <rect x="10" y="12" width="104" height="104" fill="#D8341C"/>
+  <polygon points="10,116 114,116 114,44 60,116" fill="#1B2A4A"/>
+  <polygon points="114,12 114,116 106,116 106,108 114,108 114,100 106,100 106,92 114,92 114,84 106,84 106,76 114,76 114,68 106,68 106,60 114,60 114,52 106,52 106,44 114,44 114,36 106,36 106,28 114,28 114,20 106,20 106,12" fill="#1B2A4A"/>
+  <text x="26" y="92" font-family="Archivo, 'Segoe UI', Arial, sans-serif" font-weight="800" font-size="78" fill="#FFFFFF">P</text>
+  <g font-family="Archivo, 'Segoe UI', Arial, sans-serif">
+    <text x="128" y="80" font-weight="800" font-size="78" letter-spacing="1" fill="#1B2A4A">PANY</text>
+    <text x="131" y="113" font-weight="700" font-size="23" fill="#D8341C">Construction Solutions</text>
+  </g>
+</svg>

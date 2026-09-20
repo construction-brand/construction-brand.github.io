@@ -62,8 +62,8 @@ window.EVENT = {
     {
       t: "17:55", mins: 35,
       title: { ku: "ناساندنی بەرهەمەکانی کۆمپانیای مۆمێنتەم", en: "Introducing Momentum's products" },
-      note:  { ku: "لەلایەن بەڕێز ئەندازیار زوبێد محمد — نوێنەری کۆمپانیای مۆمێنتەم",
-               en: "By Eng. Zubaid Mohammed, Momentum's representative" }
+      note:  { ku: "لەلایەن بەڕێز ئەندازیار زوبێر محمد — نوێنەری کۆمپانیای مۆمێنتەم",
+               en: "By Eng. Zubair Mohammed, Momentum's representative" }
     },
     {
       t: "18:30", mins: 20,
@@ -83,11 +83,16 @@ window.EVENT = {
     }
   ],
 
-  /* -- Brands on show ------------------------------------------------------- */
+  /* -- Brands on show ---------------------------------------------------------
+     `logo` is picked up automatically once the file exists; `fallback` is the
+     SVG stand-in shown until then. */
   partners: [
-    { name: "Kalekim",  note: { ku: "چەسپێنەر و دژە ئاو", en: "Adhesives & waterproofing" } },
-    { name: "Kale",     note: { ku: "بۆیە و ڕووکار",       en: "Paint & façade" } },
-    { name: "Momentum", note: { ku: "ئیزۆلە و پلاستەر",    en: "Insulation & plaster" } }
+    { name: "Construction Brand", logo: "assets/img/logo.png", fallback: "assets/img/logo.svg",
+      note: { ku: "دابەشکەری فەرمی — سلێمانی", en: "Official distributor — Sulaimani" } },
+    { name: "Momentum", logo: "assets/img/momentum.png", fallback: "assets/img/momentum.svg",
+      note: { ku: "کیمیاوی و کەرەستەی بیناسازی", en: "Chemical & construction materials" } },
+    { name: "Pany", logo: "assets/img/pany.png", fallback: "assets/img/pany.svg",
+      note: { ku: "چارەسەری بیناسازی", en: "Construction Solutions" } }
   ],
 
   /* -- Contact -------------------------------------------------------------- */
@@ -168,6 +173,7 @@ window.UI = {
     thanks: "سوپاس بۆ بەشداریتان",
     progress: "بەرەوپێشچوونی ئێوارە",
     programme: "بەرنامە", totalDur: "کۆی کات",
+    colTime: "کات", colItem: "بڕگە", colDur: "ماوە",
     addCal: "زیادکردن بۆ ڕۆژژمێر", directions: "ڕێنمایی شوێن",
     partners: "براندەکانی ئەم ئێوارەیە",
     contactTitle: "پەیوەندی", saveContact: "پاشەکەوتکردنی ژمارە",
@@ -211,7 +217,8 @@ window.UI = {
     liveNow: "Happening now", upNext: "Up next", finished: "Programme complete",
     thanks: "Thank you for joining us",
     progress: "Evening progress",
-    programme: "Programme", totalDur: "Total",
+    programme: "Agenda", totalDur: "Total",
+    colTime: "Time", colItem: "Item", colDur: "Duration",
     addCal: "Add to calendar", directions: "Directions",
     partners: "Brands on show tonight",
     contactTitle: "Contact", saveContact: "Save our number",

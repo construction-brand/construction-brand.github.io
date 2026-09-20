@@ -683,6 +683,118 @@ html[dir="rtl"] .sechead h2 { font-family: var(--body); text-transform: none; le
 }
 
 
+/* ---- 6b. AGENDA CARD ----------------------------------------------------
+   The programme as a printed agenda: brand logos, a big title, a ruled
+   three-column table (time · item · duration) on the brand navy. The live
+   now / next / done states colour the rows. */
+
+.agenda {
+  background: var(--head-bg);
+  color: var(--head-text);
+  border-radius: 14px;
+  padding: 18px 14px 4px;
+  margin-block-start: 26px;
+  box-shadow: var(--shadow);
+}
+
+.agenda__brands { display: flex; gap: 8px; }
+.agenda__brand {
+  flex: 1 1 0; min-width: 0;
+  display: grid; place-items: center;
+  height: 58px; padding: 8px 10px;
+  background: #fff; border-radius: 10px;
+}
+.agenda__brand img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+
+.agenda__title {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(28px, 7.6vw, 36px);
+  letter-spacing: -.02em;
+  text-align: center;
+  margin: 22px 0 2px;
+}
+html[dir="rtl"] .agenda__title { font-family: var(--body); font-weight: 700; letter-spacing: 0; }
+
+.agenda__meta {
+  font-family: var(--mono);
+  font-size: 11.5px; letter-spacing: .08em;
+  color: var(--head-label);
+  text-align: center;
+  margin: 0 0 14px;
+}
+html[dir="rtl"] .agenda__meta { font-family: var(--body); letter-spacing: normal; font-size: 12.5px; }
+
+.agenda__scroll { overflow-x: auto; }
+
+.agenda__table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.agenda__table th, .agenda__table td {
+  padding: 12px 9px;
+  vertical-align: top;
+  border-block-end: 1px solid #ffffff22;
+  overflow-wrap: anywhere;
+}
+.agenda__table th + th, .agenda__table td + td { border-inline-start: 1px solid #ffffff22; }
+.agenda__table tbody tr:last-child td { border-block-end: 0; }
+
+.agenda__table th {
+  font-family: var(--mono);
+  font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--head-label);
+  text-align: start;
+  padding-block: 6px 10px;
+}
+html[dir="rtl"] .agenda__table th { font-family: var(--body); letter-spacing: normal; text-transform: none; font-size: 12.5px; font-weight: 500; }
+
+.c-time { width: 6.1rem; }
+.c-dur  { width: 4.4rem; }
+
+.arow__clock {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 14px; font-weight: 600;
+  color: #fff;
+  unicode-bidi: isolate;
+  white-space: nowrap;
+}
+.arow__dur { font-family: var(--mono); font-size: 12px; color: var(--head-dim); }
+html[dir="rtl"] .arow__dur { font-family: var(--body); font-size: 12.5px; }
+
+.arow__title { font-size: 15.5px; font-weight: 600; line-height: 1.45; margin: 0; color: #fff; }
+.arow__note  { font-size: 13px; line-height: 1.55; color: var(--head-dim); margin: 3px 0 0; }
+
+.agenda .kindtag { color: var(--head-dim); }
+.agenda .nexttag { color: var(--head-label); }
+.agenda .chip { background: #ffffff18; color: var(--head-label); }
+
+.arow { animation: rise .5s cubic-bezier(.2, .7, .3, 1) both; }
+
+/* -- states -- */
+.arow.is-done td { opacity: .55; }
+.arow.is-next .arow__clock { color: var(--head-label); }
+
+.arow.is-now td { background: #ffffff12; }
+.arow.is-now .arow__clock { color: var(--now); }
+.arow.is-now .arow__title { font-size: 17px; font-weight: 700; }
+.arow.is-now td:first-child { box-shadow: inset 3px 0 0 var(--now); }
+html[dir="rtl"] .arow.is-now td:first-child { box-shadow: inset -3px 0 0 var(--now); }
+
+/* narrow phones: the end time takes its own line so the item column keeps
+   room for a full Kurdish sentence */
+.t2 { display: inline; }
+@media (max-width: 400px) {
+  .c-time { width: 4.1rem; }
+  .c-dur  { width: 3.7rem; }
+  .t2 { display: block; }
+  .agenda { padding-inline: 10px; }
+  .agenda__table th, .agenda__table td { padding-inline: 7px; }
+}
+
+
 /* ---- 7. PARTNERS -------------------------------------------------------- */
 
 .partners { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: var(--r-md); overflow: hidden; }
@@ -691,6 +803,8 @@ html[dir="rtl"] .sechead h2 { font-family: var(--body); text-transform: none; le
   padding: 13px 15px;
   display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap;
 }
+.partner__head { display: inline-flex; align-items: center; gap: 12px; min-width: 0; }
+.partner__logo { height: 30px; width: auto; max-width: 128px; object-fit: contain; flex: none; }
 .partner__name {
   font-family: var(--display);
   font-weight: 700;
