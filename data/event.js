@@ -114,14 +114,14 @@ window.EVENT = {
        read the entry IDs. Paste the form ID and the six entry IDs here.
        Leave googleFormId empty and the form falls back to sending the
        answers to you as a WhatsApp message instead. */
-    googleFormId: "",
+    googleFormId: "1FAIpQLScfzEC7lbArHPJvshafZhzcjBynqAlgjeXzx5oZeWLgF9GCig",
     entries: {
-      rating:    "entry.000000001",
-      sessions:  "entry.000000002",
-      interest:  "entry.000000003",
-      comment:   "entry.000000004",
-      name:      "entry.000000005",
-      phone:     "entry.000000006"
+      rating:    "entry.879194304",
+      sessions:  "entry.527848103",
+      interest:  "entry.1554515978",
+      comment:   "entry.2131995354",
+      name:      "entry.516392940",
+      phone:     "entry.426714109"
     },
 
     /* used only when googleFormId is empty — feedback lands on THIS number */
