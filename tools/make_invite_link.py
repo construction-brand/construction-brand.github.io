@@ -59,7 +59,11 @@ def main():
         fh.write(url + "\n")
 
     print("%d people, %d unreadable line(s), link is %d characters" % (len(people), len(bad), len(url)))
-    print("written to: %s" % os.path.relpath(args.out, ROOT))
+    try:
+        shown = os.path.relpath(args.out, ROOT)
+    except ValueError:                       # output on another drive (Windows)
+        shown = args.out
+    print("written to: %s" % shown)
     print()
     print(url)
 

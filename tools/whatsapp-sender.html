@@ -362,6 +362,9 @@ Sara Ali	+964 771 234 5678
     if (people.length) { $("parsedCount").textContent = people.length + " people"; }
     render();
   }
+  /* a link opened while the page is already showing is a fragment change,
+     not a reload - apply it the same way */
+  window.addEventListener("hashchange", function () { if (fromHash()) { $("loadBtn").click(); } });
 })();
 </script>
 </body>
