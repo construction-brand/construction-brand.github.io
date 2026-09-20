@@ -66,7 +66,10 @@
      Both are absolute instants, so a guest whose phone is set to another
      timezone still flips at the same real-world second as everyone else. */
   var FB = E.feedback || {};
-  var fbOpensAt  = new Date(evEnd.getTime() - (FB.opensBeforeEndMins || 15) * 60000);
+  /* an exact clock time if one is given, otherwise counted back from the end */
+  var fbOpensAt  = /^\d{1,2}:\d{2}$/.test(FB.opensAt || "")
+    ? at(FB.opensAt)
+    : new Date(evEnd.getTime() - (FB.opensBeforeEndMins || 15) * 60000);
   var fbClosesAt = new Date(evEnd.getTime() + (FB.closesAfterDays || 7) * 86400000);
 
   function fmtDur(mins) {
@@ -336,14 +339,26 @@
      NOT a ?view= navigation. A navigation would pin that phone to the
      programme for good and quietly drop them out of the feedback window. */
   var manualView = null;
+  var manualAt = 0;
 
   function resolveView(now) {
     var forced = forcedView();
     if (forced) { return forced; }
+    /* Someone who chose the programme BEFORE the form was due should still
+       be handed the form when its time comes; a choice made after the window
+       opened is theirs to keep. */
+    if (manualView === "schedule" && manualAt < fbOpensAt.getTime() && now >= fbOpensAt) {
+      manualView = null;
+    }
     if (manualView) { return manualView; }
     if (now >= fbClosesAt) { return "closed"; }
     if (now >= fbOpensAt)  { return "feedback"; }
     return "schedule";
+  }
+
+  function setManual(view) {
+    manualView = view;
+    manualAt = new Date().getTime();
   }
 
   var viewNow = null;
@@ -354,6 +369,8 @@
 
     $("viewSchedule").hidden = (view !== "schedule");
     $("viewFeedback").hidden = (view === "schedule");
+    /* the footer shortcut is only useful while the programme is showing */
+    $("fbFoot").hidden = (view !== "schedule");
 
     if (view === "closed") {
       $("fbForm").hidden = true;
@@ -891,17 +908,21 @@
   $("fbBack").addEventListener("click", function (ev) {
     ev.preventDefault();
     clearForcedView();
-    manualView = "schedule";
+    setManual("schedule");
     applyView("schedule");
     window.scrollTo(0, 0);
   });
 
-  $("fbGo").addEventListener("click", function () {
+  /* both routes into the form: the strip button once the window is open, and
+     the footer button at any hour */
+  function openFeedback() {
     clearForcedView();
-    manualView = null;                   // hand the decision back to the clock
+    setManual("feedback");
     applyView("feedback");
     window.scrollTo(0, 0);
-  });
+  }
+  $("fbGo").addEventListener("click", openFeedback);
+  $("fbFoot").addEventListener("click", openFeedback);
 
   /* anything saved while offline goes out as soon as there is a connection */
   flushQueue();

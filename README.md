@@ -231,14 +231,18 @@ the clock.
 
 | When a guest scans | What they get |
 |---|---|
-| Any time before **19:45** | The programme |
-| **19:45 → 20:00** (last 15 min of dinner) and for 7 days after | The feedback form |
+| Any time before **18:30** | The programme |
+| **18:30** onwards, and for 7 days after | The feedback form |
+
+Either way, a **Give feedback** button in the footer opens the form at any
+hour, so nobody has to wait for the switch.
 | More than 7 days after | A short thank-you and your contact details |
 
 Both boundaries are set in `data/event.js`:
 
 ```js
 feedback: {
+  opensAt: "18:30",         // exact clock time; "" falls back to the line below
   opensBeforeEndMins: 15,   // 15 min before the last item ends
   closesAfterDays: 7,
 }
@@ -252,7 +256,7 @@ feedback: {
 - **Works with no internet.** The service worker has the page cached, and the
   clock runs on the phone. The switch does not need the network at all.
 - **Catches open tabs.** The clock is checked every second, so a page someone
-  left open at 18:00 turns into the feedback form by itself at 19:45.
+  left open at 18:00 turns into the feedback form by itself at 18:30.
 - **Answers survive a language switch.** Selections are stored by stable key,
   not by the visible Kurdish/English text.
 - **Nothing is lost, and nothing is faked.** Every answer is written to an

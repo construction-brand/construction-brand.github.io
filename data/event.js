@@ -114,16 +114,22 @@ window.EVENT = {
      form at the end. Nothing is reprinted — the page decides which view to
      show from the clock.
 
-       opensBeforeEndMins: 15   ->  feedback appears 15 min before the last
-                                    item ends (dinner to 20:00 -> from 19:45)
+       opensAt: "18:30"         ->  the form takes over at exactly 18:30.
+                                    Leave it "" to use opensBeforeEndMins
+                                    instead, which counts back from the end
+                                    of the last item.
        closesAfterDays:    7    ->  anyone scanning within a week still gets
                                     the form; after that, a thank-you page
+
+     A "Give feedback" button in the footer opens the form at any time, so a
+     guest never has to wait for the switch.
 
      Staff override, works instantly and needs no redeploy:
        <url>?view=feedback   force the feedback form
        <url>?view=schedule   force the programme
      ----------------------------------------------------------------------- */
   feedback: {
+    opensAt: "18:30",           // 24h clock, event timezone. "" = use the countback below
     opensBeforeEndMins: 15,
     closesAfterDays: 7,
 

@@ -1140,6 +1140,9 @@ html[dir="rtl"] .fb__doneTitle { font-family: var(--body); }
 /* bottom inset keeps the last line clear of the iPhone home indicator */
 .foot > .wrap { padding-block: 0 calc(30px + env(safe-area-inset-bottom, 0px)); padding-inline: 0; }
 .foot__truss { margin-block-end: 24px; }
+
+.foot__cta { padding-inline: var(--gutter); margin-block-end: 22px; }
+.foot__cta .btn { width: 100%; justify-content: center; min-height: 52px; font-size: 15px; margin: 0; }
 .foot__line {
   font-size: 15px; font-weight: 600; margin: 0;
   padding-inline: var(--gutter);
