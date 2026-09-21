@@ -170,6 +170,9 @@
 
       /* time range, always left-to-right; the end time drops to its own
          line on narrow phones (see CSS) */
+      /* One time block: the range on a single line, the duration beneath it.
+         Giving the duration its own column cost the width that kept
+         "17:45–17:50" together on a phone. */
       var timeCol = el("td", "c-time");
       var clock = el("span", "arow__clock");
       clock.setAttribute("dir", "ltr");
@@ -177,13 +180,8 @@
       clock.appendChild(el("bdi", "t2", clockOf(it.end)));   /* CSS adds the dash */
       timeCol.appendChild(clock);
 
-      /* duration: number over unit */
-      var nodeCol = el("td", "c-dur");
-      var dur = el("span", "arow__dur");
       var dp = durParts(s.mins);
-      dur.appendChild(el("b", "arow__durN", dp.n));
-      dur.appendChild(el("span", "arow__durU", dp.u));
-      nodeCol.appendChild(dur);
+      timeCol.appendChild(el("span", "arow__dur", dp.n + " " + dp.u));
 
       /* the item */
       var body = el("td", "c-item");
@@ -229,7 +227,6 @@
          sits on the right, as on the printed agenda */
       li.appendChild(timeCol);
       li.appendChild(body);
-      li.appendChild(nodeCol);
       rail.appendChild(li);
 
       it.node  = li;
@@ -283,8 +280,7 @@
     });
     box.appendChild(contactRow(ICONS.chat, L.whatsapp, C.whatsapp,
       "https://wa.me/" + C.whatsapp.replace(/[^0-9]/g, ""), true));
-    box.appendChild(contactRow(ICONS.cam, L.instagram, "@" + C.instagram,
-      "https://instagram.com/" + C.instagram));
+    /* Instagram lives in the footer's Social media section now */
     box.appendChild(contactRow(ICONS.pin, L.address, t(C.address), E.venue.maps));
 
     /* a real .vcf file, same tab: iPhone shows the contact card with
