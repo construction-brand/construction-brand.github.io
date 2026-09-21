@@ -61,8 +61,8 @@ window.EVENT = {
       t: "18:30", mins: 20,
       title: { ku: "شێوازی بەکارهێنانی عەزلی مۆمێنتەم لەڕووکاری دەرەوەی بیناو باڵەخانەکاندا",
                en: "Application Methods of Momentum Insulation on Building Facades" },
-      note:  { ku: "لەلایەن بەڕێز ئەندازیار بەهمەن ڕەئووف شوان — بەڕێوبەری کۆنستراکشن براند",
-               en: "By Eng. Bahman Raouf Shwan — Director of Construction Brand" }
+      note:  { ku: "لەلایەن بەڕێز ئەندازیار بەهمەن ڕەئووف شەریف — بەڕێوبەری کۆنسترەکشن براند",
+               en: "By Eng. Bahman Raouf Sharif — Director of Construction Brand" }
     },
     {
       t: "18:50", mins: 25,
