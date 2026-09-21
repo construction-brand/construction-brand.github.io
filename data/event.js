@@ -40,34 +40,34 @@ window.EVENT = {
   schedule: [
     {
       t: "17:45", mins: 5,
-      title: { ku: "پێشوازی و بەخێرهاتن", en: "Welcome" }
+      title: { ku: "پێشوازی و بەخێرهاتن", en: "Reception & Welcome" }
     },
     {
       t: "17:50", mins: 5, kind: "key",
-      title: { ku: "وتەی بەڕێز ئەندازیار سەلیم گول", en: "Address by Eng. Selim Gul" },
-      note:  { ku: "دامەزرێنەر و خاوەنی کۆمپانیای مۆمێنتەم", en: "Owner of the Momentum company" }
+      title: { ku: "وتەی بەڕێز ئەندازیار Selim Gül", en: "Address by Eng. Selim Gül" },
+      note:  { ku: "دامەزرێنەر و خاوەنی کۆمپانیای مۆمێنتەم", en: "Founder and Owner of Momentum Company" }
     },
     {
       t: "17:55", mins: 35,
-      title: { ku: "ناساندنی بەرهەمەکانی کۆمپانیای مۆمێنتەم", en: "Introducing Momentum's products" },
-      note:  { ku: "لەلایەن بەڕێز ئەندازیار زوبێر محەمەد — نوێنەری کۆمپانیای مۆمێنتەم",
-               en: "By Eng. Zubair Mohammed, Momentum's representative" }
+      title: { ku: "ناساندنی بەرهەمەکانی براندی مۆمێنتەم", en: "Introducing Momentum Brand Products" },
+      note:  { ku: "لەلایەن بەڕێز ئەندازیار زەید محەمەد — نوێنەری کۆمپانیای مۆمێنتەم لە عێراق",
+               en: "By Eng. Zaid Mohammed — Representative of Momentum Company in Iraq" }
     },
     {
       t: "18:30", mins: 20,
-      title: { ku: "شێوازی بەکارهێنانی بەرهەمەکانی مۆمێنتەم و هەڵسەنگاندنی کارایی",
-               en: "How Momentum products are applied, and how they perform" },
-      note:  { ku: "لەلایەن بەڕێز ئەندازیار بەهمەن ڕەئووف شوان — نوێنەری کۆنستراکشن براند",
-               en: "By Eng. Bahman Raouf Shwan, Construction Brand" }
+      title: { ku: "شێوازی بەکارهێنانی عەزلی مۆمێنتەم لەڕووکاری دەرەوەی بیناو باڵەخانەکاندا",
+               en: "Application Methods of Momentum Insulation on Building Facades" },
+      note:  { ku: "لەلایەن بەڕێز ئەندازیار بەهمەن ڕەئووف شوان — بەڕێوبەری کۆنستراکشن براند",
+               en: "By Eng. Bahman Raouf Shwan — Director of Construction Brand" }
     },
     {
       t: "18:50", mins: 10,
-      title: { ku: "پرسیار و وەڵام", en: "Q&A" }
+      title: { ku: "پانێڵی پرسیار و وەڵام وە گفتوگۆکردن لەگەڵ ئامادەبواندا", en: "Q&A Panel and Discussion with Attendees" }
     },
     {
       t: "19:00", mins: 60, kind: "dinner",
-      title: { ku: "ئێوارەخوان و مۆسیقای ڕاستەوخۆ", en: "Dinner + live music" },
-      note:  { ku: "بەخێرهاتنی گەرمتان دەکەین — ئێوارەیەکی خۆش بۆ هەمووان", en: "Please join us. Enjoy your evening" }
+      title: { ku: "ئێوارەخوان و لایڤ میوسیک", en: "Dinner & Live Music" },
+      note:  { ku: "لەلایەن هونەرمەند بۆکان هەورامی", en: "By Artist Bokan Hawrami" }
     }
   ],
 
@@ -146,7 +146,7 @@ window.UI = {
     colTime: "کاتژمێر", colItem: "بڕگە", colDur: "ماوە",
     contactTitle: "پەیوەندیکردن", saveContact: "تۆمارکردنی ژمارەی پەیوەندی",
     socialTitle: "سۆشیال میدیا",
-    tel: "تەلەفۆن", whatsapp: "واتساپ", instagram: "ئینستاگرام", address: "ناونیشان",
+    whatsapp: "واتساپ", instagram: "ئینستاگرام", address: "ناونیشان",
     mins: "خولەک", hrs: "کاتژمێر", days: "ڕۆژ",
     done: "تەواو بوو", themeLabel: "گۆڕینی دۆخی ڕووناکی",
 
@@ -181,44 +181,44 @@ window.UI = {
   en: {
     dir: "ltr", htmlLang: "en", other: "کوردی", otherShort: "KU",
     welcome: "Welcome",
-    untilDoors: "Doors open in",
-    liveNow: "Happening now", upNext: "Up next", finished: "Programme complete",
-    thanks: "Thank you for joining us",
-    progress: "Evening progress",
-    programme: "Agenda", totalDur: "Total",
+    untilDoors: "Time until start",
+    liveNow: "Currently in progress", upNext: "Up next", finished: "Programme completed",
+    thanks: "Thank you for attending",
+    progress: "Programme progress",
+    programme: "Programme agenda", totalDur: "Total duration",
     colTime: "Time", colItem: "Item", colDur: "Duration",
-    contactTitle: "Contact", saveContact: "Save our number",
+    contactTitle: "Contact", saveContact: "Save contact number",
     socialTitle: "Social media",
-    tel: "Phone", whatsapp: "WhatsApp", instagram: "Instagram", address: "Address",
+    whatsapp: "WhatsApp", instagram: "Instagram", address: "Address",
     mins: "min", hrs: "hr", days: "d",
-    done: "Done", themeLabel: "Switch appearance",
+    done: "Completed", themeLabel: "Switch appearance",
 
     fbEyebrow: "Your feedback",
-    fbTitle: "How was the evening?",
-    fbLead: "Two minutes of your time helps us make the next one better.",
-    fbRating: "Overall, how satisfied were you?",
-    fbRatingScale: ["Poor", "Fair", "Good", "Very good", "Excellent"],
+    fbTitle: "How was the evening for you?",
+    fbLead: "Just two minutes of your time — helps us deliver better events in the future.",
+    fbRating: "Overall, how satisfied were you with today's programme?",
+    fbRatingScale: ["Very poor", "Poor", "Moderate", "Very good", "Excellent"],
     fbSessions: "Which sessions were most useful to you?",
-    fbSessionsHint: "Pick as many as you like",
-    fbInterest: "What would you like from us next?",
+    fbSessionsHint: "You can select one or more sessions",
+    fbInterest: "Which services are you interested in for the future?",
     fbComment: "Your thoughts, notes and feedback",
-    fbCommentPlaceholder: "Tell us whatever you think…",
+    fbCommentPlaceholder: "Write any thoughts, notes, or suggestions here…",
     fbNeedComment: "Please write your feedback first.",
     fbName: "Name", fbPhone: "Mobile number",
     fbOptional: "optional",
-    fbSend: "Send feedback",
+    fbSend: "Submit feedback",
     fbSending: "Sending…",
     fbNeedRating: "Please choose a rating first.",
-    fbThanksTitle: "Thank you",
-    fbThanksBody: "We have it. We will be in touch shortly.",
-    fbQueued: "No connection — your answers are saved and will send by themselves.",
-    fbBackToProgramme: "View the evening programme",
+    fbThanksTitle: "Thank you for your feedback",
+    fbThanksBody: "Your feedback was received successfully. We will be in touch shortly.",
+    fbQueued: "No connection — your feedback is saved and will send automatically once online.",
+    fbBackToProgramme: "Return to evening programme",
     fbToFeedback: "Give feedback",
-    fbClosedTitle: "Thank you for joining us",
-    fbClosedBody: "The Project Owners Evening has finished. Get in touch any time.",
-    fbWaTitle: "Almost done",
-    fbWaBody: "WhatsApp should have opened — press Send there. If it did not open, tap this:",
+    fbClosedTitle: "Thank you for attending and participating",
+    fbClosedBody: "The Project Owners Evening programme has ended. You can always contact us for any inquiries.",
+    fbWaTitle: "Final step",
+    fbWaBody: "WhatsApp will open — please press Send there. If it did not open automatically, tap the button below:",
     fbWaBtn: "Open WhatsApp",
-    fbWaBack: "Back to the form"
+    fbWaBack: "Back to the feedback form"
   }
 };

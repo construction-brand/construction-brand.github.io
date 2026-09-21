@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sed -i 's/event\\\\.js?v=20260921f/event.js?v=20260921h/' index.html)",
+      "Bash(sed -i 's/cb-event-v27/cb-event-v28/; s/event\\\\.js?v=20260921f/event.js?v=20260921h/' sw.js)"
+    ]
+  }
+}
