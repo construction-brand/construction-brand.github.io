@@ -170,18 +170,23 @@
 
       /* time range, always left-to-right; the end time drops to its own
          line on narrow phones (see CSS) */
-      /* One time block: the range on a single line, the duration beneath it.
-         Giving the duration its own column cost the width that kept
-         "17:45–17:50" together on a phone. */
+      /* The duration is rendered twice and CSS shows one: its own column on
+         a wide screen, and tucked under the time range on a phone, where
+         a third column would squeeze "17:45–17:50" onto two lines. Whichever
+         is display:none is also out of the accessibility tree. */
+      var dp = durParts(s.mins);
+      var durText = dp.n + " " + dp.u;
+
       var timeCol = el("td", "c-time");
       var clock = el("span", "arow__clock");
       clock.setAttribute("dir", "ltr");
       clock.appendChild(el("bdi", "t1", s.t));
       clock.appendChild(el("bdi", "t2", clockOf(it.end)));   /* CSS adds the dash */
       timeCol.appendChild(clock);
+      timeCol.appendChild(el("span", "arow__dur arow__dur--inline", durText));
 
-      var dp = durParts(s.mins);
-      timeCol.appendChild(el("span", "arow__dur", dp.n + " " + dp.u));
+      var nodeCol = el("td", "c-dur");
+      nodeCol.appendChild(el("span", "arow__dur arow__dur--col", durText));
 
       /* the item */
       var body = el("td", "c-item");
@@ -224,9 +229,10 @@
       }
 
       /* column order follows the document direction: in Kurdish the time
-         sits on the right, as on the printed agenda */
+         sits on the right and the duration on the left, as on the sheet */
       li.appendChild(timeCol);
       li.appendChild(body);
+      li.appendChild(nodeCol);
       rail.appendChild(li);
 
       it.node  = li;

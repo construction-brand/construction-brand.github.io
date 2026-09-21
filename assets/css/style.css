@@ -743,6 +743,7 @@ html[dir="rtl"] .agenda__table th { font-family: var(--body); letter-spacing: no
 
 /* sized so the inline range "17:45–17:50" never breaks or spills */
 .c-time { width: 7.4rem; }
+.c-dur  { width: 6rem; }
 
 .arow__clock {
   font-family: var(--mono);
@@ -754,16 +755,17 @@ html[dir="rtl"] .agenda__table th { font-family: var(--body); letter-spacing: no
 }
 .t2::before { content: "\2013"; margin-inline: 2px; }
 
-/* the duration sits under the range, quiet and small */
 .arow__dur {
-  display: block;
   font-family: var(--mono);
-  font-size: 11px; line-height: 1.3;
+  font-size: 12px; line-height: 1.3;
   color: var(--head-dim);
-  margin-block-start: 4px;
   white-space: nowrap;
 }
-html[dir="rtl"] .arow__dur { font-family: var(--body); font-size: 12px; }
+html[dir="rtl"] .arow__dur { font-family: var(--body); font-size: 12.5px; }
+
+/* its own column on a wide screen; under the time range on a phone */
+.arow__dur--col    { display: block; }
+.arow__dur--inline { display: none; margin-block-start: 4px; }
 
 .arow__title { font-size: 15.5px; font-weight: 600; line-height: 1.45; margin: 0; color: #fff; }
 .arow__note  { font-size: 13px; line-height: 1.55; color: var(--head-dim); margin: 3px 0 0; }
@@ -818,8 +820,11 @@ html[dir="rtl"] .arow.is-now td:first-child { box-shadow: inset -3px 0 0 var(--n
    the space is worth more to a Kurdish sentence than to a label. */
 @media (max-width: 560px) {
   .agenda__table thead { display: none; }
-  /* the range stays on ONE line here: 12.5px mono fits "17:45–17:50" in 6rem */
+  /* the range stays on ONE line here: 12.5px mono fits "17:45–17:50" in 6rem.
+     The duration column goes and reappears under the time instead. */
   .c-time { width: 6rem; }
+  .c-dur, .arow__dur--col { display: none; }
+  .arow__dur--inline { display: block; }
   .arow__clock { font-size: 12.5px; }
   .agenda { padding-inline: 10px; }
   .agenda__table th, .agenda__table td { padding-inline: 7px; }
