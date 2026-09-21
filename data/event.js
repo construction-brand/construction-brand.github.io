@@ -61,11 +61,11 @@ window.EVENT = {
                en: "By Eng. Bahman Raouf Shwan — Director of Construction Brand" }
     },
     {
-      t: "18:50", mins: 10,
+      t: "18:50", mins: 25,
       title: { ku: "پانێڵی پرسیار و وەڵام وە گفتوگۆکردن لەگەڵ ئامادەبواندا", en: "Q&A Panel and Discussion with Attendees" }
     },
     {
-      t: "19:00", mins: 60, kind: "dinner",
+      t: "19:15", mins: 45, kind: "dinner",
       title: { ku: "ئێوارەخوان و لایڤ میوسیک", en: "Dinner & Live Music" },
       note:  { ku: "لەلایەن هونەرمەند بۆکان هەورامی", en: "By Artist Bokan Hawrami" }
     }
