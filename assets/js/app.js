@@ -79,12 +79,11 @@
     return m ? h + " " + L.hrs + " " + m + " " + L.mins : h + " " + L.hrs;
   }
 
-  /* the agenda's duration column: one number over its unit, the same shape on
-     every row, so nothing wraps differently from its neighbour */
+  /* The agenda's duration column stays in minutes on every row — one unit per
+     column, so 5 / 25 / 105 compare at a glance. The hr+min wording is for
+     the programme total and the "time left" caption, where it reads better. */
   function durParts(mins) {
-    var L = UI[lang];
-    if (mins < 60 || mins % 60) { return { n: String(mins), u: L.mins }; }
-    return { n: String(mins / 60), u: L.hrs };
+    return { n: String(mins), u: UI[lang].mins };
   }
 
   function countdown(ms) {
@@ -153,7 +152,12 @@
     $("heroHi").textContent = L.welcome;
     meterBox.setAttribute("aria-label", L.progress);
 
-    var total = Math.round((evEnd - evStart) / 60000);
+    /* the sessions only: dinner and breaks are not programme content. The
+       evening's full span stays on show in the status strip's caption. */
+    var total = 0;
+    E.schedule.forEach(function (s) {
+      if (s.kind !== "dinner" && s.kind !== "break") { total += s.mins; }
+    });
     $("totalDur").textContent = L.totalDur + " · " + fmtDur(total);
   }
 

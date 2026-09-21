@@ -33,6 +33,10 @@ window.EVENT = {
      mins  = duration in minutes
      kind  = "" | "break" | "dinner" | "demo" | "key"   (small labelled pill)
      tags  = product codes shown as chips (optional)
+
+     "dinner" and "break" are left OUT of the programme time shown under the
+     title — that figure counts the sessions only. Every row still appears in
+     the table, and the evening's full span is the one in the status strip.
      ----------------------------------------------------------------------- */
   /* The confirmed running order (from the client's sheet, 20 Sep). Dinner has
      no end time on the sheet; 60 min is assumed so the evening has an end,
@@ -65,7 +69,7 @@ window.EVENT = {
       title: { ku: "پانێڵی پرسیار و وەڵام وە گفتوگۆکردن لەگەڵ ئامادەبواندا", en: "Q&A Panel and Discussion with Attendees" }
     },
     {
-      t: "19:15", mins: 45, kind: "dinner",
+      t: "19:15", mins: 105, kind: "dinner",
       title: { ku: "ئێوارەخوان و لایڤ میوسیک", en: "Dinner & Live Music" },
       note:  { ku: "لەلایەن هونەرمەند بۆکان هەورامی", en: "By Artist Bokan Hawrami" }
     }
@@ -142,7 +146,7 @@ window.UI = {
     liveNow: "ئێستا لە بەڕێوەچووندایە", upNext: "بڕگەی دواتر", finished: "بەرنامەکە کۆتایی هات",
     thanks: "سوپاس بۆ ئامادەبوونتان",
     progress: "بەرەوپێشچوونی بەرنامە",
-    programme: "بەرنامەی کار", totalDur: "کۆی گشتی کات",
+    programme: "بەرنامەی کار", totalDur: "کۆی کاتی بەرنامە",
     colTime: "کاتژمێر", colItem: "بڕگە", colDur: "ماوە",
     contactTitle: "پەیوەندیکردن", saveContact: "تۆمارکردنی ژمارەی پەیوەندی",
     socialTitle: "سۆشیال میدیا",
@@ -185,7 +189,7 @@ window.UI = {
     liveNow: "Currently in progress", upNext: "Up next", finished: "Programme completed",
     thanks: "Thank you for attending",
     progress: "Programme progress",
-    programme: "Programme agenda", totalDur: "Total duration",
+    programme: "Programme agenda", totalDur: "Programme time",
     colTime: "Time", colItem: "Item", colDur: "Duration",
     contactTitle: "Contact", saveContact: "Save contact number",
     socialTitle: "Social media",
