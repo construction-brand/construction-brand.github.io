@@ -266,8 +266,10 @@
     b.textContent = value;
     v.appendChild(b);
     tx.appendChild(v);
-    a.appendChild(ic);
+    /* text first, icon last: with space-between the card fills edge to edge
+       instead of leaving half of it blank */
     a.appendChild(tx);
+    a.appendChild(ic);
     return a;
   }
 
@@ -277,7 +279,7 @@
     box.textContent = "";
 
     C.phones.forEach(function (p, i) {
-      box.appendChild(contactRow(ICONS.phone, "Tel 0" + (i + 1), p.display, "tel:" + p.dial, true));
+      box.appendChild(contactRow(ICONS.phone, L.tel + " " + (i + 1), p.display, "tel:" + p.dial, true));
     });
     box.appendChild(contactRow(ICONS.chat, L.whatsapp, C.whatsapp,
       "https://wa.me/" + C.whatsapp.replace(/[^0-9]/g, ""), true));
@@ -321,7 +323,9 @@
       links.push({ k: "facebook", label: "Facebook", href: C.facebook });
     }
     if (C.instagram) {
-      links.push({ k: "instagram", label: "@" + C.instagram,
+      /* the platform name, not the handle: "@construction.brand" wrapped to
+         two lines inside a half-width tile on a real phone */
+      links.push({ k: "instagram", label: "Instagram",
                    href: "https://instagram.com/" + C.instagram });
     }
 

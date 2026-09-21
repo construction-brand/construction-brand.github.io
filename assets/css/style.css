@@ -836,7 +836,7 @@ html[dir="rtl"] .arow.is-now td:first-child { box-shadow: inset -3px 0 0 var(--n
 .contact { display: grid; gap: 9px; }
 
 .row {
-  display: flex; align-items: center; gap: 11px;
+  display: flex; align-items: center; justify-content: space-between; gap: 11px;
   padding: 12px 14px;
   background: var(--surface);
   border: 1px solid var(--rule);
@@ -1130,7 +1130,7 @@ html[dir="rtl"] .social__title {
   .social__tile:hover { background: #ffffff1a; border-color: #ffffff4d; }
 }
 .social__ico { flex: none; display: grid; place-items: center; line-height: 0; }
-.social__name { unicode-bidi: isolate; overflow-wrap: anywhere; }
+.social__name { unicode-bidi: isolate; white-space: nowrap; }
 
 .foot__cta { padding-inline: var(--gutter); margin-block-end: 22px; }
 .foot__cta .btn { width: 100%; justify-content: center; min-height: 52px; font-size: 15px; margin: 0; }

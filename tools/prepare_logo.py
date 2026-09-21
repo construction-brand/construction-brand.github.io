@@ -162,6 +162,29 @@ def make_row(mark, wordmark, height=420):
     return row
 
 
+def make_stack(mark, wordmark, height=480):
+    """Mark above, CONSTRUCTION BRAND below — the official arrangement, but
+    composed so the wordmark is a bigger share of the height than in the
+    original artwork. In a logo plate only ~68px tall, the original's wordmark
+    lands around 10px per line; this gets it to about 13px."""
+    if wordmark is None:
+        return None
+    H = height
+    m = mark.copy()
+    mh = int(H * 0.50)
+    m.thumbnail((mh, mh), Image.LANCZOS)
+
+    wh = int(H * 0.38)
+    w = wordmark.resize((int(wh * (wordmark.width / wordmark.height)), wh), Image.LANCZOS)
+
+    gap = int(H * 0.06)
+    W = max(m.width, w.width)
+    stack = Image.new("RGBA", (W, m.height + gap + w.height), (0, 0, 0, 0))
+    stack.paste(m, ((W - m.width) // 2, 0), m)
+    stack.paste(w, ((W - w.width) // 2, m.height + gap), w)
+    return stack
+
+
 def make_icon(mark, side=512):
     icon = Image.new("RGBA", (side, side), (0, 0, 0, 0))
     ImageDraw.Draw(icon).rounded_rectangle([0, 0, side - 1, side - 1],
@@ -254,6 +277,11 @@ def main():
             p_row = os.path.join(IMG, "logo-row.png")
             row.save(p_row, "PNG", optimize=True)
             outputs.append(p_row)
+        stack = make_stack(mark, wordmark)
+        if stack is not None:
+            p_stack = os.path.join(IMG, "logo-stack.png")
+            stack.save(p_stack, "PNG", optimize=True)
+            outputs.append(p_stack)
 
     print("source      : %s  (%dx%d)" % (os.path.relpath(args.src, ROOT), *art.size))
     print("lockup bbox : %dx%d" % lockup.size)

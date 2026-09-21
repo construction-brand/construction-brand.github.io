@@ -146,7 +146,7 @@ window.UI = {
     colTime: "کاتژمێر", colItem: "بڕگە", colDur: "ماوە",
     contactTitle: "پەیوەندیکردن", saveContact: "تۆمارکردنی ژمارەی پەیوەندی",
     socialTitle: "سۆشیال میدیا",
-    whatsapp: "واتساپ", instagram: "ئینستاگرام", address: "ناونیشان",
+    tel: "تەلەفۆن", whatsapp: "واتساپ", instagram: "ئینستاگرام", address: "ناونیشان",
     mins: "خولەک", hrs: "کاتژمێر", days: "ڕۆژ",
     done: "تەواو بوو", themeLabel: "گۆڕینی دۆخی ڕووناکی",
 
@@ -189,7 +189,7 @@ window.UI = {
     colTime: "Time", colItem: "Item", colDur: "Duration",
     contactTitle: "Contact", saveContact: "Save our number",
     socialTitle: "Social media",
-    whatsapp: "WhatsApp", instagram: "Instagram", address: "Address",
+    tel: "Phone", whatsapp: "WhatsApp", instagram: "Instagram", address: "Address",
     mins: "min", hrs: "hr", days: "d",
     done: "Done", themeLabel: "Switch appearance",
 
