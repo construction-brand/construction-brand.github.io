@@ -820,17 +820,26 @@ html[dir="rtl"] .arow.is-now td:first-child { box-shadow: inset -3px 0 0 var(--n
    the space is worth more to a Kurdish sentence than to a label. */
 @media (max-width: 560px) {
   .agenda__table thead { display: none; }
-  /* the range stays on ONE line here: 12.5px mono fits "17:45–17:50" in 6rem.
-     The duration column goes and reappears under the time instead. */
-  .c-time { width: 6rem; }
-  .c-dur, .arow__dur--col { display: none; }
-  .arow__dur--inline { display: block; }
-  .arow__clock { font-size: 12.5px; }
+  /* Three columns here too. The range keeps one line at 11.5px mono in
+     6.2rem, and the duration column is narrow enough to let its two words
+     wrap onto two lines — which reads as a number over its unit. */
+  .c-time { width: 6.2rem; }
+  .c-dur  { width: 3.4rem; }
+  .arow__clock { font-size: 11.5px; }
   .agenda { padding-inline: 10px; }
   .agenda__table th, .agenda__table td { padding-inline: 7px; }
   .agenda__table tbody tr:first-child td { border-block-start: 0; }
-  .arow__dur { font-size: 10.5px; }
+  .arow__dur { font-size: 11px; white-space: normal; }
   html[dir="rtl"] .arow__dur { font-size: 11.5px; }
+}
+
+/* Below this there is genuinely not enough width for three columns without
+   shredding the Kurdish titles, so the duration goes back under the time. */
+@media (max-width: 339px) {
+  .c-time { width: 6rem; }
+  .c-dur, .arow__dur--col { display: none; }
+  .arow__dur--inline { display: block; white-space: nowrap; }
+  .arow__clock { font-size: 12.5px; }
 }
 
 

@@ -8,13 +8,13 @@
    network eventually returns still refreshes the cache in the background, so
    an edit to data/event.js is picked up on the next open. */
 
-var CACHE = "cb-event-v26";
+var CACHE = "cb-event-v27";
 var NET_WAIT = 3000;
 var SHELL = [
   "./",
   "./index.html",
   "./data/event.js?v=20260921f",
-  "./assets/css/style.css?v=20260921f",
+  "./assets/css/style.css?v=20260921g",
   "./assets/js/app.js?v=20260921f",
   "./assets/img/logo.png",
   "./assets/img/logo-stack.png",
