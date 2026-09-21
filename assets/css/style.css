@@ -681,16 +681,17 @@ html[dir="rtl"] .sechead h2 { font-family: var(--body); text-transform: none; le
   box-shadow: var(--shadow);
 }
 
-.agenda__brands { display: flex; gap: 8px; }
+.agenda__brands { display: flex; gap: 8px; align-items: stretch; }
 .agenda__brand {
   flex: 1 1 0; min-width: 0;
   display: grid; place-items: center;
-  height: 58px; padding: 8px 10px;
+  padding: 9px 10px;
   background: #fff; border-radius: 10px;
 }
-/* a fixed box with object-fit: a percentage max-height does not resolve
-   inside the plate and let the 2400px mark spill out over the title */
-.agenda__brand img { display: block; width: 100%; height: 42px; object-fit: contain; }
+/* Tall enough for the stacked Construction Brand lockup to be readable —
+   the wordmark sits under the mark, so height is what it needs, not width.
+   A fixed box with object-fit keeps the 2400px source from spilling out. */
+.agenda__brand img { display: block; width: 100%; height: 68px; object-fit: contain; }
 
 .agenda__title {
   font-family: var(--display);

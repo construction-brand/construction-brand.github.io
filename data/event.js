@@ -81,7 +81,7 @@ window.EVENT = {
     instagram: "construction.brand",
     /* Paste the Facebook page's full URL. Left empty, the Facebook tile in the
        footer simply does not appear — better than sending guests to a guess. */
-    facebook:  "",
+    facebook:  "https://www.facebook.com/Construction.brand",
     address: {
       ku: "شەقامی بازنەیی مەلیک مەحموود — تەنیشت پردی کۆبانێ، سلێمانی",
       en: "Malik Mahmoud roundabout — next to Kobani bridge, Sulaimani"
