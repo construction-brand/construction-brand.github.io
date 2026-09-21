@@ -1015,6 +1015,8 @@ html[dir="rtl"] .rating__word { font-size: 12px; }
 }
 #viewFeedback textarea:focus,
 #viewFeedback input:focus { border-color: var(--accent); }
+/* the one field the form has left, so give it room */
+.fb__big { min-height: 168px; line-height: 1.6; }
 #viewFeedback ::placeholder { color: var(--text-3); opacity: 1; }
 
 .btn--wide {
@@ -1096,6 +1098,36 @@ html[dir="rtl"] .fb__doneTitle { font-family: var(--body); }
 /* bottom inset keeps the last line clear of the iPhone home indicator */
 .foot > .wrap { padding-block: 0 calc(30px + env(safe-area-inset-bottom, 0px)); padding-inline: 0; }
 .foot__truss { margin-block-end: 24px; }
+
+/* -- social media -- */
+.social { padding-inline: var(--gutter); margin-block-end: 24px; }
+.social__title {
+  font-family: var(--mono);
+  font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--head-label); margin: 0 0 10px;
+}
+html[dir="rtl"] .social__title {
+  font-family: var(--body); letter-spacing: normal; text-transform: none;
+  font-size: 12.5px; font-weight: 600;
+}
+.social__row { display: flex; flex-wrap: wrap; gap: 9px; }
+.social__tile {
+  flex: 1 1 140px;
+  display: inline-flex; align-items: center; gap: 10px;
+  min-height: 52px; padding: 10px 14px;
+  border: 1px solid #ffffff26; border-radius: var(--r-md);
+  background: #ffffff0d;
+  color: #fff; text-decoration: none;
+  font-size: 14px; font-weight: 600;
+  min-width: 0;
+  transition: background .18s ease, border-color .18s ease;
+}
+.social__tile:active { background: #ffffff1f; }
+@media (hover: hover) {
+  .social__tile:hover { background: #ffffff1a; border-color: #ffffff4d; }
+}
+.social__ico { flex: none; display: grid; place-items: center; line-height: 0; }
+.social__name { unicode-bidi: isolate; overflow-wrap: anywhere; }
 
 .foot__cta { padding-inline: var(--gutter); margin-block-end: 22px; }
 .foot__cta .btn { width: 100%; justify-content: center; min-height: 52px; font-size: 15px; margin: 0; }

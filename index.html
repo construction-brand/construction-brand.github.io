@@ -25,7 +25,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/css/style.css?v=20260920i">
+<link rel="stylesheet" href="assets/css/style.css?v=20260921a">
 
 <!-- Web fonts must never block first paint. A cross-origin stylesheet in
      <head> holds the whole page white until fonts.googleapis.com answers —
@@ -181,36 +181,9 @@
 
     <form id="fbForm" novalidate>
 
-      <fieldset class="fb__group">
-        <legend class="fb__legend" id="fbRatingLabel"></legend>
-        <div class="rating" id="fbRating"></div>
-      </fieldset>
-
-      <fieldset class="fb__group">
-        <legend class="fb__legend" id="fbSessionsLabel"></legend>
-        <p class="fb__hint" id="fbSessionsHint"></p>
-        <div class="picks" id="fbSessions"></div>
-      </fieldset>
-
-      <fieldset class="fb__group">
-        <legend class="fb__legend" id="fbInterestLabel"></legend>
-        <div class="picks" id="fbInterest"></div>
-      </fieldset>
-
       <div class="fb__group">
         <label class="fb__legend" for="fbComment" id="fbCommentLabel"></label>
-        <textarea id="fbComment" name="comment" rows="3"></textarea>
-      </div>
-
-      <div class="fb__row">
-        <div class="fb__field">
-          <label class="fb__legend" for="fbName" id="fbNameLabel"></label>
-          <input type="text" id="fbName" name="name" autocomplete="name">
-        </div>
-        <div class="fb__field">
-          <label class="fb__legend" for="fbPhone" id="fbPhoneLabel"></label>
-          <input type="tel" id="fbPhone" name="phone" inputmode="tel" autocomplete="tel">
-        </div>
+        <textarea id="fbComment" name="comment" rows="7" class="fb__big"></textarea>
       </div>
 
       <p class="fb__error" id="fbError" role="alert" hidden></p>
@@ -268,6 +241,12 @@
       </button>
     </div>
 
+    <!-- Social media -->
+    <div class="social">
+      <p class="social__title" data-i18n="socialTitle">سۆشیال میدیا</p>
+      <div class="social__row" id="social"></div>
+    </div>
+
     <p class="foot__mark mono">CONSTRUCTION BRAND</p>
   </div>
 </footer>
@@ -275,7 +254,7 @@
 <!-- ?v= is a cache-buster: GitHub Pages caches for 10 minutes, and a change
      to the schedule must reach every phone on the next load, not the one
      after. Bump it whenever data/event.js or app.js changes. -->
-<script src="data/event.js?v=20260920m"></script>
-<script src="assets/js/app.js?v=20260920m"></script>
+<script src="data/event.js?v=20260921a"></script>
+<script src="assets/js/app.js?v=20260921a"></script>
 </body>
 </html>

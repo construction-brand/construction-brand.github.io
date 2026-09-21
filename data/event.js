@@ -79,6 +79,9 @@ window.EVENT = {
     ],
     whatsapp:  "+9647703075050",
     instagram: "construction.brand",
+    /* Paste the Facebook page's full URL. Left empty, the Facebook tile in the
+       footer simply does not appear — better than sending guests to a guess. */
+    facebook:  "",
     address: {
       ku: "شەقامی بازنەیی مەلیک مەحموود — تەنیشت پردی کۆبانێ، سلێمانی",
       en: "Malik Mahmoud roundabout — next to Kobani bridge, Sulaimani"
@@ -110,31 +113,17 @@ window.EVENT = {
     closesAfterDays: 7,
 
     /* WHERE THE ANSWERS GO.
-       Create a Google Form, then open it and use "Get pre-filled link" to
-       read the entry IDs. Paste the form ID and the six entry IDs here.
-       Leave googleFormId empty and the form falls back to sending the
-       answers to you as a WhatsApp message instead. */
+       The form asks one question: the guest's own words. That goes into the
+       Google Form's "Comment" question; the other five questions on the form
+       are simply left blank, which is why none of them may be Required.
+       Leave googleFormId empty and it falls back to WhatsApp instead. */
     googleFormId: "1FAIpQLScfzEC7lbArHPJvshafZhzcjBynqAlgjeXzx5oZeWLgF9GCig",
     entries: {
-      rating:    "entry.879194304",
-      sessions:  "entry.527848103",
-      interest:  "entry.1554515978",
-      comment:   "entry.2131995354",
-      name:      "entry.516392940",
-      phone:     "entry.426714109"
+      comment:   "entry.2131995354"
     },
 
     /* used only when googleFormId is empty — feedback lands on THIS number */
-    whatsappFallback: "+9647722149070",
-
-    /* what we ask guests they want next — this is the lead capture */
-    interests: [
-      { id: "dealership", ku: "وەرگرتنی بریکارنامە (وەکالەت)",          en: "Dealership" },
-      { id: "visit",      ku: "سەردانی مەیدانی و تەکنیکی بۆ پڕۆژەکەم",   en: "Technical visit to my project" },
-      { id: "prices",     ku: "لیستی نرخەکان",                          en: "Price list" },
-      { id: "samples",    ku: "نموونەی بەرهەمەکان (سەمپڵ)",             en: "Product samples" },
-      { id: "training",   ku: "ڕاهێنانی تەکنیکی بۆ تیمی کارەکەم",       en: "Training for my team" }
-    ]
+    whatsappFallback: "+9647722149070"
   },
 
   /* -- The URL this page is published at (used by the QR generator) ---------- */
@@ -156,6 +145,7 @@ window.UI = {
     programme: "بەرنامەی کار", totalDur: "کۆی گشتی کات",
     colTime: "کاتژمێر", colItem: "بڕگە", colDur: "ماوە",
     contactTitle: "پەیوەندیکردن", saveContact: "تۆمارکردنی ژمارەی پەیوەندی",
+    socialTitle: "سۆشیال میدیا",
     whatsapp: "واتساپ", instagram: "ئینستاگرام", address: "ناونیشان",
     mins: "خولەک", hrs: "کاتژمێر", days: "ڕۆژ",
     done: "تەواو بوو", themeLabel: "گۆڕینی دۆخی ڕووناکی",
@@ -168,8 +158,9 @@ window.UI = {
     fbSessions: "کام لە بڕگەکان زۆرترین سوودیان پێگەیاندن؟",
     fbSessionsHint: "دەتوانن یەک یان چەند بڕگەیەک هەڵبژێرن",
     fbInterest: "ئارەزووی کام لەم خزمەتگوزارییانە دەکەن بۆ داهاتوو؟",
-    fbComment: "سەرنج و تێبینیی زیاتر",
+    fbComment: "ڕا، سەرنج و تێبینییەکانتان",
     fbCommentPlaceholder: "هەر سەرنج، تێبینی، یان پێشنیارێکتان هەیە لێرەدا بینووسن…",
+    fbNeedComment: "تکایە سەرەتا ڕاوبۆچوونتان بنووسن.",
     fbName: "ناو", fbPhone: "ژمارەی مۆبایل",
     fbOptional: "ئارەزوومەندانە",
     fbSend: "ناردنی ڕاوبۆچوون",
@@ -197,6 +188,7 @@ window.UI = {
     programme: "Agenda", totalDur: "Total",
     colTime: "Time", colItem: "Item", colDur: "Duration",
     contactTitle: "Contact", saveContact: "Save our number",
+    socialTitle: "Social media",
     whatsapp: "WhatsApp", instagram: "Instagram", address: "Address",
     mins: "min", hrs: "hr", days: "d",
     done: "Done", themeLabel: "Switch appearance",
@@ -209,8 +201,9 @@ window.UI = {
     fbSessions: "Which sessions were most useful to you?",
     fbSessionsHint: "Pick as many as you like",
     fbInterest: "What would you like from us next?",
-    fbComment: "Anything else",
+    fbComment: "Your thoughts, notes and feedback",
     fbCommentPlaceholder: "Tell us whatever you think…",
+    fbNeedComment: "Please write your feedback first.",
     fbName: "Name", fbPhone: "Mobile number",
     fbOptional: "optional",
     fbSend: "Send feedback",

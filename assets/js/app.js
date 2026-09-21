@@ -288,7 +288,63 @@
     /* a real .vcf file, same tab: iPhone shows the contact card with
        "Create New Contact", Android offers to import it */
     box.appendChild(contactRow(ICONS.save, "vCard", L.saveContact, "assets/construction-brand.vcf"));
+
+    renderSocial();
   }
+
+  /* ---- social media ----------------------------------------------------- */
+
+  /* the real marks, so they are recognised at a glance rather than read */
+  var BRAND_SVG = {
+    facebook:
+      '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">' +
+      '<path fill="#1877F2" d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.95h-1.51c-1.49 0-1.96.93-1.96 1.89v2.27h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07Z"/>' +
+      '</svg>',
+    instagram:
+      '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">' +
+      '<defs><radialGradient id="igG" cx="30%" cy="107%" r="150%">' +
+      '<stop offset="0%" stop-color="#FDD35D"/><stop offset="25%" stop-color="#FD5C3B"/>' +
+      '<stop offset="50%" stop-color="#E1306C"/><stop offset="75%" stop-color="#C13584"/>' +
+      '<stop offset="100%" stop-color="#5B51D8"/></radialGradient></defs>' +
+      '<rect x="1.4" y="1.4" width="21.2" height="21.2" rx="6.2" fill="url(#igG)"/>' +
+      '<circle cx="12" cy="12" r="4.6" fill="none" stroke="#fff" stroke-width="2"/>' +
+      '<circle cx="17.6" cy="6.5" r="1.4" fill="#fff"/>' +
+      '</svg>'
+  };
+
+  function renderSocial() {
+    var C = E.contact, box = $("social");
+    box.textContent = "";
+
+    var links = [];
+    if (C.facebook) {
+      links.push({ k: "facebook", label: "Facebook", href: C.facebook });
+    }
+    if (C.instagram) {
+      links.push({ k: "instagram", label: "@" + C.instagram,
+                   href: "https://instagram.com/" + C.instagram });
+    }
+
+    links.forEach(function (s) {
+      var a = el("a", "social__tile");
+      a.href = s.href;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.setAttribute("aria-label", s.label);
+      var ic = el("span", "social__ico");
+      ic.innerHTML = BRAND_SVG[s.k];
+      a.appendChild(ic);
+      var b = document.createElement("bdi");
+      b.className = "social__name";
+      b.textContent = s.label;
+      a.appendChild(b);
+      box.appendChild(a);
+    });
+
+    /* no links configured at all: hide the heading too */
+    $("social").parentNode.hidden = links.length === 0;
+  }
+
 
   /* ======================================================================
      VIEW ROUTING — one QR, two pages
@@ -370,49 +426,10 @@
 
   /* Answers live here, not only in the DOM, so switching language mid-form
      re-renders the labels without throwing away what has been filled in. */
-  var fbState = { rating: null, sessions: [], interest: [], comment: "", name: "", phone: "" };
+  var fbState = { comment: "" };
 
   function readFeedback() {
-    var checked = document.querySelector('input[name="cb-rating"]:checked');
-    fbState.rating = checked ? checked.value : null;
-    fbState.sessions = Array.prototype.map.call(
-      document.querySelectorAll('#fbSessions input:checked'), function (i) { return i.value; });
-    fbState.interest = Array.prototype.map.call(
-      document.querySelectorAll('#fbInterest input:checked'), function (i) { return i.value; });
     fbState.comment = $("fbComment").value;
-    fbState.name    = $("fbName").value;
-    fbState.phone   = $("fbPhone").value;
-  }
-
-  /* keeps the selected style working on engines without :has() */
-  function markOn(input) {
-    var box = input.closest(".rating__opt") || input.closest(".pick");
-    if (!box) { return; }
-    if (input.type === "radio") {
-      Array.prototype.forEach.call(
-        document.querySelectorAll('input[name="' + input.name + '"]'),
-        function (other) {
-          var b = other.closest(".rating__opt");
-          if (b) { b.classList.toggle("is-on", other.checked); }
-        });
-    } else {
-      box.classList.toggle("is-on", input.checked);
-    }
-  }
-
-  function option(wrapClass, inputType, id, name, value, checked, build) {
-    var label = el("label", wrapClass);
-    var input = document.createElement("input");
-    input.type = inputType;
-    input.id = id;
-    if (name) { input.name = name; }
-    input.value = value;
-    input.checked = !!checked;
-    label.appendChild(input);
-    build(label);
-    if (checked) { label.classList.add("is-on"); }
-    input.addEventListener("change", function () { markOn(input); });
-    return label;
   }
 
   function renderFeedback() {
@@ -421,73 +438,11 @@
     $("fbEyebrow").textContent      = L.fbEyebrow;
     $("fbTitle").textContent        = L.fbTitle;
     $("fbLead").textContent         = L.fbLead;
-    $("fbRatingLabel").textContent  = L.fbRating;
-    $("fbSessionsLabel").textContent = L.fbSessions;
-    $("fbSessionsHint").textContent = L.fbSessionsHint;
-    $("fbInterestLabel").textContent = L.fbInterest;
     $("fbCommentLabel").textContent = L.fbComment;
-    $("fbNameLabel").textContent    = L.fbName + " · " + L.fbOptional;
-    $("fbPhoneLabel").textContent   = L.fbPhone + " · " + L.fbOptional;
     $("fbSend").textContent         = L.fbSend;
     $("fbBack").textContent         = L.fbBackToProgramme;
     $("fbComment").placeholder      = L.fbCommentPlaceholder;
-
-    /* rating 1-5 */
-    var box = $("fbRating");
-    box.textContent = "";
-    L.fbRatingScale.forEach(function (word, i) {
-      var v = String(i + 1);
-      box.appendChild(option("rating__opt", "radio", "cb-rating-" + v, "cb-rating", v,
-        fbState.rating === v, function (label) {
-          label.appendChild(el("span", "rating__num", v));
-          label.appendChild(el("span", "rating__word", word));
-        }));
-    });
-
-    /* Sessions — built from the real programme, so the list always matches.
-       The VALUE is the schedule index, never the visible title: a guest who
-       switches language mid-form must not lose what they already ticked. */
-    var sess = $("fbSessions");
-    sess.textContent = "";
-    E.schedule.forEach(function (s, i) {
-      if (s.kind === "break" || s.kind === "dinner") { return; }   // nobody rates the coffee
-      var key = String(i);
-      sess.appendChild(option("pick", "checkbox", "cb-sess-" + i, "", key,
-        fbState.sessions.indexOf(key) > -1, function (label) {
-          label.appendChild(el("span", null, t(s.title)));
-        }));
-    });
-
-    /* What they want next — value is the stable id, not the translation. */
-    var ints = $("fbInterest");
-    ints.textContent = "";
-    (FB.interests || []).forEach(function (o) {
-      ints.appendChild(option("pick", "checkbox", "cb-int-" + o.id, "", o.id,
-        fbState.interest.indexOf(o.id) > -1, function (label) {
-          label.appendChild(el("span", null, t(o)));
-        }));
-    });
-
-    $("fbComment").value = fbState.comment;
-    $("fbName").value    = fbState.name;
-    $("fbPhone").value   = fbState.phone;
-  }
-
-  /* turn the stable keys back into readable English for the spreadsheet */
-  function sessionLabels(keys) {
-    return keys.map(function (k) {
-      var s = E.schedule[Number(k)];
-      return s ? (s.title.en || s.title.ku || k) : k;
-    });
-  }
-  function interestLabels(ids) {
-    var list = FB.interests || [];
-    return ids.map(function (id) {
-      for (var i = 0; i < list.length; i++) {
-        if (list[i].id === id) { return list[i].en || list[i].ku || id; }
-      }
-      return id;
-    });
+    $("fbComment").value            = fbState.comment;
   }
 
   /* ---- sending ---------------------------------------------------------- */
@@ -495,7 +450,7 @@
   /* Is the Google Form actually configured? A mistyped or still-placeholder
      entry ID would otherwise let the page thank 200 guests for answers that
      were never recorded. Real Google entry IDs never begin with a zero. */
-  var GOOGLE_FIELDS = ["rating", "sessions", "interest", "comment", "name", "phone"];
+  var GOOGLE_FIELDS = ["comment"];
 
   /* Accept either the bare form ID or any pasted Google Forms URL — a full
      link is what people naturally copy, and it must not silently fail. */
@@ -533,13 +488,7 @@
       i.value = value;
       form.appendChild(i);
     }
-    var en = FB.entries || {};
-    field(en.rating,   payload.rating);
-    field(en.sessions, payload.sessions.join(", "));
-    field(en.interest, payload.interest.join(", "));
-    field(en.comment,  payload.comment);
-    field(en.name,     payload.name);
-    field(en.phone,    payload.phone);
+    field((FB.entries || {}).comment, payload.comment);
 
     var sink = $("cbFbSink");
     var settled = false;
@@ -566,15 +515,7 @@
      spreadsheet. Long Kurdish questions as labels made it unreadable and
      unparseable. */
   function whatsAppUrl(payload) {
-    var lines = [
-      "CB FEEDBACK",
-      "Rating: " + payload.rating + "/5",
-      "Sessions: " + (payload.sessions.join(" | ") || "-"),
-      "Interest: " + (payload.interest.join(" | ") || "-"),
-      "Comment: " + (payload.comment.replace(/\s*\n\s*/g, " ") || "-"),
-      "Name: " + (payload.name || "-"),
-      "Phone: " + (payload.phone || "-")
-    ];
+    var lines = ["CB FEEDBACK", "Comment: " + payload.comment.replace(/\s*\n\s*/g, " ")];
     var num = String(FB.whatsappFallback || "").replace(/[^0-9]/g, "");
     return "https://wa.me/" + num + "?text=" + encodeURIComponent(lines.join("\n"));
   }
@@ -623,10 +564,10 @@
     var L = UI[lang];
     var err = $("fbError");
 
-    if (!fbState.rating) {
-      err.textContent = L.fbNeedRating;
+    if (!fbState.comment.trim()) {
+      err.textContent = L.fbNeedComment;
       err.hidden = false;
-      $("fbRating").scrollIntoView({ block: "center", behavior: "smooth" });
+      $("fbComment").focus();
       return;
     }
     err.hidden = true;
@@ -638,16 +579,7 @@
     btn.disabled = true;
     btn.textContent = L.fbSending;
 
-    /* Answers go to the sheet in English whichever language the guest used,
-       so the results are one consistent column instead of two. */
-    var payload = {
-      rating: fbState.rating,
-      sessions: sessionLabels(fbState.sessions),
-      interest: interestLabels(fbState.interest),
-      comment: fbState.comment,
-      name: fbState.name,
-      phone: fbState.phone
-    };
+    var payload = { comment: fbState.comment.trim() };
 
     function settle(message) {
       set("cb.fbSent", "1");
