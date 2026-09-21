@@ -141,6 +141,27 @@ def recolor_light(img):
 
 # --------------------------------------------------------------------------- #
 
+def make_row(mark, wordmark, height=420):
+    """A LANDSCAPE lockup: the mark on the left, CONSTRUCTION BRAND beside it.
+    The official lockup is portrait, which shrinks to nothing in the agenda
+    card's wide logo plates - Momentum's and Pany's are both landscape."""
+    if wordmark is None:
+        return None
+    H = height
+    m = mark.copy()
+    m.thumbnail((int(H * 0.86), int(H * 0.86)), Image.LANCZOS)
+    w = wordmark.copy()
+    tw = int(H * 0.80 * (wordmark.width / wordmark.height))
+    w = w.resize((tw, int(H * 0.80)), Image.LANCZOS)
+
+    gap = int(H * 0.16)
+    W = m.width + gap + w.width
+    row = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    row.paste(m, (0, (H - m.height) // 2), m)
+    row.paste(w, (m.width + gap, (H - w.height) // 2), w)
+    return row
+
+
 def make_icon(mark, side=512):
     icon = Image.new("RGBA", (side, side), (0, 0, 0, 0))
     ImageDraw.Draw(icon).rounded_rectangle([0, 0, side - 1, side - 1],
@@ -228,6 +249,11 @@ def main():
         wordmark.save(p_wm, "PNG", optimize=True)
         recolor_light(wordmark).save(p_wml, "PNG", optimize=True)
         outputs += [p_wm, p_wml]
+        row = make_row(mark, wordmark)
+        if row is not None:
+            p_row = os.path.join(IMG, "logo-row.png")
+            row.save(p_row, "PNG", optimize=True)
+            outputs.append(p_row)
 
     print("source      : %s  (%dx%d)" % (os.path.relpath(args.src, ROOT), *art.size))
     print("lockup bbox : %dx%d" % lockup.size)

@@ -819,8 +819,10 @@ html[dir="rtl"] .arow.is-now td:first-child { box-shadow: inset -3px 0 0 var(--n
   .agenda__table thead { display: none; }
   .c-time { width: 4.3rem; }
   .c-dur  { width: 3.4rem; }
+  /* the end time drops to its own line but keeps the dash, so the two times
+     still read as one range rather than two unrelated clocks */
   .t2 { display: block; color: var(--head-dim); font-weight: 500; }
-  .t2::before { content: none; }
+  .t2::before { content: "\2013"; margin-inline: 0 3px; }
   .agenda { padding-inline: 10px; }
   .agenda__table th, .agenda__table td { padding-inline: 7px; }
   .agenda__table tbody tr:first-child td { border-block-start: 0; }
