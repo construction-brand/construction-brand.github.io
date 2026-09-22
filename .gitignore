@@ -19,3 +19,6 @@ tools/invitees*
 tools/*.csv
 tools/*.txt
 .env
+
+# Guest feedback and reports — the repo is PUBLIC
+feedback/
